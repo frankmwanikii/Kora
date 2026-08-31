@@ -602,7 +602,7 @@ h3 {
     --wwm-pill-w: min(210px, 44vw);
     --wwm-pill-h: calc(var(--wwm-pill-w) * 1.62);
     --wwm-step: calc(var(--wwm-pill-h) * 0.32);
-    --wwm-gap: clamp(1.5rem, 3.5vw, 3rem);
+    --wwm-gap: clamp(1rem, 2vw, 1.75rem);
     --wwm-material-size: clamp(96px, 14vw, 120px);
     --wwm-stack-radius: 24px;
 }
@@ -618,7 +618,7 @@ h3 {
 
 .what-we-make__header {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     margin-bottom: 0;
 }
 
@@ -635,7 +635,7 @@ h3 {
 .what-we-make__lower {
     display: grid;
     gap: var(--wwm-gap);
-    margin-top: clamp(2rem, 4vw, 3rem);
+    margin-top: clamp(1.25rem, 2.5vw, 2rem);
 }
 
 .what-we-make__card {
@@ -963,70 +963,166 @@ h3 {
 
 /* Workshop banner */
 .workshop-banner {
-    padding-inline: var(--page-pad);
-    background: var(--color-white);
-    border-bottom: 1px solid rgba(51, 53, 82, 0.08);
-}
-
-.workshop-banner.section {
-    padding-top: clamp(2.5rem, 5vw, 4rem);
-    padding-bottom: clamp(2.5rem, 5vw, 4rem);
-}
-
-.workshop-banner__frame {
-    overflow: hidden;
-    border-radius: calc(var(--radius-sm) + 4px);
-    box-shadow: var(--shadow-lift);
-    border: 1px solid rgba(51, 53, 82, 0.08);
-}
-
-.workshop-banner img {
+    display: block;
     width: 100%;
-    aspect-ratio: 21 / 9;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.workshop-banner__image {
+    display: block;
+    width: 100%;
+    height: clamp(240px, 38vw, 520px);
     object-fit: cover;
     object-position: center 35%;
-    max-height: clamp(220px, 42vw, 480px);
+}
+
+/* Work samples hero */
+.work-samples-hero {
+    position: relative;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.work-samples-hero__image {
     display: block;
+    width: 100%;
+    height: clamp(260px, 40vw, 540px);
+    object-fit: cover;
+    object-position: center 40%;
 }
 
-/* Work samples */
-.work-samples__title {
+.work-samples-hero__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem var(--page-pad);
+    background: linear-gradient(
+        180deg,
+        rgba(51, 53, 82, 0.42) 0%,
+        rgba(51, 53, 82, 0.58) 100%
+    );
+    line-height: normal;
+}
+
+.work-samples-hero__title {
+    color: var(--color-white);
     text-align: center;
-    margin-bottom: 3rem;
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
 }
 
-.work-samples__title::after {
+.work-samples-hero__title::after {
     content: '';
     display: block;
-    width: 48px;
+    width: 56px;
     height: 3px;
-    margin: 0.65rem auto 0;
+    margin: 0.85rem auto 0;
     background: var(--color-copper);
     border-radius: 2px;
 }
 
+/* Work samples sections */
+.work-samples {
+    padding: 0;
+}
+
 .sample-block {
-    margin-bottom: 3.5rem;
+    position: relative;
+    padding: clamp(2.75rem, 5vw, 4.25rem) 0;
+    overflow: hidden;
+}
+
+.sample-block--medals {
+    background: linear-gradient(160deg, #f3e8de 0%, #ebe0d4 45%, #e4d8cb 100%);
+}
+
+.sample-block--medals::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('../images/sample-marathon.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.07;
+    pointer-events: none;
+}
+
+.sample-block--awards {
+    background: linear-gradient(160deg, #dfe3ec 0%, #d4dae6 45%, #c8d0df 100%);
+}
+
+.sample-block--awards::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('../images/award-trophy.jpg');
+    background-size: cover;
+    background-position: center top;
+    opacity: 0.06;
+    pointer-events: none;
+}
+
+.sample-block--souvenirs {
+    background: linear-gradient(160deg, #f5f3ef 0%, #edeae4 45%, #e6e2da 100%);
+}
+
+.sample-block--souvenirs::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('../images/souvenir-tumbler.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.06;
+    pointer-events: none;
+}
+
+.sample-block > .container {
+    position: relative;
+    z-index: 1;
 }
 
 .sample-block__header {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.sample-block__header--right .sample-block__title {
-    text-align: right;
-}
-
-.sample-block__header--right .sample-block__text {
-    text-align: left;
+    max-width: 720px;
+    margin: 0 auto 2rem;
 }
 
 .sample-block__title {
     font-family: var(--font-heading);
-    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+    font-size: clamp(1.85rem, 3.5vw, 2.5rem);
     font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: 0;
+}
+
+.sample-block__title::after {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 3px;
+    margin: 0.75rem auto 0;
+    background: var(--color-copper);
+    border-radius: 2px;
+}
+
+.sample-block__text {
+    max-width: 640px;
+    margin: 0;
 }
 
 .sample-gallery {
@@ -1682,7 +1778,7 @@ h3 {
         position: relative;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         grid-template-rows: auto;
-        column-gap: clamp(2rem, 4vw, 3.5rem);
+        column-gap: clamp(1.25rem, 2.5vw, 2rem);
         row-gap: 0;
         align-items: start;
         padding-bottom: 0.5rem;
@@ -1691,7 +1787,9 @@ h3 {
     .what-we-make__header {
         position: absolute;
         top: 0;
+        left: 0;
         right: 0;
+        justify-content: center;
         z-index: 2;
     }
 
@@ -1729,31 +1827,31 @@ h3 {
     }
 
     .what-we-make__lower {
-        grid-template-columns: 1fr 1fr 1fr;
-        column-gap: var(--wwm-gap);
-        align-items: stretch;
-        margin-top: clamp(2.5rem, 4vw, 3.75rem);
+        grid-template-columns: minmax(0, 1fr) auto;
+        column-gap: clamp(1rem, 2vw, 1.75rem);
+        align-items: center;
+        margin-top: clamp(1.25rem, 2.5vw, 2rem);
     }
 
     .what-we-make__process {
-        grid-column: 1 / 3;
+        grid-column: 1;
         justify-self: start;
-        height: 100%;
+        height: auto;
     }
 
     .what-we-make__materials-wrap {
-        grid-column: 3;
+        grid-column: 2;
         justify-self: end;
-        align-self: stretch;
+        align-self: center;
         display: flex;
         justify-content: flex-end;
-        height: 100%;
+        height: auto;
     }
 
     .what-we-make__materials-wrap .materials {
-        height: 100%;
-        justify-content: space-between;
-        gap: 0.4rem;
+        height: auto;
+        justify-content: center;
+        gap: clamp(0.85rem, 1.5vw, 1.25rem);
     }
 
     .process-stack {
@@ -1789,19 +1887,6 @@ h3 {
 
     .order-step:last-child .order-step__arrow {
         display: none;
-    }
-
-    .sample-block__header {
-        grid-template-columns: 1fr 1fr;
-        align-items: start;
-    }
-
-    .sample-block__header--right .sample-block__title {
-        order: 2;
-    }
-
-    .sample-block__header--right .sample-block__text {
-        order: 1;
     }
 
     .contact-section__grid {
