@@ -10,7 +10,7 @@ function isAjaxRequest(): bool
         && strtolower((string) $_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
 }
 
-function respondQuoteRequest(array $errors = [], ?string $redirect = null): void
+function respondQuoteRequest(array $errors, string $successRedirect, string $errorRedirect): void
 {
     if (isAjaxRequest()) {
         header('Content-Type: application/json; charset=UTF-8');
@@ -21,22 +21,27 @@ function respondQuoteRequest(array $errors = [], ?string $redirect = null): void
             exit;
         }
 
-        echo json_encode(['redirect' => $redirect ?? '/?submitted=1#contact'], JSON_THROW_ON_ERROR);
+        echo json_encode(['redirect' => $successRedirect], JSON_THROW_ON_ERROR);
         exit;
     }
 
-    if ($errors !== []) {
-        header('Location: /#contact');
-        exit;
-    }
-
-    header('Location: ' . ($redirect ?? '/?submitted=1#contact'));
+    header('Location: ' . ($errors !== [] ? $errorRedirect : $successRedirect));
     exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: /#contact');
     exit;
+}
+
+// Whitelisted redirect targets per form origin.
+$fromQuotePage = trim((string) ($_POST['form_origin'] ?? '')) === 'request-quote';
+$successRedirect = $fromQuotePage ? '/request-quote.php?submitted=1' : '/?submitted=1#contact';
+$errorRedirect = $fromQuotePage ? '/request-quote.php#quote-form-section' : '/#contact';
+
+// Honeypot: bots that fill this hidden field get a fake success response.
+if (trim((string) ($_POST['website'] ?? '')) !== '') {
+    respondQuoteRequest([], $successRedirect, $errorRedirect);
 }
 
 $fields = [
@@ -64,8 +69,20 @@ if ($fields['email'] !== '' && !filter_var($fields['email'], FILTER_VALIDATE_EMA
     $errors['email'] = 'Enter a valid email address.';
 }
 
+if ($fields['phone'] !== '' && !preg_match('/^[\d\s+()-]{7,20}$/', $fields['phone'])) {
+    $errors['phone'] = 'Enter a valid phone number.';
+}
+
 if ($fields['quantity'] !== '' && (!ctype_digit($fields['quantity']) || (int) $fields['quantity'] < 1)) {
     $errors['quantity'] = 'Enter a quantity of 1 or more.';
+}
+
+if ($fields['event_date'] !== '') {
+    $eventDate = DateTimeImmutable::createFromFormat('Y-m-d', $fields['event_date']);
+
+    if ($eventDate === false || $eventDate->format('Y-m-d') !== $fields['event_date']) {
+        $errors['event_date'] = 'Enter a valid event date.';
+    }
 }
 
 $allowedExtensions = ['pdf', 'png', 'webp', 'jpg', 'jpeg'];
@@ -137,7 +154,7 @@ if ($uploads !== [] && is_array($uploads['name'])) {
 }
 
 if ($errors !== []) {
-    respondQuoteRequest($errors);
+    respondQuoteRequest($errors, $successRedirect, $errorRedirect);
 }
 
 $subject = 'Quotation request from ' . $fields['name'];
@@ -188,4 +205,4 @@ if ($attachments === []) {
 
 @mail(SITE_EMAIL, $subject, $message, $headers);
 
-respondQuoteRequest([], '/?submitted=1#contact');
+respondQuoteRequest([], $successRedirect, $errorRedirect);

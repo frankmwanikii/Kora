@@ -5,7 +5,7 @@
             <p class="hero__subtitle lead-italic">Custom awards, medals &amp; souvenirs for the people worth celebrating.</p>
             <div class="btn-group">
                 <a class="btn btn--ghost" href="/work-samples.php">View our work</a>
-                <a class="btn btn--solid" href="#contact">Request a Quotation</a>
+                <a class="btn btn--solid" href="/request-quote.php">Request a Quotation</a>
             </div>
         </div>
         <div class="hero__image reveal">

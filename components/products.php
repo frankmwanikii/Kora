@@ -75,7 +75,7 @@ function render_product_detail(array $product): void
 
                     <div class="product-detail__actions">
                         <a class="btn btn--ghost" href="/work-samples.php">View samples</a>
-                        <a class="btn btn--solid" href="/#contact">Request a quote</a>
+                        <a class="btn btn--solid" href="/request-quote.php">Request a quote</a>
                     </div>
                 </div>
             </div>
@@ -229,7 +229,7 @@ $products = [
             <h2 id="products-cta-title" class="products-cta__title">Ready to brief your order?</h2>
             <p class="products-cta__text lead-italic">Share your event, quantities, and design ideas — we will guide you from concept to finished pieces.</p>
             <div class="btn-group">
-                <a class="btn btn--solid" href="/#contact">Request a Quotation</a>
+                <a class="btn btn--solid" href="/request-quote.php">Request a Quotation</a>
                 <a class="btn btn--ghost" href="/work-samples.php">Browse our work</a>
             </div>
         </div>

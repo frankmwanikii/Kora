@@ -282,7 +282,7 @@ $prepare_items = [
             <h2 id="how-cta-title" class="how-cta__title">Ready to start your order?</h2>
             <p class="how-cta__text lead-italic">Tell us about your event and we will take it from there.</p>
             <div class="btn-group">
-                <a class="btn btn--solid" href="/#contact">Request a Quotation</a>
+                <a class="btn btn--solid" href="/request-quote.php">Request a Quotation</a>
                 <a class="btn btn--ghost" href="/products.php">View our products</a>
             </div>
         </div>

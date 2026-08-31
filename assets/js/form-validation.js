@@ -23,6 +23,7 @@
         email: 'Enter a valid email address.',
         phone: 'Enter a valid phone number.',
         quantity: 'Enter a quantity of 1 or more.',
+        date: 'Enter a valid date — today or later.',
         inspoType: 'Only PDF, PNG, WebP, and JPG files are allowed.',
         inspoSize: 'Each file must be 20MB or smaller.',
         ready: 'Ready',
@@ -40,7 +41,24 @@
     }
 
     function isValidPhone(value) {
-        return /^[\d\s+()]{7,20}$/.test(value);
+        return /^[\d\s+()-]{7,20}$/.test(value);
+    }
+
+    function isValidFutureDate(value) {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+            return false;
+        }
+
+        var parsed = new Date(value + 'T00:00:00');
+
+        if (isNaN(parsed.getTime())) {
+            return false;
+        }
+
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        return parsed.getTime() >= today.getTime();
     }
 
     function escapeHtml(value) {
@@ -260,6 +278,10 @@
 
         if (type === 'quantity' && !isValidQuantity(value)) {
             return messages.quantity;
+        }
+
+        if (type === 'date' && !isValidFutureDate(value)) {
+            return messages.date;
         }
 
         return '';

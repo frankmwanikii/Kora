@@ -54,7 +54,7 @@
                     </div>
                     <div class="form-field">
                         <label for="event_date">Event date</label>
-                        <input type="date" id="event_date" name="event_date" required data-validate="required">
+                        <input type="date" id="event_date" name="event_date" required min="<?= date('Y-m-d') ?>" data-validate="date">
                         <p class="form-field__error" id="event_date-error" role="alert"></p>
                     </div>
                 </div>

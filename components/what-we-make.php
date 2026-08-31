@@ -47,7 +47,7 @@
             <div class="what-we-make__actions reveal">
                 <a class="btn btn--light" href="/products.php">All Products</a>
                 <a class="btn btn--light" href="/work-samples.php">Sample Work</a>
-                <a class="btn btn--light" href="#contact">Request a Quote</a>
+                <a class="btn btn--light" href="/request-quote.php">Request a Quote</a>
             </div>
         </div>
 
