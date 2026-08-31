@@ -10,8 +10,8 @@
                     <nav aria-label="Footer">
                         <ul class="site-footer__nav-list">
                             <li><a class="site-footer__nav-link" href="/work-samples.php">Our work</a></li>
-                            <li><a class="site-footer__nav-link" href="/#products">Products</a></li>
-                            <li><a class="site-footer__nav-link" href="/#how-it-works">How it works</a></li>
+                            <li><a class="site-footer__nav-link" href="/products.php">Products</a></li>
+                            <li><a class="site-footer__nav-link" href="/how-it-works.php">How it works</a></li>
                             <li><a class="site-footer__nav-link" href="/#contact">Contact</a></li>
                             <li><a class="site-footer__nav-link" href="/privacy.php">Privacy</a></li>
                         </ul>
@@ -41,7 +41,7 @@
             </div>
         </div>
     </footer>
-    <script src="<?= asset('assets/js/main.js') ?>" defer></script>image.png 
+    <script src="<?= asset('assets/js/main.js') ?>" defer></script>
     <script src="<?= asset('assets/js/form-validation.js') ?>" defer></script>
     <script src="<?= asset('assets/js/animations.js') ?>" defer></script>
 </body>

@@ -103,4 +103,133 @@
             }
         });
     }
+
+    function initSampleGalleries() {
+        var galleries = document.querySelectorAll('.sample-gallery');
+
+        if (!galleries.length) {
+            return;
+        }
+
+        galleries.forEach(function (gallery) {
+            var wrap = gallery.closest('.sample-gallery-wrap');
+
+            if (!wrap) {
+                return;
+            }
+
+            var prevBtn = wrap.querySelector('.sample-gallery__arrow--prev');
+            var nextBtn = wrap.querySelector('.sample-gallery__arrow--next');
+            var isDragging = false;
+            var startX = 0;
+            var scrollLeft = 0;
+            var moved = false;
+
+            function getScrollStep() {
+                var firstImage = gallery.querySelector('img');
+
+                if (!firstImage) {
+                    return 280;
+                }
+
+                var gap = parseFloat(window.getComputedStyle(gallery).gap) || 0;
+                return firstImage.offsetWidth + gap;
+            }
+
+            function updateArrows() {
+                if (!prevBtn || !nextBtn) {
+                    return;
+                }
+
+                var maxScroll = gallery.scrollWidth - gallery.clientWidth;
+                prevBtn.disabled = gallery.scrollLeft <= 1;
+                nextBtn.disabled = gallery.scrollLeft >= maxScroll - 1;
+            }
+
+            function scrollGallery(direction) {
+                gallery.scrollBy({
+                    left: direction * getScrollStep(),
+                    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+                });
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', function () {
+                    scrollGallery(-1);
+                });
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function () {
+                    scrollGallery(1);
+                });
+            }
+
+            gallery.addEventListener('scroll', updateArrows, { passive: true });
+            window.addEventListener('resize', updateArrows);
+            updateArrows();
+
+            gallery.addEventListener('mousedown', function (event) {
+                if (event.button !== 0) {
+                    return;
+                }
+
+                isDragging = true;
+                moved = false;
+                startX = event.pageX;
+                scrollLeft = gallery.scrollLeft;
+                gallery.classList.add('is-dragging');
+            });
+
+            gallery.addEventListener('mousemove', function (event) {
+                if (!isDragging) {
+                    return;
+                }
+
+                event.preventDefault();
+                var walk = event.pageX - startX;
+
+                if (Math.abs(walk) > 3) {
+                    moved = true;
+                }
+
+                gallery.scrollLeft = scrollLeft - walk;
+            });
+
+            function stopDragging() {
+                if (!isDragging) {
+                    return;
+                }
+
+                isDragging = false;
+                gallery.classList.remove('is-dragging');
+                updateArrows();
+            }
+
+            gallery.addEventListener('mouseup', stopDragging);
+            gallery.addEventListener('mouseleave', stopDragging);
+
+            gallery.addEventListener('click', function (event) {
+                if (moved) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    moved = false;
+                }
+            });
+
+            gallery.addEventListener('keydown', function (event) {
+                if (event.key === 'ArrowLeft') {
+                    event.preventDefault();
+                    scrollGallery(-1);
+                }
+
+                if (event.key === 'ArrowRight') {
+                    event.preventDefault();
+                    scrollGallery(1);
+                }
+            });
+        });
+    }
+
+    initSampleGalleries();
 })();
