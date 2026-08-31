@@ -1,0 +1,49 @@
+    </main>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="site-footer__grid">
+                <div class="site-footer__col site-footer__brand">
+                    <img src="<?= asset('assets/images/kora-logo.png') ?>" alt="<?= SITE_NAME ?>" class="site-footer__logo">
+                    <p class="site-footer__tagline"><?= SITE_TAGLINE ?>. <?= SITE_LOCATION ?>.</p>
+                </div>
+                <div class="site-footer__col site-footer__links">
+                    <h2 class="site-footer__heading">Quick Links</h2>
+                    <nav aria-label="Footer">
+                        <ul class="site-footer__nav-list">
+                            <li><a class="site-footer__nav-link" href="#our-work">Our work</a></li>
+                            <li><a class="site-footer__nav-link" href="#products">Products</a></li>
+                            <li><a class="site-footer__nav-link" href="#how-it-works">How it works</a></li>
+                            <li><a class="site-footer__nav-link" href="#contact">Contact</a></li>
+                            <li><a class="site-footer__nav-link" href="/privacy.php">Privacy</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="site-footer__col site-footer__contact">
+                    <h2 class="site-footer__heading">Contact</h2>
+                    <ul class="site-footer__contact-list">
+                        <li class="site-footer__contact-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                            <span><?= SITE_ADDRESS ?></span>
+                        </li>
+                        <li class="site-footer__contact-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6.5 4h3l1.5 5-2 1.5a13 13 0 0 0 5 5l1.5-2 5 1.5v3A2.5 2.5 0 0 1 17 19C10 19 5 14 5 7a2.5 2.5 0 0 1 2.5-3Z"/></svg>
+                            <a href="tel:<?= SITE_PHONE_LINK ?>"><?= SITE_PHONE ?></a>
+                        </li>
+                        <li class="site-footer__contact-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                            <a href="mailto:<?= SITE_EMAIL ?>"><?= SITE_EMAIL ?></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="site-footer__bar">
+                <span>&copy; <?= SITE_YEAR ?> <?= SITE_NAME ?>. CRAFTED IN LAIKIPIA.</span>
+                <span>RECOGNITION, MADE PERSONAL.</span>
+            </div>
+        </div>
+    </footer>
+    <script src="<?= asset('assets/js/main.js') ?>" defer></script>
+    <script src="<?= asset('assets/js/form-validation.js') ?>" defer></script>
+    <script src="<?= asset('assets/js/animations.js') ?>" defer></script>
+</body>
+</html>
