@@ -52,7 +52,7 @@ $page_description = $page_description ?? 'KORA creates custom awards, medals, pl
             </div>
         </div>
     </header>
-    <div class="mobile-nav-overlay" id="mobile-nav-overlay" hidden></div>
+    <button type="button" class="mobile-nav-overlay" id="mobile-nav-overlay" hidden aria-label="Close menu"></button>
     <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile" hidden>
         <ul class="mobile-nav__list">
             <li><a class="mobile-nav__link<?= $current_page === 'home' ? ' is-active' : '' ?>" href="/">Home</a></li>
