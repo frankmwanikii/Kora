@@ -23,33 +23,33 @@ $page_description = $page_description ?? 'KORA creates custom awards, medals, pl
     <meta property="og:image" content="<?= htmlspecialchars(SITE_URL . asset('assets/images/kora-logo.png')) ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=League+Spartan:wght@600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/glacial-indifference" rel="stylesheet">
     <link rel="stylesheet" href="<?= asset('assets/css/main.css') ?>">
 </head>
 <body>
     <a class="visually-hidden" href="#main">Skip to content</a>
     <header class="site-header" id="top">
-        <div class="container site-header__inner">
-            <a class="site-logo" href="<?= SITE_URL ?>" aria-label="<?= SITE_NAME ?> home">
-                <img src="<?= asset('assets/images/kora-logo.png') ?>" alt="<?= SITE_NAME ?>" class="site-logo__img">
-            </a>
+        <div class="site-header__inner">
+            <?php render_brand_logo('header'); ?>
             <nav class="site-nav" aria-label="Primary">
                 <ul class="site-nav__list">
                     <li><a class="site-nav__link<?= $current_page === 'home' ? ' is-active' : '' ?>" href="/">Home</a></li>
                     <li><a class="site-nav__link<?= $current_page === 'work-samples' ? ' is-active' : '' ?>" href="/work-samples.php">Our work</a></li>
                     <li><a class="site-nav__link" href="/#products">Products</a></li>
                     <li><a class="site-nav__link" href="/#how-it-works">How it works</a></li>
-                    <li><a class="site-nav__link" href="/#contact">Contact</a></li>
                 </ul>
             </nav>
-            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
-                <span class="nav-toggle__bars" aria-hidden="true">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </span>
-            </button>
+            <div class="site-header__actions">
+                <a class="site-header__cta btn btn--solid" href="/#contact">Request a Quotation</a>
+                <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
+                    <span class="nav-toggle__bars" aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </button>
+            </div>
         </div>
         <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile" hidden>
             <ul class="mobile-nav__list">
@@ -57,7 +57,7 @@ $page_description = $page_description ?? 'KORA creates custom awards, medals, pl
                 <li><a class="mobile-nav__link" href="/work-samples.php">Our work</a></li>
                 <li><a class="mobile-nav__link" href="/#products">Products</a></li>
                 <li><a class="mobile-nav__link" href="/#how-it-works">How it works</a></li>
-                <li><a class="mobile-nav__link" href="/#contact">Contact</a></li>
+                <li class="mobile-nav__cta-item"><a class="mobile-nav__cta btn btn--solid" href="/#contact">Request a Quotation</a></li>
             </ul>
         </nav>
     </header>

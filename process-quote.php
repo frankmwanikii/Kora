@@ -4,6 +4,36 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/includes/config.php';
 
+function isAjaxRequest(): bool
+{
+    return isset($_SERVER['HTTP_X_REQUESTED_WITH'])
+        && strtolower((string) $_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+}
+
+function respondQuoteRequest(array $errors = [], ?string $redirect = null): void
+{
+    if (isAjaxRequest()) {
+        header('Content-Type: application/json; charset=UTF-8');
+
+        if ($errors !== []) {
+            http_response_code(422);
+            echo json_encode(['errors' => $errors], JSON_THROW_ON_ERROR);
+            exit;
+        }
+
+        echo json_encode(['redirect' => $redirect ?? '/?submitted=1#contact'], JSON_THROW_ON_ERROR);
+        exit;
+    }
+
+    if ($errors !== []) {
+        header('Location: /#contact');
+        exit;
+    }
+
+    header('Location: ' . ($redirect ?? '/?submitted=1#contact'));
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: /#contact');
     exit;
@@ -32,6 +62,10 @@ foreach ($required as $key) {
 
 if ($fields['email'] !== '' && !filter_var($fields['email'], FILTER_VALIDATE_EMAIL)) {
     $errors['email'] = 'Enter a valid email address.';
+}
+
+if ($fields['quantity'] !== '' && (!ctype_digit($fields['quantity']) || (int) $fields['quantity'] < 1)) {
+    $errors['quantity'] = 'Enter a quantity of 1 or more.';
 }
 
 $allowedExtensions = ['pdf', 'png', 'webp', 'jpg', 'jpeg'];
@@ -103,8 +137,7 @@ if ($uploads !== [] && is_array($uploads['name'])) {
 }
 
 if ($errors !== []) {
-    header('Location: /#contact');
-    exit;
+    respondQuoteRequest($errors);
 }
 
 $subject = 'Quotation request from ' . $fields['name'];
@@ -155,5 +188,4 @@ if ($attachments === []) {
 
 @mail(SITE_EMAIL, $subject, $message, $headers);
 
-header('Location: /?submitted=1#contact');
-exit;
+respondQuoteRequest([], '/?submitted=1#contact');

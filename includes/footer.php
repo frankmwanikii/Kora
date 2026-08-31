@@ -3,8 +3,7 @@
         <div class="container">
             <div class="site-footer__grid">
                 <div class="site-footer__col site-footer__brand">
-                    <img src="<?= asset('assets/images/kora-logo.png') ?>" alt="<?= SITE_NAME ?>" class="site-footer__logo">
-                    <p class="site-footer__tagline"><?= SITE_TAGLINE ?>. <?= SITE_LOCATION ?>.</p>
+                    <?php render_brand_logo('footer'); ?>
                 </div>
                 <div class="site-footer__col site-footer__links">
                     <h2 class="site-footer__heading">Quick Links</h2>
@@ -37,12 +36,12 @@
                 </div>
             </div>
             <div class="site-footer__bar">
-                <span>&copy; <?= SITE_YEAR ?> <?= SITE_NAME ?>. CRAFTED IN LAIKIPIA.</span>
+                <span>&copy; <?= SITE_YEAR ?> <?= SITE_NAME ?>. CRAFTED IN LAIKIPIA. DESIGNED BY <a class="site-footer__bar-link" href="https://fraittech.co.ke" target="_blank" rel="noopener noreferrer">Fraittech</a>.</span>
                 <span>RECOGNITION, MADE PERSONAL.</span>
             </div>
         </div>
     </footer>
-    <script src="<?= asset('assets/js/main.js') ?>" defer></script>
+    <script src="<?= asset('assets/js/main.js') ?>" defer></script>image.png 
     <script src="<?= asset('assets/js/form-validation.js') ?>" defer></script>
     <script src="<?= asset('assets/js/animations.js') ?>" defer></script>
 </body>

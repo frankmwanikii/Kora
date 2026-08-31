@@ -12,6 +12,8 @@ const SITE_EMAIL = 'koradesignprint@gmail.com';
 const SITE_URL = 'https://kora.fraittech.co.ke';
 const SITE_YEAR = '2026';
 
+require_once __DIR__ . '/brand-logo.php';
+
 function asset(string $path): string
 {
     return '/' . ltrim($path, '/');
