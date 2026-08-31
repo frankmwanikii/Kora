@@ -13,8 +13,14 @@
     var messages = {
         required: 'This field is required.',
         email: 'Enter a valid email address.',
-        phone: 'Enter a valid phone number.'
+        phone: 'Enter a valid phone number.',
+        inspoType: 'Only PDF, PNG, WebP, and JPG files are allowed.',
+        inspoSize: 'Each file must be 20MB or smaller.'
     };
+
+    var inspoAllowedTypes = ['application/pdf', 'image/png', 'image/webp', 'image/jpeg'];
+    var inspoAllowedExtensions = ['pdf', 'png', 'webp', 'jpg', 'jpeg'];
+    var inspoMaxSize = 20 * 1024 * 1024;
 
     function isValidEmail(value) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -24,8 +30,43 @@
         return /^[\d\s+()]{7,20}$/.test(value);
     }
 
+    function getInspoFileError(file) {
+        var extension = file.name.split('.').pop().toLowerCase();
+        var typeAllowed = inspoAllowedTypes.indexOf(file.type) !== -1;
+        var extensionAllowed = inspoAllowedExtensions.indexOf(extension) !== -1;
+
+        if (!typeAllowed && !extensionAllowed) {
+            return messages.inspoType;
+        }
+
+        if (file.size > inspoMaxSize) {
+            return messages.inspoSize;
+        }
+
+        return '';
+    }
+
     function getFieldError(field) {
         var type = field.getAttribute('data-validate');
+
+        if (type === 'inspo-files') {
+            var files = field.files;
+
+            if (!files || files.length === 0) {
+                return '';
+            }
+
+            for (var i = 0; i < files.length; i += 1) {
+                var fileError = getInspoFileError(files[i]);
+
+                if (fileError) {
+                    return fileError;
+                }
+            }
+
+            return '';
+        }
+
         var value = field.value.trim();
 
         if (type === 'optional') {
@@ -61,7 +102,7 @@
             return false;
         }
 
-        if (field.value.trim() !== '') {
+        if (field.type === 'file' ? field.files.length > 0 : field.value.trim() !== '') {
             field.classList.add('is-valid');
         }
 
@@ -77,12 +118,12 @@
     }
 
     fields.forEach(function (field) {
-        field.addEventListener('input', function () {
-            validateField(field);
-        });
+        var events = field.type === 'file' ? ['change'] : ['input', 'blur'];
 
-        field.addEventListener('blur', function () {
-            validateField(field);
+        events.forEach(function (eventName) {
+            field.addEventListener(eventName, function () {
+                validateField(field);
+            });
         });
     });
 

@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="reveal">
-            <form class="quote-form" id="quote-form" action="/process-quote.php" method="post" novalidate>
+            <form class="quote-form" id="quote-form" action="/process-quote.php" method="post" enctype="multipart/form-data" novalidate>
                 <div class="form-row">
                     <div class="form-field">
                         <label for="name">Your Name</label>
@@ -62,6 +62,12 @@
                     <label for="message">Message or design brief</label>
                     <textarea id="message" name="message" required data-validate="required"></textarea>
                     <p class="form-field__error" id="message-error" role="alert"></p>
+                </div>
+                <div class="form-field">
+                    <label for="inspo_files">Inspiration files</label>
+                    <input type="file" id="inspo_files" name="inspo_files[]" accept=".pdf,.png,.webp,.jpg,.jpeg,application/pdf,image/png,image/webp,image/jpeg" multiple data-validate="inspo-files">
+                    <p class="form-field__hint">Optional. PDF, PNG, WebP, or JPG — up to 20MB per file.</p>
+                    <p class="form-field__error" id="inspo_files-error" role="alert"></p>
                 </div>
                 <button type="submit" class="btn btn--solid">Request a Quotation</button>
                 <p class="form-field__error" id="form-status" role="status"></p>

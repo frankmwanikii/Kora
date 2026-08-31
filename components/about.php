@@ -1,13 +1,8 @@
-<section class="about section" aria-labelledby="about-title">
-    <div class="about__bg" aria-hidden="true">
-        <img
-            src="<?= img('about-workshop.jpg') ?>"
-            alt=""
-            width="1600"
-            height="949"
-            loading="lazy"
-        >
-    </div>
+<section
+    class="about section"
+    aria-labelledby="about-title"
+    style="--about-bg: url('<?= img('about-workshop.jpg') ?>')"
+>
     <div class="container about__content reveal">
         <h2 id="about-title" class="about__title">Made by hand, in Laikipia</h2>
         <p class="text-body">

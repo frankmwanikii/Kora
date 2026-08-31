@@ -34,6 +34,74 @@ if ($fields['email'] !== '' && !filter_var($fields['email'], FILTER_VALIDATE_EMA
     $errors['email'] = 'Enter a valid email address.';
 }
 
+$allowedExtensions = ['pdf', 'png', 'webp', 'jpg', 'jpeg'];
+$allowedMimeTypes = [
+    'application/pdf',
+    'image/png',
+    'image/webp',
+    'image/jpeg',
+];
+$maxFileSize = 20 * 1024 * 1024;
+$attachments = [];
+
+if (!isset($_FILES['inspo_files'])) {
+    $uploads = [];
+} else {
+    $uploads = $_FILES['inspo_files'];
+}
+
+if ($uploads !== [] && is_array($uploads['name'])) {
+    $fileCount = count($uploads['name']);
+
+    for ($i = 0; $i < $fileCount; $i += 1) {
+        $errorCode = (int) $uploads['error'][$i];
+
+        if ($errorCode === UPLOAD_ERR_NO_FILE) {
+            continue;
+        }
+
+        if ($errorCode !== UPLOAD_ERR_OK) {
+            $errors['inspo_files'] = 'One or more inspiration files could not be uploaded.';
+            break;
+        }
+
+        $originalName = (string) $uploads['name'][$i];
+        $tmpPath = (string) $uploads['tmp_name'][$i];
+        $size = (int) $uploads['size'][$i];
+        $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+
+        if (!in_array($extension, $allowedExtensions, true)) {
+            $errors['inspo_files'] = 'Only PDF, PNG, WebP, and JPG files are allowed.';
+            break;
+        }
+
+        if ($size > $maxFileSize) {
+            $errors['inspo_files'] = 'Each inspiration file must be 20MB or smaller.';
+            break;
+        }
+
+        $detectedMime = mime_content_type($tmpPath) ?: '';
+        if ($detectedMime !== '' && !in_array($detectedMime, $allowedMimeTypes, true)) {
+            $errors['inspo_files'] = 'Only PDF, PNG, WebP, and JPG files are allowed.';
+            break;
+        }
+
+        $safeName = preg_replace('/[^A-Za-z0-9._-]/', '_', basename($originalName)) ?: 'inspo-file.' . $extension;
+        $fileData = file_get_contents($tmpPath);
+
+        if ($fileData === false) {
+            $errors['inspo_files'] = 'One or more inspiration files could not be read.';
+            break;
+        }
+
+        $attachments[] = [
+            'name' => $safeName,
+            'mime' => $detectedMime !== '' ? $detectedMime : 'application/octet-stream',
+            'data' => $fileData,
+        ];
+    }
+}
+
 if ($errors !== []) {
     header('Location: /#contact');
     exit;
@@ -50,11 +118,42 @@ $body = "Name: {$fields['name']}\n"
     . "Event date: {$fields['event_date']}\n\n"
     . "Message:\n{$fields['message']}\n";
 
-$headers = 'From: ' . SITE_EMAIL . "\r\n"
-    . 'Reply-To: ' . $fields['email'] . "\r\n"
-    . 'Content-Type: text/plain; charset=UTF-8';
+if ($attachments !== []) {
+    $body .= "\nInspiration files attached: "
+        . implode(', ', array_column($attachments, 'name'))
+        . "\n";
+} else {
+    $body .= "\nNo inspiration files attached.\n";
+}
 
-@mail(SITE_EMAIL, $subject, $body, $headers);
+if ($attachments === []) {
+    $headers = 'From: ' . SITE_EMAIL . "\r\n"
+        . 'Reply-To: ' . $fields['email'] . "\r\n"
+        . 'Content-Type: text/plain; charset=UTF-8';
+    $message = $body;
+} else {
+    $boundary = 'kora_' . bin2hex(random_bytes(12));
+    $headers = 'From: ' . SITE_EMAIL . "\r\n"
+        . 'Reply-To: ' . $fields['email'] . "\r\n"
+        . 'MIME-Version: 1.0' . "\r\n"
+        . 'Content-Type: multipart/mixed; boundary="' . $boundary . '"';
+
+    $message = '--' . $boundary . "\r\n"
+        . 'Content-Type: text/plain; charset=UTF-8' . "\r\n\r\n"
+        . $body . "\r\n";
+
+    foreach ($attachments as $attachment) {
+        $message .= '--' . $boundary . "\r\n"
+            . 'Content-Type: ' . $attachment['mime'] . '; name="' . $attachment['name'] . '"' . "\r\n"
+            . 'Content-Transfer-Encoding: base64' . "\r\n"
+            . 'Content-Disposition: attachment; filename="' . $attachment['name'] . '"' . "\r\n\r\n"
+            . chunk_split(base64_encode($attachment['data'])) . "\r\n";
+    }
+
+    $message .= '--' . $boundary . '--';
+}
+
+@mail(SITE_EMAIL, $subject, $message, $headers);
 
 header('Location: /?submitted=1#contact');
 exit;

@@ -10,8 +10,6 @@ require __DIR__ . '/components/hero.php';
 require __DIR__ . '/components/about.php';
 require __DIR__ . '/components/what-we-make.php';
 require __DIR__ . '/components/how-to-order.php';
-require __DIR__ . '/components/workshop-banner.php';
-require __DIR__ . '/components/work-samples.php';
 require __DIR__ . '/components/contact-form.php';
 
 require __DIR__ . '/includes/footer.php';

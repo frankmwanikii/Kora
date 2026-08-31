@@ -1,6 +1,6 @@
-<section class="work-samples section" id="our-work" aria-labelledby="samples-title">
+<section class="work-samples section section--tight" aria-labelledby="samples-title">
     <div class="container">
-        <h2 id="samples-title" class="work-samples__title reveal">Our Work Samples</h2>
+        <h1 id="samples-title" class="work-samples__title reveal">Our Work Samples</h1>
 
         <article class="sample-block reveal">
             <div class="sample-block__header">

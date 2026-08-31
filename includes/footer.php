@@ -10,10 +10,10 @@
                     <h2 class="site-footer__heading">Quick Links</h2>
                     <nav aria-label="Footer">
                         <ul class="site-footer__nav-list">
-                            <li><a class="site-footer__nav-link" href="#our-work">Our work</a></li>
-                            <li><a class="site-footer__nav-link" href="#products">Products</a></li>
-                            <li><a class="site-footer__nav-link" href="#how-it-works">How it works</a></li>
-                            <li><a class="site-footer__nav-link" href="#contact">Contact</a></li>
+                            <li><a class="site-footer__nav-link" href="/work-samples.php">Our work</a></li>
+                            <li><a class="site-footer__nav-link" href="/#products">Products</a></li>
+                            <li><a class="site-footer__nav-link" href="/#how-it-works">How it works</a></li>
+                            <li><a class="site-footer__nav-link" href="/#contact">Contact</a></li>
                             <li><a class="site-footer__nav-link" href="/privacy.php">Privacy</a></li>
                         </ul>
                     </nav>

@@ -36,11 +36,11 @@ $page_description = $page_description ?? 'KORA creates custom awards, medals, pl
             </a>
             <nav class="site-nav" aria-label="Primary">
                 <ul class="site-nav__list">
-                    <li><a class="site-nav__link<?= $current_page === 'home' ? ' is-active' : '' ?>" href="#our-work">Our work</a></li>
-                    <li><a class="site-nav__link" href="#products">Products</a></li>
-                    <li><a class="site-nav__link" href="#how-it-works">How it works</a></li>
-                    <li><a class="site-nav__link" href="#contact">Contact</a></li>
-                    <li><a class="site-nav__link<?= $current_page === 'privacy' ? ' is-active' : '' ?>" href="/privacy.php">Privacy</a></li>
+                    <li><a class="site-nav__link<?= $current_page === 'home' ? ' is-active' : '' ?>" href="/">Home</a></li>
+                    <li><a class="site-nav__link<?= $current_page === 'work-samples' ? ' is-active' : '' ?>" href="/work-samples.php">Our work</a></li>
+                    <li><a class="site-nav__link" href="/#products">Products</a></li>
+                    <li><a class="site-nav__link" href="/#how-it-works">How it works</a></li>
+                    <li><a class="site-nav__link" href="/#contact">Contact</a></li>
                 </ul>
             </nav>
             <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
@@ -53,11 +53,11 @@ $page_description = $page_description ?? 'KORA creates custom awards, medals, pl
         </div>
         <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile" hidden>
             <ul class="mobile-nav__list">
-                <li><a class="mobile-nav__link" href="#our-work">Our work</a></li>
-                <li><a class="mobile-nav__link" href="#products">Products</a></li>
-                <li><a class="mobile-nav__link" href="#how-it-works">How it works</a></li>
-                <li><a class="mobile-nav__link" href="#contact">Contact</a></li>
-                <li><a class="mobile-nav__link" href="/privacy.php">Privacy</a></li>
+                <li><a class="mobile-nav__link" href="/">Home</a></li>
+                <li><a class="mobile-nav__link" href="/work-samples.php">Our work</a></li>
+                <li><a class="mobile-nav__link" href="/#products">Products</a></li>
+                <li><a class="mobile-nav__link" href="/#how-it-works">How it works</a></li>
+                <li><a class="mobile-nav__link" href="/#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
