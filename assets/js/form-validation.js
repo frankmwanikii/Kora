@@ -105,28 +105,20 @@
         });
     }
 
-    function syncInspoInput() {
-        if (!inspoInput || typeof DataTransfer === 'undefined') {
-            return;
+    function cloneFile(file) {
+        try {
+            return new File([file], file.name, { type: file.type, lastModified: file.lastModified });
+        } catch (error) {
+            return file;
         }
-
-        var dataTransfer = new DataTransfer();
-
-        inspoSelectedFiles.forEach(function (file) {
-            dataTransfer.items.add(file);
-        });
-
-        inspoInput.files = dataTransfer.files;
     }
 
     function addInspoFiles(fileList) {
         Array.prototype.forEach.call(fileList, function (file) {
             if (!isDuplicateFile(file)) {
-                inspoSelectedFiles.push(file);
+                inspoSelectedFiles.push(cloneFile(file));
             }
         });
-
-        syncInspoInput();
 
         if (inspoInput) {
             inspoInput.value = '';
@@ -145,7 +137,6 @@
         }
 
         inspoSelectedFiles.splice(index, 1);
-        syncInspoInput();
 
         if (inspoInput) {
             inspoInput.value = '';
@@ -330,6 +321,7 @@
 
     function appendInspoFilesToFormData(formData) {
         formData.delete('inspo_files[]');
+        formData.delete('inspo_files');
 
         inspoSelectedFiles.forEach(function (file) {
             formData.append('inspo_files[]', file, file.name);
@@ -490,7 +482,7 @@
     });
 
     if (window.location.search.indexOf('submitted=1') !== -1 && statusEl) {
-        statusEl.textContent = 'Thank you. Your quotation request has been sent. We will respond shortly.';
+        statusEl.textContent = 'Thank you. Your quotation request has been sent, and a confirmation email is on its way. We will respond shortly.';
         statusEl.style.color = 'var(--color-navy)';
     }
 })();

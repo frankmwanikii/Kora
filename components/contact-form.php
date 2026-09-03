@@ -3,12 +3,8 @@
         <div class="contact-section__intro reveal">
             <h2 id="contact-title">Tell us what</h2>
             <p class="lead-italic">Send us your product idea, quantity, logo, wording, preferred material, approximate size, event date, and delivery or collection location. We will recommend suitable options and prepare a quotation.</p>
-            <div class="btn-group btn-group--row">
-                <a class="btn btn--light" href="https://wa.me/254790355707" target="_blank" rel="noopener noreferrer">Whatsapp KORA</a>
-                <a class="btn btn--light" href="mailto:<?= SITE_EMAIL ?>">Email KORA</a>
-            </div>
         </div>
-        <div class="reveal">
+        <div class="contact-section__form reveal">
             <form class="quote-form" id="quote-form" action="/process-quote.php" method="post" enctype="multipart/form-data" novalidate>
                 <div class="form-row">
                     <div class="form-field">
@@ -79,6 +75,10 @@
                 <button type="submit" class="btn btn--solid">Request a Quotation</button>
                 <p class="form-field__error" id="form-status" role="status"></p>
             </form>
+        </div>
+        <div class="contact-section__channels btn-group btn-group--row reveal">
+            <a class="btn btn--light" href="https://wa.me/254790355707" target="_blank" rel="noopener noreferrer">Whatsapp KORA</a>
+            <a class="btn btn--light" href="mailto:<?= SITE_EMAIL ?>">Email KORA</a>
         </div>
     </div>
 </section>

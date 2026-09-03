@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/mail.php';
 
 function isAjaxRequest(): bool
 {
@@ -86,22 +87,32 @@ if ($fields['event_date'] !== '') {
 }
 
 $allowedExtensions = ['pdf', 'png', 'webp', 'jpg', 'jpeg'];
-$allowedMimeTypes = [
-    'application/pdf',
-    'image/png',
-    'image/webp',
-    'image/jpeg',
+$mimeByExtension = [
+    'pdf' => 'application/pdf',
+    'png' => 'image/png',
+    'webp' => 'image/webp',
+    'jpg' => 'image/jpeg',
+    'jpeg' => 'image/jpeg',
 ];
+$allowedMimeTypes = array_values($mimeByExtension);
 $maxFileSize = 20 * 1024 * 1024;
 $attachments = [];
+$uploads = [];
 
-if (!isset($_FILES['inspo_files'])) {
-    $uploads = [];
-} else {
-    $uploads = $_FILES['inspo_files'];
+if (isset($_FILES['inspo_files']['name'])) {
+    if (is_array($_FILES['inspo_files']['name'])) {
+        $uploads = $_FILES['inspo_files'];
+    } else {
+        $uploads = [
+            'name' => [$_FILES['inspo_files']['name']],
+            'tmp_name' => [$_FILES['inspo_files']['tmp_name'] ?? ''],
+            'error' => [$_FILES['inspo_files']['error'] ?? UPLOAD_ERR_NO_FILE],
+            'size' => [$_FILES['inspo_files']['size'] ?? 0],
+        ];
+    }
 }
 
-if ($uploads !== [] && is_array($uploads['name'])) {
+if ($uploads !== []) {
     $fileCount = count($uploads['name']);
 
     for ($i = 0; $i < $fileCount; $i += 1) {
@@ -131,8 +142,19 @@ if ($uploads !== [] && is_array($uploads['name'])) {
             break;
         }
 
+        if ($tmpPath === '' || !is_uploaded_file($tmpPath)) {
+            $errors['inspo_files'] = 'One or more inspiration files could not be uploaded.';
+            break;
+        }
+
         $detectedMime = mime_content_type($tmpPath) ?: '';
-        if ($detectedMime !== '' && !in_array($detectedMime, $allowedMimeTypes, true)) {
+        $fallbackMime = $mimeByExtension[$extension];
+
+        if (
+            $detectedMime !== ''
+            && $detectedMime !== 'application/octet-stream'
+            && !in_array($detectedMime, $allowedMimeTypes, true)
+        ) {
             $errors['inspo_files'] = 'Only PDF, PNG, WebP, and JPG files are allowed.';
             break;
         }
@@ -140,14 +162,14 @@ if ($uploads !== [] && is_array($uploads['name'])) {
         $safeName = preg_replace('/[^A-Za-z0-9._-]/', '_', basename($originalName)) ?: 'inspo-file.' . $extension;
         $fileData = file_get_contents($tmpPath);
 
-        if ($fileData === false) {
+        if ($fileData === false || $fileData === '') {
             $errors['inspo_files'] = 'One or more inspiration files could not be read.';
             break;
         }
 
         $attachments[] = [
             'name' => $safeName,
-            'mime' => $detectedMime !== '' ? $detectedMime : 'application/octet-stream',
+            'mime' => in_array($detectedMime, $allowedMimeTypes, true) ? $detectedMime : $fallbackMime,
             'data' => $fileData,
         ];
     }
@@ -157,52 +179,31 @@ if ($errors !== []) {
     respondQuoteRequest($errors, $successRedirect, $errorRedirect);
 }
 
-$subject = 'Quotation request from ' . $fields['name'];
-$body = "Name: {$fields['name']}\n"
-    . "Organization: {$fields['organization']}\n"
-    . "Phone: {$fields['phone']}\n"
-    . "Email: {$fields['email']}\n"
-    . "Event type: {$fields['event_type']}\n"
-    . "Product: {$fields['product']}\n"
-    . "Quantity: {$fields['quantity']}\n"
-    . "Event date: {$fields['event_date']}\n\n"
-    . "Message:\n{$fields['message']}\n";
+$attachmentNames = array_column($attachments, 'name');
+$adminEmail = kora_quote_admin_email($fields, $attachmentNames);
+$confirmationEmail = kora_quote_confirmation_email($fields, $attachmentNames);
 
-if ($attachments !== []) {
-    $body .= "\nInspiration files attached: "
-        . implode(', ', array_column($attachments, 'name'))
-        . "\n";
-} else {
-    $body .= "\nNo inspiration files attached.\n";
+$adminSent = kora_send_mail(
+    SITE_EMAIL,
+    $adminEmail['subject'],
+    $adminEmail['text'],
+    $fields['email'],
+    $attachments,
+    $adminEmail['html']
+);
+
+$confirmationSent = kora_send_mail(
+    $fields['email'],
+    $confirmationEmail['subject'],
+    $confirmationEmail['text'],
+    SITE_EMAIL,
+    [],
+    $confirmationEmail['html']
+);
+
+if (!$adminSent || !$confirmationSent) {
+    $errors['form'] = 'Your request could not be sent. Please try again or email us directly.';
+    respondQuoteRequest($errors, $successRedirect, $errorRedirect);
 }
-
-if ($attachments === []) {
-    $headers = 'From: ' . SITE_EMAIL . "\r\n"
-        . 'Reply-To: ' . $fields['email'] . "\r\n"
-        . 'Content-Type: text/plain; charset=UTF-8';
-    $message = $body;
-} else {
-    $boundary = 'kora_' . bin2hex(random_bytes(12));
-    $headers = 'From: ' . SITE_EMAIL . "\r\n"
-        . 'Reply-To: ' . $fields['email'] . "\r\n"
-        . 'MIME-Version: 1.0' . "\r\n"
-        . 'Content-Type: multipart/mixed; boundary="' . $boundary . '"';
-
-    $message = '--' . $boundary . "\r\n"
-        . 'Content-Type: text/plain; charset=UTF-8' . "\r\n\r\n"
-        . $body . "\r\n";
-
-    foreach ($attachments as $attachment) {
-        $message .= '--' . $boundary . "\r\n"
-            . 'Content-Type: ' . $attachment['mime'] . '; name="' . $attachment['name'] . '"' . "\r\n"
-            . 'Content-Transfer-Encoding: base64' . "\r\n"
-            . 'Content-Disposition: attachment; filename="' . $attachment['name'] . '"' . "\r\n\r\n"
-            . chunk_split(base64_encode($attachment['data'])) . "\r\n";
-    }
-
-    $message .= '--' . $boundary . '--';
-}
-
-@mail(SITE_EMAIL, $subject, $message, $headers);
 
 respondQuoteRequest([], $successRedirect, $errorRedirect);

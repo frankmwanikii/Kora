@@ -73,7 +73,7 @@ $quote_min_date = date('Y-m-d');
             </span>
             <div>
                 <h2 class="quote-success__title">Request received — thank you!</h2>
-                <p class="quote-success__text">Your quotation request has been sent. We will review your brief and respond within one business day. Need it faster? <a href="https://wa.me/254790355707" target="_blank" rel="noopener noreferrer">Message us on WhatsApp</a>.</p>
+                <p class="quote-success__text">Your quotation request has been sent, and a confirmation email is on its way. We will review your brief and respond within one business day. Need it faster? <a href="https://wa.me/254790355707" target="_blank" rel="noopener noreferrer">Message us on WhatsApp</a>.</p>
             </div>
         </div>
         <?php endif; ?>
