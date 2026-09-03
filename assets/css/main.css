@@ -609,15 +609,22 @@ body.mobile-nav-open {
     position: absolute;
     inset: 0;
     display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     padding: calc(var(--header-height) + 1.25rem) var(--page-pad) 4.75rem;
     background:
         linear-gradient(180deg, rgba(12, 14, 24, 0.34) 0%, rgba(12, 14, 24, 0.18) 28%, rgba(12, 14, 24, 0.78) 100%);
 }
 
 .hero-slider__content {
-    width: min(100%, 40rem);
+    width: min(100%, 42rem);
+    margin-inline: auto;
+}
+
+.hero-slider .btn-group {
+    align-items: center;
+    justify-content: center;
 }
 
 .hero-slider__kicker {
@@ -641,7 +648,7 @@ body.mobile-nav-open {
 }
 
 .hero-slider__subtitle {
-    margin: 0 0 1.5rem;
+    margin: 0 auto 1.5rem;
     max-width: 34rem;
     color: rgba(255, 255, 255, 0.9);
     text-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
@@ -984,7 +991,6 @@ body.mobile-nav-open {
     }
 
     .hero-slider__overlay {
-        align-items: center;
         padding: calc(var(--header-height) + 1.25rem) var(--page-pad) 4.25rem;
     }
 
@@ -1052,8 +1058,6 @@ body.mobile-nav-open {
 
     .hero-slider__overlay {
         align-items: flex-end;
-        justify-content: center;
-        text-align: center;
         padding: calc(var(--header-height) + 1rem) var(--page-pad) 4.5rem;
     }
 
@@ -3543,7 +3547,6 @@ body.mobile-nav-open {
     }
 
     .hero-slider__overlay {
-        align-items: center;
         padding: calc(var(--header-height) + 1.5rem) var(--page-pad) 4.25rem;
     }
 
@@ -3831,6 +3834,8 @@ body.mobile-nav-open {
     .hero-slider__subtitle {
         font-size: 1.35rem;
         max-width: 38rem;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .hero-slider__arrow {
@@ -3847,8 +3852,7 @@ body.mobile-nav-open {
     }
 
     .hero-slider__overlay {
-        padding-left: max(var(--page-pad), calc((100vw - 1320px) / 2));
-        padding-right: var(--page-pad);
+        padding-inline: max(var(--page-pad), calc((100vw - 1320px) / 2));
     }
 
     .hero-slider__arrow--prev {
