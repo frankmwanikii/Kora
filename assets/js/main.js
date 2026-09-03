@@ -320,4 +320,165 @@
     }
 
     initSampleGalleries();
+
+    function initHeroSlider() {
+        var root = document.querySelector('[data-hero-slider]');
+
+        if (!root) {
+            return;
+        }
+
+        var track = root.querySelector('.hero-slider__track');
+        var slides = Array.prototype.slice.call(root.querySelectorAll('.hero-slider__slide'));
+        var dots = Array.prototype.slice.call(root.querySelectorAll('.hero-slider__dot'));
+        var prevBtn = root.querySelector('.hero-slider__arrow--prev');
+        var nextBtn = root.querySelector('.hero-slider__arrow--next');
+        var index = 0;
+        var timer = null;
+        var pointerStartX = 0;
+        var pointerDelta = 0;
+        var isPointerDown = false;
+
+        if (!track || slides.length < 2) {
+            return;
+        }
+
+        function goTo(nextIndex) {
+            index = (nextIndex + slides.length) % slides.length;
+            track.style.transform = 'translateX(' + (-index * 100) + '%)';
+
+            slides.forEach(function (slide, slideIndex) {
+                var isActive = slideIndex === index;
+                slide.classList.toggle('is-active', isActive);
+                slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+            });
+
+            dots.forEach(function (dot, dotIndex) {
+                var isActive = dotIndex === index;
+                dot.classList.toggle('is-active', isActive);
+                dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+        }
+
+        var autoplayMs = 5000;
+
+        function next() {
+            goTo(index + 1);
+        }
+
+        function prev() {
+            goTo(index - 1);
+        }
+
+        function stopAutoplay() {
+            if (timer) {
+                window.clearTimeout(timer);
+                timer = null;
+            }
+        }
+
+        function startAutoplay() {
+            stopAutoplay();
+
+            if (document.hidden) {
+                return;
+            }
+
+            timer = window.setTimeout(function () {
+                next();
+                startAutoplay();
+            }, autoplayMs);
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function () {
+                next();
+                startAutoplay();
+            });
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function () {
+                prev();
+                startAutoplay();
+            });
+        }
+
+        dots.forEach(function (dot) {
+            dot.addEventListener('click', function () {
+                goTo(Number(dot.getAttribute('data-slide-to')));
+                startAutoplay();
+            });
+        });
+
+        root.addEventListener('keydown', function (event) {
+            if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                next();
+                startAutoplay();
+            }
+
+            if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                prev();
+                startAutoplay();
+            }
+        });
+
+        root.addEventListener('pointerdown', function (event) {
+            if (event.pointerType === 'mouse' && event.button !== 0) {
+                return;
+            }
+
+            if (event.target.closest('a, button')) {
+                return;
+            }
+
+            isPointerDown = true;
+            pointerStartX = event.clientX;
+            pointerDelta = 0;
+            stopAutoplay();
+        });
+
+        root.addEventListener('pointerup', function (event) {
+            if (!isPointerDown) {
+                return;
+            }
+
+            isPointerDown = false;
+            pointerDelta = event.clientX - pointerStartX;
+
+            if (Math.abs(pointerDelta) >= 48) {
+                if (pointerDelta < 0) {
+                    next();
+                } else {
+                    prev();
+                }
+            }
+
+            startAutoplay();
+        });
+
+        root.addEventListener('pointercancel', function () {
+            isPointerDown = false;
+            startAutoplay();
+        });
+
+        root.addEventListener('pointerleave', function () {
+            isPointerDown = false;
+        });
+
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                stopAutoplay();
+            } else {
+                startAutoplay();
+            }
+        });
+
+        goTo(0);
+        startAutoplay();
+    }
+
+    initHeroSlider();
 })();
