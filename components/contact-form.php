@@ -1,8 +1,8 @@
 <section class="contact-section section" id="contact" aria-labelledby="contact-title">
     <div class="container contact-section__grid">
         <div class="contact-section__intro reveal">
-            <h2 id="contact-title">Tell us what</h2>
-            <p class="lead-italic">Send us your product idea, quantity, logo, wording, preferred material, approximate size, event date, and delivery or collection location. We will recommend suitable options and prepare a quotation.</p>
+            <h2 id="contact-title">Request a Custom Quotation</h2>
+            <p class="lead-italic">Tell us what you have in mind. We’ll review your brief and recommend suitable options based on your event, quantity, materials, and budget.</p>
         </div>
         <div class="contact-section__form reveal">
             <form class="quote-form" id="quote-form" action="/process-quote.php" method="post" enctype="multipart/form-data" novalidate>

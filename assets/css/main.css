@@ -11,7 +11,7 @@
     --color-surface: #f3f4f6;
 
     --font-heading: 'League Spartan', sans-serif;
-    --font-body: 'Glacial Indifference', sans-serif;
+    --font-body: 'Manrope', sans-serif;
 
     --container-max: 1180px;
     --page-pad: clamp(1.25rem, 4vw, 3rem);
@@ -24,7 +24,7 @@
     --transition: 0.25s ease;
     --shadow-soft: 0 10px 32px rgba(51, 53, 82, 0.09);
     --shadow-lift: 0 16px 40px rgba(51, 53, 82, 0.12);
-    --header-height: 96px;
+    --header-height: 72px;
 
     --text-base: 1.125rem;
     --text-sm: 1rem;
@@ -246,7 +246,7 @@ h3 {
     gap: 1.5rem;
     width: 100%;
     min-height: var(--header-height);
-    padding: 0.75rem var(--page-pad);
+    padding: 0.4rem var(--page-pad);
     background: rgba(243, 244, 246, 0.82);
     backdrop-filter: blur(18px) saturate(1.15);
     -webkit-backdrop-filter: blur(18px) saturate(1.15);
@@ -307,24 +307,29 @@ h3 {
     color: inherit;
 }
 
-.brand-logo__wordmark {
-    font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-    font-weight: 600;
-    line-height: 0.95;
-    letter-spacing: 0.08em;
-    color: var(--color-copper);
-    text-transform: uppercase;
+.brand-logo__image {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    object-fit: cover;
+    object-position: center;
+    /* Crop transparent padding so the wordmark fills the frame */
+    aspect-ratio: 2.25 / 1;
 }
 
-.brand-logo--header .brand-logo__wordmark {
-    font-size: clamp(2.15rem, 4vw, 2.85rem);
+.brand-logo--header .brand-logo__image {
+    height: clamp(2.15rem, 4.5vw, 2.65rem);
+}
+
+.brand-logo--footer .brand-logo__image {
+    height: clamp(4.75rem, 12vw, 6.25rem);
 }
 
 .brand-logo__taglines {
     display: flex;
     flex-direction: column;
     gap: 0.1rem;
-    margin-top: 0.45rem;
+    margin-top: 0.55rem;
 }
 
 .brand-logo__tagline {
@@ -336,12 +341,8 @@ h3 {
     color: var(--color-navy);
 }
 
-.brand-logo--footer .brand-logo__wordmark {
-    font-size: clamp(2.75rem, 5vw, 3.35rem);
-}
-
 .brand-logo--footer .brand-logo__taglines {
-    margin-top: 0.55rem;
+    margin-top: 0.65rem;
 }
 
 .brand-logo--footer .brand-logo__tagline {
@@ -1046,8 +1047,12 @@ body.mobile-nav-open {
 @media (max-width: 639px) {
     :root {
         --section-gap: 3.25rem;
-        --header-height: 84px;
+        --header-height: 64px;
         --page-pad: clamp(1rem, 4.5vw, 1.35rem);
+    }
+
+    .brand-logo--header .brand-logo__image {
+        height: 2.1rem;
     }
 
     .hero-slider {
@@ -3233,6 +3238,18 @@ body.mobile-nav-open {
         border-bottom: 1px solid rgba(255, 255, 255, 0.12);
     }
 
+    .site-footer__brand .brand-logo {
+        align-items: center;
+    }
+
+    .site-footer__brand .brand-logo__image {
+        background: var(--color-surface);
+        border-radius: 12px;
+        padding: 0.4rem 0.85rem;
+        box-sizing: content-box;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    }
+
     .site-footer__brand .brand-logo__tagline {
         color: rgba(255, 255, 255, 0.82);
     }
@@ -3511,15 +3528,15 @@ body.mobile-nav-open {
     :root {
         --section-gap: 5.5rem;
         --page-pad: clamp(1.5rem, 4vw, 3.5rem);
-        --header-height: 112px;
+        --header-height: 76px;
     }
 
     .site-header__inner {
-        padding-block: 0.65rem;
+        padding-block: 0.35rem;
     }
 
-    .brand-logo--header .brand-logo__wordmark {
-        font-size: 3rem;
+    .brand-logo--header .brand-logo__image {
+        height: 2.65rem;
     }
 
     .site-nav {

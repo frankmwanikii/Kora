@@ -56,7 +56,7 @@
                         <path d="M3.25 5.5h9.75c.69 0 1.25.56 1.25 1.25v6.75H3.25V5.5zm10.75 1.35h4.65l2.35 2.05v4.35H14V6.85zM3 13.35h17.75v1.15c0 .58-.47 1.05-1.05 1.05H3.3c-.58 0-1.05-.47-1.05-1.05v-1.15zM7 14.35a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 0 0 0-3.8zm10 0a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 0 0 0-3.8zM15.15 8.15h3.35v3.05h-3.35V8.15zM7 15.55a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5zm10 0a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5z"/>
                     </svg>
                 </div>
-                <h3 class="order-step__title">Collect/Deliver</h3>
+                <h3 class="order-step__title">Collection or Delivery</h3>
                 <p class="order-step__desc">Pieces ready</p>
             </li>
         </ol>

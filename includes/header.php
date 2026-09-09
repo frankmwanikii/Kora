@@ -20,11 +20,10 @@ $page_description = $page_description ?? 'KORA creates custom awards, medals, pl
     <meta property="og:description" content="<?= htmlspecialchars($page_description) ?>">
     <meta property="og:type" content="website">
     <meta property="og:url" content="<?= htmlspecialchars(SITE_URL) ?>">
-    <meta property="og:image" content="<?= htmlspecialchars(SITE_URL . asset('assets/images/kora-logo.png')) ?>">
+    <meta property="og:image" content="<?= htmlspecialchars(SITE_URL . asset('assets/images/logos/kora_logo1.png')) ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=League+Spartan:wght@600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.cdnfonts.com/css/glacial-indifference" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= asset('assets/css/main.css') ?>">
 </head>
 <body>
