@@ -2791,6 +2791,15 @@ body.lightbox-open {
     border-radius: var(--radius-sm);
     background: #eef6ee;
     border: 1px solid rgba(58, 122, 68, 0.28);
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.quote-success.is-hiding {
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
 }
 
 .quote-success--below {

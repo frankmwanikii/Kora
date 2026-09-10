@@ -1,6 +1,54 @@
 (function () {
     'use strict';
 
+    var SUCCESS_HIDE_MS = 8000;
+    var SUCCESS_FADE_MS = 400;
+
+    function scheduleSuccessHide(el) {
+        if (!el) {
+            return;
+        }
+
+        if (el._koraHideTimer) {
+            window.clearTimeout(el._koraHideTimer);
+        }
+
+        if (el._koraFadeTimer) {
+            window.clearTimeout(el._koraFadeTimer);
+        }
+
+        el.classList.remove('is-hiding');
+
+        el._koraHideTimer = window.setTimeout(function () {
+            el.classList.add('is-hiding');
+            el._koraFadeTimer = window.setTimeout(function () {
+                el.hidden = true;
+                el.classList.remove('is-visible', 'is-hiding');
+                el._koraHideTimer = null;
+                el._koraFadeTimer = null;
+            }, SUCCESS_FADE_MS);
+        }, SUCCESS_HIDE_MS);
+    }
+
+    function clearSuccessHide(el) {
+        if (!el) {
+            return;
+        }
+
+        if (el._koraHideTimer) {
+            window.clearTimeout(el._koraHideTimer);
+            el._koraHideTimer = null;
+        }
+
+        if (el._koraFadeTimer) {
+            window.clearTimeout(el._koraFadeTimer);
+            el._koraFadeTimer = null;
+        }
+
+        el.classList.remove('is-hiding');
+    }
+
+    (function () {
     var form = document.getElementById('quote-form');
 
     if (!form) {
@@ -346,6 +394,7 @@
 
         successEl.hidden = false;
         successEl.classList.add('is-visible');
+        scheduleSuccessHide(successEl);
 
         if (statusEl) {
             statusEl.textContent = '';
@@ -411,6 +460,7 @@
         appendInspoFilesToFormData(formData);
 
         if (successEl) {
+            clearSuccessHide(successEl);
             successEl.hidden = true;
             successEl.classList.remove('is-visible');
         }
@@ -568,8 +618,6 @@
 })();
 
 (function () {
-    'use strict';
-
     var form = document.getElementById('contact-form');
 
     if (!form) {
@@ -668,6 +716,7 @@
 
         successEl.hidden = false;
         successEl.classList.add('is-visible');
+        scheduleSuccessHide(successEl);
 
         if (statusEl) {
             statusEl.textContent = '';
@@ -725,6 +774,7 @@
         }
 
         if (successEl) {
+            clearSuccessHide(successEl);
             successEl.hidden = true;
             successEl.classList.remove('is-visible');
         }
@@ -822,4 +872,5 @@
             window.history.replaceState({}, document.title, cleanUrl);
         }
     }
+})();
 })();
