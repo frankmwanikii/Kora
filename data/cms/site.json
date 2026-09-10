@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "updated_at": "2026-09-10 17:52:47",
+    "updated_at": "2026-09-10 18:08:16",
     "settings": {
         "site_name": "KORA",
         "site_tagline": "Custom Awards & Trophies",
@@ -679,7 +679,7 @@
                 "hero": {
                     "title": "Request a Quotation",
                     "image": {
-                        "file": "acrylic_material.jpeg",
+                        "file": "awards/Padel Award.jpg",
                         "alt": "Acrylic material used for custom KORA awards",
                         "width": 2752,
                         "height": 1536
