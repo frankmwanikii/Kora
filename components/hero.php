@@ -116,32 +116,20 @@ if ($hero_actions === []) {
     </div>
 
     <div class="hero-slider__chrome">
-        <div class="hero-slider__controls">
-            <button type="button" class="hero-slider__arrow hero-slider__arrow--prev" aria-label="Previous slide">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M14.5 6.5 9 12l5.5 5.5"/>
-                </svg>
-            </button>
-            <div class="hero-slider__dots" role="tablist" aria-label="Choose a slide">
-                <?php foreach ($hero_slides as $index => $slide): ?>
-                    <?php if (!is_array($slide) || (string) ($slide['file'] ?? '') === '') {
-                        continue;
-                    } ?>
-                    <button
-                        type="button"
-                        class="hero-slider__dot<?= $index === 0 ? ' is-active' : '' ?>"
-                        role="tab"
-                        aria-label="Show slide <?= $index + 1 ?> of <?= count($hero_slides) ?>"
-                        aria-selected="<?= $index === 0 ? 'true' : 'false' ?>"
-                        data-slide-to="<?= $index ?>"
-                    ></button>
-                <?php endforeach; ?>
-            </div>
-            <button type="button" class="hero-slider__arrow hero-slider__arrow--next" aria-label="Next slide">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M9.5 6.5 15 12l-5.5 5.5"/>
-                </svg>
-            </button>
+        <div class="hero-slider__dots" role="tablist" aria-label="Choose a slide">
+            <?php foreach ($hero_slides as $index => $slide): ?>
+                <?php if (!is_array($slide) || (string) ($slide['file'] ?? '') === '') {
+                    continue;
+                } ?>
+                <button
+                    type="button"
+                    class="hero-slider__dot<?= $index === 0 ? ' is-active' : '' ?>"
+                    role="tab"
+                    aria-label="Show slide <?= $index + 1 ?> of <?= count($hero_slides) ?>"
+                    aria-selected="<?= $index === 0 ? 'true' : 'false' ?>"
+                    data-slide-to="<?= $index ?>"
+                ></button>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>

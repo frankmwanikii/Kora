@@ -1,15 +1,15 @@
 {
     "version": 1,
-    "updated_at": "2026-09-10T19:02:17Z",
+    "updated_at": "2026-09-10 22:26:07",
     "settings": {
-        "site_name": "KORA",
+        "site_name": "Kora Laser Craft",
         "site_tagline": "Custom Awards & Trophies",
         "site_location": "Made in-house in Laikipia",
         "site_address": "Laikipia, Nanyuki, Kenya",
         "site_phone": "0790355707",
         "site_phone_link": "+254790355707",
-        "site_email": "info@kora.fraittech.co.ke",
-        "site_url": "https://kora.fraittech.co.ke",
+        "site_email": "info@koralasercraft.com",
+        "site_url": "https://koralasercraft.com",
         "site_year": "2026",
         "site_instagram": "https://www.instagram.com/koralasercraft",
         "site_tiktok": "https://www.tiktok.com/@koralasercraft",
@@ -105,10 +105,10 @@
                     "title": "Subscribe to our newsletter to get updates on our latest collections",
                     "text": "Be first to see new awards, medals, souvenirs plus seasonal offers from the KORA workshop.",
                     "image": {
-                        "file": "awards/Golf_award.jpg",
-                        "alt": "Custom KORA golf award",
+                        "file": "awards/Golf_Award.jpg",
+                        "alt": "Custom KORA golf Most Valuable Player award",
                         "width": 3376,
-                        "height": 4667
+                        "height": 4476
                     },
                     "privacy_href": "/privacy.php"
                 },
@@ -174,6 +174,11 @@
                         "label": "How it works",
                         "href": "/how-it-works",
                         "page": "how-it-works"
+                    },
+                    {
+                        "label": "Contact us",
+                        "href": "/contact-us",
+                        "page": "contact-us"
                     }
                 ],
                 "cta": {
@@ -593,7 +598,7 @@
                     {
                         "heading": "14. How to contact us",
                         "paragraphs": [
-                            "If you have questions about this Privacy Policy or how KORA handles personal information, contact us at info@kora.fraittech.co.ke or call 0790355707. You can also message us on WhatsApp via the contact options on our website. Our workshop is based in Laikipia, Nanyuki, Kenya."
+                            "If you have questions about this Privacy Policy or how KORA handles personal information, contact us at info@koralasercraft.com or call 0790355707. You can also message us on WhatsApp via the contact options on our website. Our workshop is based in Laikipia, Nanyuki, Kenya."
                         ]
                     }
                 ]
@@ -1128,7 +1133,7 @@
             "content": {
                 "hero": {
                     "title": "Contact Us",
-                    "lead": "Speak with the KORA studio — we are here to help with awards, medals, plaques, and custom keepsakes.",
+                    "lead": "",
                     "image": {
                         "file": "workshop_hero.jpeg",
                         "alt": "KORA workshop in Nanyuki",
@@ -1155,14 +1160,14 @@
                     },
                     {
                         "label": "Email",
-                        "value": "info@kora.fraittech.co.ke",
-                        "href": "mailto:info@kora.fraittech.co.ke",
+                        "value": "info@koralasercraft.com",
+                        "href": "mailto:info@koralasercraft.com",
                         "external": false,
                         "icon": "email"
                     },
                     {
                         "label": "Visit",
-                        "value": "Laikipia, Nanyuki, Kenya",
+                        "value": "Kio Plaza, Nanyuki",
                         "href": "",
                         "external": false,
                         "icon": "location"
@@ -1186,6 +1191,16 @@
                     "text": "Share your event details, quantity, and materials for a priced quote within 24 hours.",
                     "cta_label": "Request a Quotation",
                     "cta_href": "/request-quote"
+                },
+                "map": {
+                    "eyebrow": "Workshop",
+                    "title": "Kio Plaza, Nanyuki",
+                    "text": "Visit Kora Laser Craft at Kio Plaza — collect finished pieces from the studio, or arrange delivery when you confirm your order.",
+                    "address": "Kio Plaza, Nanyuki · 236G+G5M",
+                    "hours": "Mon–Sat, 8am–6pm",
+                    "embed_url": "https://www.google.com/maps?q=Kora+Laser+Craft,+Kio+Plaza,+Nanyuki&z=16&hl=en&output=embed",
+                    "directions_url": "https://www.google.com/maps/dir/?api=1&destination=Kora+Laser+Craft,+Kio+Plaza,+Nanyuki",
+                    "cta_label": "Open directions"
                 }
             }
         }

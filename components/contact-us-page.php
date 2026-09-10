@@ -10,7 +10,7 @@ $heroImage = is_array($hero['image'] ?? null) ? $hero['image'] : [];
 $heroFile = (string) ($heroImage['file'] ?? 'workshop_hero.jpeg');
 $heroAlt = (string) ($heroImage['alt'] ?? 'KORA workshop in Nanyuki');
 $heroTitle = (string) ($hero['title'] ?? 'Contact Us');
-$heroLead = (string) ($hero['lead'] ?? 'Speak with the KORA studio — we are here to help with awards, medals, plaques, and custom keepsakes.');
+$heroLead = (string) ($hero['lead'] ?? '');
 
 $introTitle = (string) ($page['intro_title'] ?? 'Reach the workshop');
 $introText = (string) ($page['intro_text'] ?? 'Whether you have a quick question or want to talk through an idea before requesting a quotation, send us a message or use the channels below. We reply within one business day.');
@@ -39,7 +39,7 @@ $channelsDefault = [
     ],
     [
         'label' => 'Visit',
-        'value' => SITE_ADDRESS,
+        'value' => 'Kio Plaza, Nanyuki',
         'href' => '',
         'external' => false,
         'icon' => 'location',
@@ -220,6 +220,35 @@ $channelIcons = [
                     <p class="quote-success__text">We have received your message and will reply within one business day. Need a quicker answer? <a href="<?= htmlspecialchars(SITE_WHATSAPP) ?>" target="_blank" rel="noopener noreferrer" data-contact-whatsapp>Message us on WhatsApp</a>.</p>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+
+<?php
+$map = is_array($page['map'] ?? null) ? $page['map'] : [];
+$mapEyebrow = (string) ($map['eyebrow'] ?? 'Workshop');
+$mapTitle = (string) ($map['title'] ?? 'Kio Plaza, Nanyuki');
+$mapText = (string) ($map['text'] ?? 'Visit Kora Laser Craft at Kio Plaza to collect finished pieces from the studio, or arrange delivery when you confirm your order.');
+$mapEmbed = (string) ($map['embed_url'] ?? 'https://www.google.com/maps?q=Kora+Laser+Craft,+Kio+Plaza,+Nanyuki&z=16&hl=en&output=embed');
+?>
+<section class="contact-map" aria-labelledby="contact-map-title">
+    <div class="contact-map__canvas">
+        <iframe
+            class="contact-map__iframe"
+            title="Map showing Kora Laser Craft at Kio Plaza, Nanyuki"
+            src="<?= htmlspecialchars($mapEmbed) ?>"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+        ></iframe>
+        <div class="contact-map__grain" aria-hidden="true"></div>
+    </div>
+
+    <div class="container contact-map__rail">
+        <div class="contact-map__panel reveal">
+            <p class="contact-map__eyebrow"><?= htmlspecialchars($mapEyebrow) ?></p>
+            <h2 class="contact-map__title" id="contact-map-title"><?= htmlspecialchars($mapTitle) ?></h2>
+            <p class="contact-map__text"><?= htmlspecialchars($mapText) ?></p>
         </div>
     </div>
 </section>

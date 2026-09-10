@@ -33,7 +33,7 @@ function kora_default_settings(): array
         'site_address' => 'Laikipia, Nanyuki, Kenya',
         'site_phone' => '0790355707',
         'site_phone_link' => '+254790355707',
-        'site_email' => 'info@kora.fraittech.co.ke',
+        'site_email' => 'info@koralasercraft.com',
         'site_url' => 'https://kora.fraittech.co.ke',
         'site_year' => '2026',
         'site_instagram' => 'https://www.instagram.com/koralasercraft',
@@ -530,7 +530,7 @@ function kora_section_defaults(string $slug): array
                 'newsletter' => [
                     'title' => 'Subscribe to our newsletter to get updates on our latest collections',
                     'text' => 'Be first to see new awards, medals, souvenirs plus seasonal offers from the KORA workshop.',
-                    'image' => ['file' => 'awards/Golf_award.jpg', 'alt' => 'Custom KORA golf award', 'width' => 3376, 'height' => 4667],
+                    'image' => ['file' => 'awards/Golf_Award.jpg', 'alt' => 'Custom KORA golf Most Valuable Player award', 'width' => 1200, 'height' => 1500],
                     'privacy_href' => '/privacy.php',
                 ],
                 'blurb' => 'Custom awards, medals and souvenirs designed and made for organisations, schools, corporates, and sports teams.',
@@ -555,7 +555,7 @@ function kora_section_defaults(string $slug): array
             'content' => [
                 'hero' => [
                     'title' => 'Contact Us',
-                    'lead' => 'Speak with the KORA studio — we are here to help with awards, medals, plaques, and custom keepsakes.',
+                    'lead' => '',
                     'image' => [
                         'file' => 'workshop_hero.jpeg',
                         'alt' => 'KORA workshop in Nanyuki',
@@ -582,14 +582,14 @@ function kora_section_defaults(string $slug): array
                     ],
                     [
                         'label' => 'Email',
-                        'value' => 'info@kora.fraittech.co.ke',
-                        'href' => 'mailto:info@kora.fraittech.co.ke',
+                        'value' => 'info@koralasercraft.com',
+                        'href' => 'mailto:info@koralasercraft.com',
                         'external' => false,
                         'icon' => 'email',
                     ],
                     [
                         'label' => 'Visit',
-                        'value' => 'Laikipia, Nanyuki, Kenya',
+                        'value' => 'Kio Plaza, Nanyuki',
                         'href' => '',
                         'external' => false,
                         'icon' => 'location',
@@ -613,6 +613,16 @@ function kora_section_defaults(string $slug): array
                     'text' => 'Share your event details, quantity, and materials for a priced quote within 24 hours.',
                     'cta_label' => 'Request a Quotation',
                     'cta_href' => '/request-quote',
+                ],
+                'map' => [
+                    'eyebrow' => 'Workshop',
+                    'title' => 'Kio Plaza, Nanyuki',
+                    'text' => 'Visit Kora Laser Craft at Kio Plaza — collect finished pieces from the studio, or arrange delivery when you confirm your order.',
+                    'address' => 'Kio Plaza, Nanyuki · 236G+G5M',
+                    'hours' => 'Mon–Sat, 8am–6pm',
+                    'embed_url' => 'https://www.google.com/maps?q=Kora+Laser+Craft,+Kio+Plaza,+Nanyuki&z=16&hl=en&output=embed',
+                    'directions_url' => 'https://www.google.com/maps/dir/?api=1&destination=Kora+Laser+Craft,+Kio+Plaza,+Nanyuki',
+                    'cta_label' => 'Open directions',
                 ],
             ],
         ],
@@ -743,7 +753,7 @@ function kora_section_defaults(string $slug): array
                     [
                         'heading' => '14. How to contact us',
                         'paragraphs' => [
-                            'If you have questions about this Privacy Policy or how KORA handles personal information, contact us at info@kora.fraittech.co.ke or call 0790355707. You can also message us on WhatsApp via the contact options on our website. Our workshop is based in Laikipia, Nanyuki, Kenya.',
+                            'If you have questions about this Privacy Policy or how KORA handles personal information, contact us at info@koralasercraft.com or call 0790355707. You can also message us on WhatsApp via the contact options on our website. Our workshop is based in Laikipia, Nanyuki, Kenya.',
                         ],
                     ],
                 ],
