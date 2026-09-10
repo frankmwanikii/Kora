@@ -506,49 +506,170 @@
   function resolveImagePreview(path, siteBase) {
     path = String(path || '').trim();
     if (!path) return '';
-    if (/^https?:\/\//i.test(path)) return path;
-    var rel = path.replace(/^\/+/, '').replace(/^assets\//i, '');
-    if (/^(images|uploads|gallery)\//i.test(rel)) {
-      return 'asset-preview.php?path=' + encodeURIComponent(rel);
+    if (/^https?:\/\//i.test(path) || path.indexOf('//') === 0) return path;
+    if (path.indexOf('/assets/') === 0) return path;
+
+    var rel = path.replace(/^\/+/, '');
+    if (/^assets\/images\//i.test(rel)) {
+      return '/' + rel.split('/').map(function (part) { return encodeURIComponent(part); }).join('/');
     }
-    if (path.indexOf('/assets/') === 0) {
-      return 'asset-preview.php?path=' + encodeURIComponent(path.replace(/^\/assets\//, ''));
+    if (/^images\//i.test(rel)) {
+      return '/assets/' + rel.split('/').map(function (part) { return encodeURIComponent(part); }).join('/');
     }
-    siteBase = String(siteBase || '').replace(/\/$/, '');
-    if (path.charAt(0) === '/') return siteBase ? siteBase + path : path;
-    return siteBase ? siteBase + '/' + path : path;
+
+    siteBase = String(siteBase || '/assets/images').replace(/\/$/, '');
+    var encoded = rel.split('/').map(function (part) { return encodeURIComponent(part); }).join('/');
+    return siteBase + '/' + encoded;
   }
 
-  function initImageFields() {
-    document.querySelectorAll('[data-image-field]').forEach(function (field) {
-      var input = field.querySelector('input[type="text"], input[type="url"], [data-image-input]');
-      var img = field.querySelector('[data-image-preview], .image-field__preview');
-      var empty = field.querySelector('[data-image-empty], .image-field__empty');
-      if (!input || !img) return;
+  function normalizeImagePath(value) {
+    value = String(value || '').trim();
+    if (!value) return '';
 
-      function refresh() {
-        var url = resolveImagePreview(input.value, input.getAttribute('data-site-base') || '');
-        field.classList.toggle('has-image', !!url);
-        if (!url) {
-          img.hidden = true;
-          img.removeAttribute('src');
-          if (empty) empty.hidden = false;
-          return;
-        }
-        img.hidden = false;
-        if (empty) empty.hidden = true;
-        img.src = url;
+    // Absolute URL pointing at this site's assets/images → relative path
+    var match = value.match(/\/assets\/images\/(.+)$/i);
+    if (match) {
+      try {
+        return decodeURIComponent(match[1].split('?')[0]);
+      } catch (err) {
+        return match[1].split('?')[0];
       }
+    }
 
-      input.addEventListener('input', refresh);
-      input.addEventListener('change', refresh);
-      img.addEventListener('error', function () {
+    if (/^assets\/images\//i.test(value)) {
+      return value.replace(/^assets\/images\//i, '');
+    }
+
+    return value;
+  }
+
+  function csrfToken() {
+    var el = document.querySelector('input[name="csrf_token"]');
+    return el ? el.value : '';
+  }
+
+  function setImageFieldStatus(field, message, isError) {
+    var status = field.querySelector('[data-image-status]');
+    if (!status) return;
+    if (!message) {
+      status.hidden = true;
+      status.textContent = '';
+      status.classList.remove('is-error');
+      return;
+    }
+    status.hidden = false;
+    status.textContent = message;
+    status.classList.toggle('is-error', !!isError);
+  }
+
+  function bindImageField(field) {
+    if (!field || field.dataset.imageBound === '1') return;
+    field.dataset.imageBound = '1';
+
+    var input = field.querySelector('[data-image-input]');
+    var img = field.querySelector('[data-image-preview], .image-field__preview');
+    var empty = field.querySelector('[data-image-empty], .image-field__empty');
+    var uploadBtn = field.querySelector('[data-image-upload]');
+    var clearBtn = field.querySelector('[data-image-clear]');
+    var fileInput = field.querySelector('[data-image-file]');
+    if (!input || !img) return;
+
+    function refresh() {
+      var raw = input.value.trim();
+      var url = resolveImagePreview(raw, input.getAttribute('data-site-base') || '/assets/images');
+      field.classList.toggle('has-image', !!url);
+      if (!url) {
         img.hidden = true;
+        img.removeAttribute('src');
         if (empty) empty.hidden = false;
-        field.classList.remove('has-image');
-      });
+        return;
+      }
+      img.hidden = false;
+      if (empty) empty.hidden = true;
+      img.src = url;
+    }
+
+    input.addEventListener('input', refresh);
+    input.addEventListener('change', function () {
+      var normalized = normalizeImagePath(input.value);
+      if (normalized !== input.value) {
+        input.value = normalized;
+      }
       refresh();
     });
+    input.addEventListener('paste', function () {
+      window.setTimeout(function () {
+        var normalized = normalizeImagePath(input.value);
+        if (normalized !== input.value) {
+          input.value = normalized;
+        }
+        refresh();
+      }, 0);
+    });
+
+    img.addEventListener('error', function () {
+      if (!input.value.trim()) return;
+      img.hidden = true;
+      if (empty) empty.hidden = false;
+      field.classList.remove('has-image');
+    });
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function () {
+        input.value = '';
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        setImageFieldStatus(field, '');
+      });
+    }
+
+    if (uploadBtn && fileInput) {
+      uploadBtn.addEventListener('click', function () {
+        fileInput.click();
+      });
+
+      fileInput.addEventListener('change', function () {
+        var file = fileInput.files && fileInput.files[0];
+        if (!file) return;
+
+        setImageFieldStatus(field, 'Uploading…');
+        uploadBtn.disabled = true;
+
+        var fd = new FormData();
+        fd.append('file', file);
+        fd.append('csrf_token', csrfToken());
+
+        fetch('api/media-upload.php', {
+          method: 'POST',
+          body: fd,
+          credentials: 'same-origin',
+          headers: { Accept: 'application/json' }
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (!data || !data.ok || !data.path) {
+              throw new Error((data && data.error) || 'Upload failed');
+            }
+            input.value = data.path;
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+            setImageFieldStatus(field, 'Uploaded — path filled in');
+            window.setTimeout(function () { setImageFieldStatus(field, ''); }, 2200);
+          })
+          .catch(function (err) {
+            setImageFieldStatus(field, err.message || 'Upload failed', true);
+          })
+          .finally(function () {
+            uploadBtn.disabled = false;
+            fileInput.value = '';
+          });
+      });
+    }
+
+    refresh();
+  }
+
+  function initImageFields(root) {
+    (root || document).querySelectorAll('[data-image-field]').forEach(bindImageField);
   }
 
   function initRepeatLists() {
@@ -627,6 +748,15 @@
             itemsWrap.appendChild(node);
             bindRemove(node);
             reindex();
+            // Re-bind image tools / gallery pickers on cloned rows
+            node.querySelectorAll('[data-image-field]').forEach(function (field) {
+              field.dataset.imageBound = '';
+            });
+            node.querySelectorAll('[data-gallery-pick]').forEach(function (btn) {
+              btn.dataset.galleryBound = '';
+            });
+            initImageFields(node);
+            document.dispatchEvent(new CustomEvent('kora:fields-added', { bubbles: true, detail: { root: node } }));
             var focusEl = node.querySelector('input, textarea, select');
             if (focusEl) focusEl.focus();
           }

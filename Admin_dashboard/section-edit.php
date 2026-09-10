@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $content = is_array($section['content'] ?? null) ? $section['content'] : [];
+$extraScripts = ['assets/js/gallery-picker.js'];
 
 require __DIR__ . '/includes/layout.php';
 ?>
@@ -53,7 +54,7 @@ require __DIR__ . '/includes/layout.php';
         <div>
             <p class="pages-hub__eyebrow">Section editor</p>
             <h2 class="pages-hub__title"><?= e($pageTitle) ?></h2>
-            <p class="pages-hub__lead">Edit content for <code><?= e($slug) ?></code>. Image paths are relative to <code>assets/images/</code>.</p>
+            <p class="pages-hub__lead">Edit content for <code><?= e($slug) ?></code>. For images: paste a URL, upload a file, or pick from the gallery.</p>
         </div>
         <a href="<?= e(admin_base_path()) ?>/pages.php" class="btn btn-ghost">
             <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to pages
@@ -70,10 +71,11 @@ require __DIR__ . '/includes/layout.php';
             </div>
             <aside class="editor-grid__aside">
                 <section class="panel">
-                    <div class="panel__head"><h2 class="panel__title">Tips</h2></div>
+                    <div class="panel__head"><h2 class="panel__title">Image tips</h2></div>
                     <div class="panel__body">
-                        <p class="muted" style="font-size:.875rem;margin:0 0 .75rem">Upload new images in the <a href="<?= e(admin_base_path()) ?>/gallery-upload.php">media library</a>, then paste the path into image fields.</p>
-                        <p class="muted" style="font-size:.875rem;margin:0">Saving updates <code>data/cms/site.json</code> on the public site.</p>
+                        <p class="muted" style="font-size:.875rem;margin:0 0 .75rem"><strong>Paste URL</strong> — paste a full image URL or a path like <code>awards/Aw1.jpg</code>.</p>
+                        <p class="muted" style="font-size:.875rem;margin:0 0 .75rem"><strong>Upload</strong> — add a new file to the media library and fill the field automatically.</p>
+                        <p class="muted" style="font-size:.875rem;margin:0"><strong>Pick from gallery</strong> — browse existing site images and select one.</p>
                     </div>
                 </section>
             </aside>

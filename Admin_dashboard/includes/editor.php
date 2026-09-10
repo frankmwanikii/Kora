@@ -102,15 +102,34 @@ function kora_render_scalar_field(string $prefix, string $key, mixed $value): vo
 function kora_render_image_field(string $prefix, string $key, string $value): void
 {
     $name = kora_field_name($prefix, $key);
+    $fieldId = 'img-' . substr(sha1($name), 0, 12);
 
-    echo '<div class="image-field" data-image-field>';
+    echo '<div class="image-field" data-image-field data-image-field-id="' . e($fieldId) . '">';
     kora_render_form_label($name, $key);
+
     echo '<div class="image-field__preview-wrap">';
     echo '<img class="image-field__preview" data-image-preview alt="" hidden>';
-    echo '<span class="image-field__empty" data-image-empty>No preview</span>';
+    echo '<span class="image-field__empty" data-image-empty><i class="fa-regular fa-image" aria-hidden="true"></i> No image selected</span>';
     echo '</div>';
-    echo '<input class="form-control" type="text" id="' . e($name) . '" name="' . e($name) . '" value="' . e($value) . '" data-image-input data-site-base="/assets/images">';
-    echo '<p class="muted" style="font-size:.8125rem;margin:.35rem 0 0">Relative to <code>assets/images/</code></p>';
+
+    echo '<div class="image-field__actions">';
+    echo '<button type="button" class="btn btn-secondary btn-sm" data-image-upload>';
+    echo '<i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i> Upload';
+    echo '</button>';
+    echo '<button type="button" class="btn btn-secondary btn-sm" data-gallery-pick data-gallery-target="#' . e($fieldId) . '-input">';
+    echo '<i class="fa-solid fa-images" aria-hidden="true"></i> Pick from gallery';
+    echo '</button>';
+    echo '<button type="button" class="btn btn-ghost btn-sm" data-image-clear title="Clear image">';
+    echo '<i class="fa-solid fa-xmark" aria-hidden="true"></i> Clear';
+    echo '</button>';
+    echo '</div>';
+
+    echo '<input type="file" accept="image/*" data-image-file hidden aria-hidden="true" tabindex="-1">';
+
+    echo '<label class="form-label image-field__path-label" for="' . e($fieldId) . '-input">Image path or URL</label>';
+    echo '<input class="form-control" type="text" id="' . e($fieldId) . '-input" name="' . e($name) . '" value="' . e($value) . '" data-image-input data-site-base="/assets/images" placeholder="Paste path or full image URL…">';
+    echo '<p class="muted image-field__hint">Paste a URL, upload a file, or pick from the gallery. Paths are relative to <code>assets/images/</code>.</p>';
+    echo '<p class="image-field__status muted" data-image-status hidden></p>';
     echo '</div>';
 }
 

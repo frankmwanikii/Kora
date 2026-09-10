@@ -14,8 +14,12 @@ $cssPath = __DIR__ . '/assets/css/admin.css';
 $cssVersion = is_file($cssPath) ? (int) filemtime($cssPath) : 1;
 $jsPath = __DIR__ . '/assets/js/admin.js';
 $jsVersion = is_file($jsPath) ? (int) filemtime($jsPath) : 1;
-$logoPath = site_root() . '/assets/images/logos/kora_logo1.png';
-$logoUrl = '/assets/images/logos/kora_logo1.png' . (is_file($logoPath) ? '?v=' . (int) filemtime($logoPath) : '');
+$logoPath = site_root() . '/assets/images/logos/kora_logo_white.png';
+$logoUrl = '/assets/images/logos/kora_logo_white.png' . (is_file($logoPath) ? '?v=' . (int) filemtime($logoPath) : '');
+if (!is_file($logoPath)) {
+    $logoPath = site_root() . '/assets/images/logos/kora_logo1.png';
+    $logoUrl = '/assets/images/logos/kora_logo1.png' . (is_file($logoPath) ? '?v=' . (int) filemtime($logoPath) : '');
+}
 $year = date('Y');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -57,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="login-stage">
             <div class="login-brand-panel">
                 <div class="login-brand-inner">
-                    <img src="<?= e($logoUrl) ?>" alt="KORA Laser Craft" class="login-logo" width="420" height="420">
+                    <img src="<?= e($logoUrl) ?>" alt="KORA Laser Craft" class="login-logo" width="720" height="720">
                 </div>
             </div>
 

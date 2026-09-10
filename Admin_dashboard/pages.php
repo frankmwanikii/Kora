@@ -8,6 +8,23 @@ $pageTitle = 'Pages';
 $pageSubtitle = 'Website content sections';
 $activeNav = 'pages';
 
+$previewMap = [
+    'hero' => '/',
+    'about' => '/#about-title',
+    'what_we_make' => '/#products',
+    'how_to_order' => '/#how-it-works',
+    'workshop' => '/',
+    'faq' => '/#faqs',
+    'contact' => '/#contact',
+    'products' => '/products.php',
+    'work_samples' => '/work-samples.php',
+    'how_it_works' => '/how-it-works.php',
+    'request_quote' => '/request-quote.php',
+    'footer' => '/#footer-newsletter-title',
+    'privacy' => '/privacy.php',
+    'settings' => '/',
+];
+
 $grouped = [];
 foreach (kora_sections_catalog() as $section) {
     $group = (string) ($section['group'] ?? 'Other');
@@ -48,14 +65,25 @@ require __DIR__ . '/includes/layout.php';
                                 $editHref = $slug === 'settings'
                                     ? admin_base_path() . '/settings.php'
                                     : admin_base_path() . '/section-edit.php?slug=' . rawurlencode($slug);
+                                $previewHref = $previewMap[$slug] ?? '/';
                                 ?>
                                 <tr>
                                     <td class="cell-strong"><?= e((string) $section['title']) ?></td>
                                     <td class="cell-muted"><?= e((string) $section['description']) ?></td>
                                     <td class="cell-actions">
-                                        <a class="btn btn-secondary btn-sm" href="<?= e($editHref) ?>">
-                                            <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i> Edit
-                                        </a>
+                                        <div class="action-menu" data-dropdown>
+                                            <button type="button" class="btn btn-secondary btn-sm" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Actions for <?= e((string) $section['title']) ?>">
+                                                View <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                            </button>
+                                            <div class="dropdown-panel" data-dropdown-panel hidden>
+                                                <a href="<?= e($previewHref) ?>" target="_blank" rel="noopener">
+                                                    <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> Preview live
+                                                </a>
+                                                <a href="<?= e($editHref) ?>">
+                                                    <i class="fa-solid fa-pen" aria-hidden="true"></i> Edit
+                                                </a>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

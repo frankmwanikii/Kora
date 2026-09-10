@@ -34,6 +34,24 @@ function asset(string $path): string
 
 function img(string $filename): string
 {
+    $filename = trim($filename);
+
+    if ($filename === '') {
+        return '';
+    }
+
+    if (preg_match('#^https?://#i', $filename) || str_starts_with($filename, '//')) {
+        return $filename;
+    }
+
+    if (str_starts_with($filename, '/assets/')) {
+        return $filename;
+    }
+
+    if (str_starts_with($filename, 'assets/images/')) {
+        $filename = substr($filename, strlen('assets/images/'));
+    }
+
     $parts = explode('/', ltrim($filename, '/'));
     $encoded = implode('/', array_map('rawurlencode', $parts));
 
