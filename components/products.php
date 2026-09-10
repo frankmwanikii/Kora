@@ -100,7 +100,7 @@ $products = [
         ],
         'materials' => 'Premium MDF, solid wood, plywood, and acrylic',
         'ideal_for' => 'Marathons, fun runs, school sports, corporate challenges, and charity walks',
-        'hero' => ['file' => 'medals/medal_hero.jpeg', 'alt' => 'Collection of custom KORA medals', 'width' => 2752, 'height' => 1536],
+        'hero' => ['file' => 'medals/hero.jpeg', 'alt' => 'Custom KORA medals laid out on wood', 'width' => 2752, 'height' => 1536],
         'images' => [
             ['file' => 'medals/marathon.jpg', 'alt' => 'Custom Steps of Hope marathon medal', 'width' => 3376, 'height' => 4199],
             ['file' => 'medals/bike.jpg', 'alt' => 'Custom bike challenge medal', 'width' => 2926, 'height' => 3455],
@@ -203,17 +203,17 @@ $products = [
             </div>
             <div class="products-materials__grid">
                 <article class="products-materials__item">
-                    <img src="<?= img('wood_material.jpeg') ?>" alt="Solid wood material sample" width="2752" height="1536" loading="lazy">
+                    <img src="<?= img('WOOD.jpg') ?>" alt="Solid wood material sample" width="6061" height="4329" loading="lazy">
                     <h3>Wood</h3>
                     <p>Rich, natural finishes ideal for trophies and premium medals.</p>
                 </article>
                 <article class="products-materials__item">
-                    <img src="<?= img('mdf_material.jpeg') ?>" alt="MDF material sample" width="2752" height="1536" loading="lazy">
+                    <img src="<?= img('MDF.jpg') ?>" alt="MDF material sample" width="2000" height="2000" loading="lazy">
                     <h3>MDF &amp; Plywood</h3>
                     <p>Reliable bases for shaped medals, layered builds, and detailed engraving.</p>
                 </article>
                 <article class="products-materials__item">
-                    <img src="<?= img('acrylic_material.jpeg') ?>" alt="Acrylic material sample" width="2752" height="1536" loading="lazy">
+                    <img src="<?= img('ACRYLIC.png') ?>" alt="Acrylic material sample" width="1080" height="1080" loading="lazy">
                     <h3>Acrylic</h3>
                     <p>Clean, modern awards with colour, depth, and sharp branded detail.</p>
                 </article>

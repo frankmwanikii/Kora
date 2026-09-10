@@ -17,8 +17,8 @@ $hero_slides = [
         'height' => 3376,
     ],
     [
-        'file' => 'medals/medal_hero.jpeg',
-        'alt' => 'Collection of custom KORA medals',
+        'file' => 'medals/hero.jpeg',
+        'alt' => 'Custom KORA medals laid out on wood',
         'width' => 2752,
         'height' => 1536,
     ],
@@ -35,10 +35,10 @@ $hero_slides = [
         'height' => 800,
     ],
     [
-        'file' => 'finish_hero.jpeg',
-        'alt' => 'Hand finishing a custom piece in the KORA workshop',
-        'width' => 900,
-        'height' => 600,
+        'file' => 'laser_1.jpg',
+        'alt' => 'Close-up of the laser engraving a custom design into wood',
+        'width' => 6000,
+        'height' => 3376,
     ],
 ];
 ?>

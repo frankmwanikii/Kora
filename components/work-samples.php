@@ -47,9 +47,7 @@ $medal_samples = [
     ['file' => 'medals/marathon.jpg', 'alt' => 'Custom Steps of Hope marathon medal', 'width' => 3376, 'height' => 4199],
     ['file' => 'medals/bike.jpg', 'alt' => 'Custom bike challenge medal', 'width' => 2926, 'height' => 3455],
     ['file' => 'medals/football.jpg', 'alt' => 'Custom football tournament medal', 'width' => 3740, 'height' => 2538],
-    ['file' => 'medals/steps.jpg', 'alt' => 'Custom layered steps medal', 'width' => 2251, 'height' => 4355],
-    ['file' => 'medals/medal_hero.jpeg', 'alt' => 'Collection of custom KORA medals and awards', 'width' => 2752, 'height' => 1536],
-    ['file' => 'medals/hero.jpeg', 'alt' => 'Custom KORA medals on display', 'width' => 2752, 'height' => 1536],
+    
 ];
 
 $award_samples = [
@@ -61,10 +59,11 @@ $award_samples = [
     ['file' => 'awards/Football.jpg', 'alt' => 'Custom football tournament award', 'width' => 3376, 'height' => 5221],
     ['file' => 'awards/teacher.jpg', 'alt' => 'Custom teacher appreciation award', 'width' => 3203, 'height' => 3680],
     ['file' => 'awards/retire.jpg', 'alt' => 'Custom retirement plaque', 'width' => 3448, 'height' => 3376],
-    ['file' => 'awards/Golf_Award_1.jpg', 'alt' => 'Layered golf award sample', 'width' => 3376, 'height' => 3801],
-    ['file' => 'awards/Aw3.jpg', 'alt' => 'Custom engraved award sample', 'width' => 3376, 'height' => 3593],
+    ['file' => 'awards/WOODEN AWARD.png', 'alt' => 'Custom layered wooden cycling award', 'width' => 1207, 'height' => 1303],
     ['file' => 'awards/Aw4.jpg', 'alt' => 'Multi-layer award sample', 'width' => 3185, 'height' => 3376],
     ['file' => 'awards/appreciate.png', 'alt' => 'Appreciation award sample', 'width' => 1254, 'height' => 1254],
+    ['file' => 'awards/Golf_Award.jpg', 'alt' => 'Appreciation award sample', 'width' => 1254, 'height' => 1254],
+
 ];
 
 $souvenir_samples = [
@@ -75,14 +74,14 @@ $souvenir_samples = [
 <section class="work-samples-hero" aria-labelledby="samples-title">
     <img
         class="work-samples-hero__image reveal"
-        src="<?= img('medals/medal_hero.jpeg') ?>"
-        alt="Collection of custom KORA medals and awards"
+        src="<?= img('workshop_hero.jpeg') ?>"
+        alt="Custom KORA awards, medals, and souvenirs displayed in the workshop"
         width="2752"
         height="1536"
         loading="eager"
     >
     <div class="work-samples-hero__overlay">
-        <h1 id="samples-title" class="work-samples-hero__title reveal">Our Work Samples</h1>
+        <h1 id="samples-title" class="work-samples-hero__title reveal">Our Studio Samples</h1>
     </div>
 </section>
 

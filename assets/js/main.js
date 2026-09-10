@@ -190,7 +190,30 @@
         syncAccordionMode();
     }
 
+    function initHomeFaqAccordion() {
+        var items = document.querySelectorAll('.home-faq__item');
+
+        if (!items.length) {
+            return;
+        }
+
+        items.forEach(function (item) {
+            item.addEventListener('toggle', function () {
+                if (!item.open) {
+                    return;
+                }
+
+                items.forEach(function (other) {
+                    if (other !== item) {
+                        other.removeAttribute('open');
+                    }
+                });
+            });
+        });
+    }
+
     initFooterAccordion();
+    initHomeFaqAccordion();
 
     function initSampleGalleries() {
         var galleries = document.querySelectorAll('.sample-gallery');
@@ -230,8 +253,11 @@
                 }
 
                 var maxScroll = gallery.scrollWidth - gallery.clientWidth;
-                prevBtn.disabled = gallery.scrollLeft <= 1;
-                nextBtn.disabled = gallery.scrollLeft >= maxScroll - 1;
+                var canScroll = maxScroll > 2;
+
+                wrap.classList.toggle('is-centered', !canScroll);
+                prevBtn.disabled = !canScroll || gallery.scrollLeft <= 1;
+                nextBtn.disabled = !canScroll || gallery.scrollLeft >= maxScroll - 1;
             }
 
             function scrollGallery(direction) {
@@ -256,6 +282,14 @@
             gallery.addEventListener('scroll', updateArrows, { passive: true });
             window.addEventListener('resize', updateArrows);
             updateArrows();
+
+            Array.prototype.forEach.call(gallery.querySelectorAll('img'), function (img) {
+                if (img.complete) {
+                    return;
+                }
+
+                img.addEventListener('load', updateArrows, { once: true });
+            });
 
             gallery.addEventListener('mousedown', function (event) {
                 if (event.button !== 0) {

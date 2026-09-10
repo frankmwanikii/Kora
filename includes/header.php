@@ -6,7 +6,7 @@ require_once __DIR__ . '/config.php';
 
 $current_page = $current_page ?? 'home';
 $page_title = $page_title ?? page_title();
-$page_description = $page_description ?? 'KORA creates custom awards, medals, plaques, and souvenirs by hand in Nanyuki, Laikipia. Recognition made personal for organisations, NGOs, corporates, and sports teams.';
+$page_description = $page_description ?? 'KORA creates custom awards, medals, plaques, and souvenirs in Nanyuki, Laikipia — laser-cut and hand-finished. Recognition made personal for organisations, NGOs, corporates, and sports teams.';
 ?>
 <!DOCTYPE html>
 <html lang="en">

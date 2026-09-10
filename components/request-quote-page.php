@@ -244,12 +244,26 @@ $quote_min_date = date('Y-m-d');
     <div class="container quote-faq__inner">
         <h2 id="quote-faq-title" class="quote-faq__heading">Quotation FAQs</h2>
         <div class="quote-faq__list reveal">
+            <details class="quote-faq__item" open>
+                <summary class="quote-faq__question">
+                    <span>How quickly will I receive a quote?</span>
+                    <svg class="quote-faq__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <p class="quote-faq__answer">A quote is shared within 24 hours of receiving your brief. The more detail you share, the more accurate your quotation will be.</p>
+            </details>
             <details class="quote-faq__item">
                 <summary class="quote-faq__question">
                     <span>How long does production take?</span>
                     <svg class="quote-faq__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                 </summary>
-                <p class="quote-faq__answer">Most orders are completed within 3–10 working days depending on quantity and complexity. Share your event date in the form and we will confirm a delivery timeline in your quotation.</p>
+                <p class="quote-faq__answer">Production typically takes 3–7 business days. This may vary depending on the complexity of the design and the quantities ordered. Share your event date in the form and we will confirm a delivery timeline in your quotation.</p>
+            </details>
+            <details class="quote-faq__item">
+                <summary class="quote-faq__question">
+                    <span>How do you handle shipping?</span>
+                    <svg class="quote-faq__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <p class="quote-faq__answer">We use trusted courier services like G4S and Wells Fargo to ensure all items are delivered safely and efficiently anywhere in the country. Collection from our Nanyuki workshop is also available.</p>
             </details>
             <details class="quote-faq__item">
                 <summary class="quote-faq__question">

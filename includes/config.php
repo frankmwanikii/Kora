@@ -11,8 +11,8 @@ const SITE_PHONE_LINK = '+254790355707';
 const SITE_EMAIL = 'koradesignprint@gmail.com';
 const SITE_URL = 'https://kora.fraittech.co.ke';
 const SITE_YEAR = '2026';
-const SITE_INSTAGRAM = 'https://www.instagram.com/';
-const SITE_TIKTOK = 'https://www.tiktok.com/';
+const SITE_INSTAGRAM = 'https://www.instagram.com/koralasercraft';
+const SITE_TIKTOK = 'https://www.tiktok.com/@koralasercraft';
 const SITE_FACEBOOK = 'https://www.facebook.com/';
 const SITE_YOUTUBE = 'https://www.youtube.com/';
 

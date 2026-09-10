@@ -62,7 +62,7 @@ $step_details = [
             'Mention product type — medals, awards, souvenirs, or a mix',
             'Include approximate quantities so we can plan production',
         ],
-        'image' => ['file' => 'medals/medal_hero.jpeg', 'alt' => 'Custom KORA medals and awards for events', 'width' => 2752, 'height' => 1536],
+        'image' => ['file' => 'medals/hero.jpeg', 'alt' => 'Custom KORA medals for events and challenges', 'width' => 2752, 'height' => 1536],
     ],
     [
         'id' => 'step-send-details',
@@ -102,7 +102,7 @@ $step_details = [
             'Confirm quantities before production starts',
             'Approval triggers scheduling in the KORA workshop',
         ],
-        'image' => ['file' => 'finish_hero.jpeg', 'alt' => 'Custom pieces being finished on the laser engraver', 'width' => 2752, 'height' => 1536],
+        'image' => ['file' => 'laser_1.jpg', 'alt' => 'Close-up of the laser engraving a custom design into wood', 'width' => 6000, 'height' => 3376],
         'reverse' => true,
     ],
     [
@@ -132,10 +132,10 @@ $prepare_items = [
 <section class="how-hero" aria-labelledby="how-hero-title">
     <img
         class="how-hero__image reveal"
-        src="<?= img('finish_hero.jpeg') ?>"
-        alt="KORA workshop where custom awards are made by hand"
-        width="2752"
-        height="1536"
+        src="<?= img('laser_1.jpg') ?>"
+        alt="Laser engraving a custom design in the KORA workshop"
+        width="6000"
+        height="3376"
         loading="eager"
     >
     <div class="how-hero__overlay">
