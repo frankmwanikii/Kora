@@ -44,7 +44,7 @@
                     <p class="site-footer__newsletter-text"><?= htmlspecialchars($footer_newsletter_text) ?></p>
 
                     <?php if ($newsletter_ok): ?>
-                        <p class="site-footer__newsletter-success" role="status">Thanks for subscribing — we will keep you posted.</p>
+                        <p class="site-footer__newsletter-success" role="status">Thanks for subscribing — a confirmation email is on its way.</p>
                     <?php elseif ($newsletter_err): ?>
                         <p class="site-footer__newsletter-error" role="alert">Please enter a valid email address and try again.</p>
                     <?php endif; ?>

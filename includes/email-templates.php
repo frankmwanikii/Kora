@@ -678,21 +678,97 @@ function kora_quote_email_html(
 }
 
 /**
- * Modern newsletter subscription notice for the studio inbox.
+ * @return array{subject: string, text: string, html: string}
  */
-function kora_newsletter_email_html(string $email): string
+function kora_newsletter_admin_email(string $email): array
+{
+    $subject = 'Newsletter subscription — ' . SITE_NAME;
+
+    $text = "New newsletter subscription from the website.\n\n"
+        . 'Email: ' . $email . "\n"
+        . 'Submitted: ' . date('Y-m-d H:i:s') . "\n";
+
+    return [
+        'subject' => $subject,
+        'text' => $text,
+        'html' => kora_newsletter_email_html($email, true),
+    ];
+}
+
+/**
+ * Confirmation sent to the subscriber after signup.
+ *
+ * @return array{subject: string, text: string, html: string}
+ */
+function kora_newsletter_confirmation_email(string $email): array
+{
+    $subject = 'You are subscribed — ' . SITE_NAME;
+
+    $text = "Hi there,\n\n"
+        . "Thank you for subscribing to the KORA newsletter. You are on the list for updates on new awards, medals, souvenirs, and seasonal offers from our Nanyuki workshop.\n\n"
+        . 'Subscribed email: ' . $email . "\n\n"
+        . "You can unsubscribe at any time by replying to this email or contacting us.\n\n"
+        . 'Browse our work: ' . rtrim(SITE_URL, '/') . "/work-samples.php\n"
+        . 'WhatsApp: ' . SITE_WHATSAPP . "\n\n"
+        . kora_email_regards_text() . "\n\n"
+        . SITE_NAME . ' — ' . SITE_ADDRESS . "\n";
+
+    return [
+        'subject' => $subject,
+        'text' => $text,
+        'html' => kora_newsletter_email_html($email, false),
+    ];
+}
+
+/**
+ * Shared HTML layout for newsletter admin notice and subscriber confirmation.
+ */
+function kora_newsletter_email_html(string $email, bool $isAdmin): string
 {
     $navy = '#333652';
     $copper = '#a66a3d';
+    $safeEmail = kora_email_escape($email);
+    $submitted = kora_email_escape(date('j F Y, H:i'));
 
-    return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Newsletter subscription</title></head>'
+    $heading = $isAdmin ? 'New newsletter subscription' : 'You are subscribed';
+    $intro = $isAdmin
+        ? 'Someone subscribed from the website footer. Add them to your mailing list if needed.'
+        : 'Thank you for joining the KORA newsletter. We will keep you posted on new collections, workshop news, and seasonal offers.';
+
+    $actions = '';
+    if ($isAdmin) {
+        $actions = '<p style="margin:22px 0 0;">'
+            . '<a href="mailto:' . $safeEmail . '" style="display:inline-block;padding:12px 18px;background:' . $copper . ';color:#fff;text-decoration:none;border-radius:999px;font-weight:700;font-size:14px;">Email subscriber</a>'
+            . '</p>';
+    } else {
+        $actions = '<p style="margin:22px 0 0;">'
+            . '<a href="' . kora_email_escape(rtrim(SITE_URL, '/') . '/work-samples.php') . '" style="display:inline-block;padding:12px 18px;background:' . $copper . ';color:#fff;text-decoration:none;border-radius:999px;font-weight:700;font-size:14px;margin:0 8px 8px 0;">See our work</a>'
+            . '<a href="' . kora_email_escape(SITE_WHATSAPP) . '" style="display:inline-block;padding:12px 18px;background:' . $navy . ';color:#fff;text-decoration:none;border-radius:999px;font-weight:700;font-size:14px;margin:0 0 8px;">WhatsApp us</a>'
+            . '</p>'
+            . '<p style="margin:16px 0 0;font-size:13px;line-height:1.55;color:#6f7388;">You can unsubscribe at any time by replying to this email or contacting us. Read our <a href="' . kora_email_escape(rtrim(SITE_URL, '/') . '/privacy.php') . '" style="color:' . $copper . ';font-weight:700;text-decoration:none;">privacy policy</a>.</p>';
+    }
+
+    return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>' . kora_email_escape($heading) . '</title></head>'
         . '<body style="margin:0;padding:24px;background:#f0eeea;font-family:Arial,Helvetica,sans-serif;color:' . $navy . ';">'
-        . '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:18px;overflow:hidden;">'
+        . '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:620px;margin:0 auto;background:#ffffff;border-radius:18px;overflow:hidden;">'
         . kora_email_simple_header_html('Newsletter')
-        . '<tr><td style="padding:24px;"><p style="margin:0 0 12px;font-size:16px;line-height:1.55;">Someone subscribed from the website.</p>'
-        . '<p style="margin:0;padding:14px 16px;background:#f7f0ea;border-radius:12px;font-size:16px;font-weight:700;word-break:break-word;">' . kora_email_escape($email) . '</p>'
-        . '<p style="margin:16px 0 0;font-size:13px;color:#6f7388;">Submitted ' . kora_email_escape(date('j F Y, H:i')) . '</p></td></tr>'
-        . '</table></body></html>';
+        . '<tr><td style="padding:28px;">'
+        . '<h1 style="margin:0 0 12px;font-size:24px;line-height:1.25;color:' . $navy . ';font-weight:700;">' . kora_email_escape($heading) . '</h1>'
+        . '<p style="margin:0 0 18px;font-size:16px;line-height:1.55;">' . kora_email_escape($intro) . '</p>'
+        . '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">'
+        . '<tr>'
+        . '<td style="padding:10px 0;border-bottom:1px solid #eceae6;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:#6f7388;width:34%;vertical-align:top;">Email</td>'
+        . '<td style="padding:10px 0;border-bottom:1px solid #eceae6;font-size:15px;color:' . $navy . ';font-weight:600;vertical-align:top;word-break:break-word;">' . $safeEmail . '</td>'
+        . '</tr>'
+        . '<tr>'
+        . '<td style="padding:10px 0;border-bottom:1px solid #eceae6;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:#6f7388;width:34%;vertical-align:top;">Submitted</td>'
+        . '<td style="padding:10px 0;border-bottom:1px solid #eceae6;font-size:15px;color:' . $navy . ';font-weight:600;vertical-align:top;">' . $submitted . '</td>'
+        . '</tr>'
+        . '</table>'
+        . $actions
+        . (!$isAdmin ? kora_email_regards_html() : '')
+        . '<p style="margin:22px 0 0;font-size:13px;color:#6f7388;">' . kora_email_escape(SITE_NAME) . ' · ' . kora_email_escape(SITE_ADDRESS) . '</p>'
+        . '</td></tr></table></body></html>';
 }
 
 /**
