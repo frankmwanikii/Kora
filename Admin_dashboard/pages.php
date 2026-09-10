@@ -21,6 +21,7 @@ $previewMap = [
     'work_samples' => '/work-samples',
     'how_it_works' => '/how-it-works',
     'request_quote' => '/request-quote',
+    'contact_us' => '/contact-us',
     'footer' => '/#footer-newsletter-title',
     'privacy' => '/privacy.php',
 ];

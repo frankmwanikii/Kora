@@ -18,6 +18,7 @@ function kora_sections_catalog(): array
         ['slug' => 'work_samples', 'title' => 'Work Samples', 'description' => 'Studio samples page galleries.', 'group' => 'Pages'],
         ['slug' => 'how_it_works', 'title' => 'How It Works', 'description' => 'Detailed ordering process page.', 'group' => 'Pages'],
         ['slug' => 'request_quote', 'title' => 'Request Quote', 'description' => 'Dedicated quotation page content.', 'group' => 'Pages'],
+        ['slug' => 'contact_us', 'title' => 'Contact Us', 'description' => 'Dedicated contact page — channels, copy, and form labels.', 'group' => 'Pages'],
         ['slug' => 'footer', 'title' => 'Footer', 'description' => 'Footer newsletter, navigation, and tagline.', 'group' => 'General'],
         ['slug' => 'privacy', 'title' => 'Privacy Policy', 'description' => 'Privacy policy page copy.', 'group' => 'Pages'],
     ];
@@ -32,7 +33,7 @@ function kora_default_settings(): array
         'site_address' => 'Laikipia, Nanyuki, Kenya',
         'site_phone' => '0790355707',
         'site_phone_link' => '+254790355707',
-        'site_email' => 'koradesignprint@gmail.com',
+        'site_email' => 'info@kora.fraittech.co.ke',
         'site_url' => 'https://kora.fraittech.co.ke',
         'site_year' => '2026',
         'site_instagram' => 'https://www.instagram.com/koralasercraft',
@@ -69,6 +70,7 @@ function kora_section_defaults(string $slug): array
                     ['label' => 'Our work', 'href' => '/work-samples', 'page' => 'work-samples'],
                     ['label' => 'Products', 'href' => '/products', 'page' => 'products'],
                     ['label' => 'How it works', 'href' => '/how-it-works', 'page' => 'how-it-works'],
+                    ['label' => 'Contact Us', 'href' => '/contact-us', 'page' => 'contact-us'],
                 ],
                 'cta' => [
                     'label' => 'Request a Quotation',
@@ -537,6 +539,7 @@ function kora_section_defaults(string $slug): array
                     ['label' => 'Our work', 'href' => '/work-samples.php'],
                     ['label' => 'Products', 'href' => '/products.php'],
                     ['label' => 'How it works', 'href' => '/how-it-works.php'],
+                    ['label' => 'Contact Us', 'href' => '/contact-us'],
                 ],
                 'products_nav' => [
                     ['label' => 'Medals', 'href' => '/products.php#medals'],
@@ -544,6 +547,73 @@ function kora_section_defaults(string $slug): array
                     ['label' => 'Souvenirs', 'href' => '/products.php#souvenirs'],
                 ],
                 'credit' => ['label' => 'Designed by Fraittech', 'href' => 'https://fraittech.co.ke'],
+            ],
+        ],
+        'contact_us' => [
+            'slug' => 'contact_us',
+            'title' => $title,
+            'content' => [
+                'hero' => [
+                    'title' => 'Contact Us',
+                    'lead' => 'Speak with the KORA studio — we are here to help with awards, medals, plaques, and custom keepsakes.',
+                    'image' => [
+                        'file' => 'workshop_hero.jpeg',
+                        'alt' => 'KORA workshop in Nanyuki',
+                        'width' => 1200,
+                        'height' => 800,
+                    ],
+                ],
+                'intro_title' => 'Reach the workshop',
+                'intro_text' => 'Whether you have a quick question or want to talk through an idea before requesting a quotation, send us a message or use the channels below. We reply within one business day.',
+                'channels' => [
+                    [
+                        'label' => 'WhatsApp',
+                        'value' => 'Chat with KORA',
+                        'href' => 'https://wa.me/254790355707',
+                        'external' => true,
+                        'icon' => 'whatsapp',
+                    ],
+                    [
+                        'label' => 'Phone',
+                        'value' => '0790355707',
+                        'href' => 'tel:+254790355707',
+                        'external' => false,
+                        'icon' => 'phone',
+                    ],
+                    [
+                        'label' => 'Email',
+                        'value' => 'info@kora.fraittech.co.ke',
+                        'href' => 'mailto:info@kora.fraittech.co.ke',
+                        'external' => false,
+                        'icon' => 'email',
+                    ],
+                    [
+                        'label' => 'Visit',
+                        'value' => 'Laikipia, Nanyuki, Kenya',
+                        'href' => '',
+                        'external' => false,
+                        'icon' => 'location',
+                    ],
+                    [
+                        'label' => 'Hours',
+                        'value' => 'Mon–Sat, 8am–6pm',
+                        'href' => '',
+                        'external' => false,
+                        'icon' => 'hours',
+                    ],
+                ],
+                'form' => [
+                    'title' => 'Send a message',
+                    'note' => 'Fields marked * are required. We will get back to you by email or phone.',
+                    'action' => '/process-contact.php',
+                    'submit_label' => 'Send message',
+                ],
+                'aside' => [
+                    'title' => 'Need a formal quotation?',
+                    'text' => 'Share your event details, quantity, and materials for a priced quote within 24 hours.',
+                    'cta_label' => 'Request a Quotation',
+                    'cta_href' => '/request-quote',
+                ],
             ],
         ],
         'privacy' => [

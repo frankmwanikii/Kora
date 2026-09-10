@@ -115,21 +115,9 @@ $trustIcons = [
 
 <section class="quote-section section" id="quote-form-section" aria-labelledby="quote-form-title">
     <div class="container">
-        <?php if ($quote_submitted): ?>
-        <div class="quote-success reveal" role="status">
-            <span class="quote-success__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            </span>
-            <div>
-                <h2 class="quote-success__title">Request received — thank you!</h2>
-                <p class="quote-success__text">Your quotation request has been sent, and a confirmation email is on its way. We will review your brief and respond within one business day. Need it faster? <a href="https://wa.me/254790355707" target="_blank" rel="noopener noreferrer">Message us on WhatsApp</a>.</p>
-            </div>
-        </div>
-        <?php endif; ?>
-
         <div class="quote-layout">
             <div class="quote-form-col reveal">
-                <form class="quote-form" id="quote-form" action="<?= htmlspecialchars($quoteFormAction) ?>" method="post" enctype="multipart/form-data" novalidate>
+                <form class="quote-form" id="quote-form" action="<?= htmlspecialchars($quoteFormAction) ?>" method="post" enctype="multipart/form-data" novalidate data-whatsapp="<?= htmlspecialchars(SITE_WHATSAPP) ?>">
                     <header class="quote-form__header">
                         <h2 id="quote-form-title"><?= htmlspecialchars($quoteFormTitle) ?></h2>
                         <p class="quote-form__note"><?= htmlspecialchars($quoteFormNote) ?></p>
@@ -208,6 +196,22 @@ $trustIcons = [
                     <button type="submit" class="btn btn--solid">Request a Quotation</button>
                     <p class="form-field__error" id="form-status" role="status"></p>
                 </form>
+
+                <div
+                    class="quote-success quote-success--below<?= $quote_submitted ? ' is-visible' : '' ?>"
+                    id="quote-success"
+                    role="status"
+                    <?= $quote_submitted ? '' : 'hidden' ?>
+                    aria-live="polite"
+                >
+                    <span class="quote-success__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                    </span>
+                    <div>
+                        <h2 class="quote-success__title">Request received — thank you!</h2>
+                        <p class="quote-success__text">Your quotation request has been sent, and a confirmation email is on its way. We will review your brief and respond within one business day. Need it faster? <a href="<?= htmlspecialchars(SITE_WHATSAPP) ?>" target="_blank" rel="noopener noreferrer" data-quote-whatsapp>Message us on WhatsApp</a>.</p>
+                    </div>
+                </div>
             </div>
 
             <aside class="quote-aside" aria-label="Ordering help">

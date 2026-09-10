@@ -12,7 +12,7 @@ define('SITE_LOCATION', (string) ($_kora_cms['site_location'] ?? 'Made in-house 
 define('SITE_ADDRESS', (string) ($_kora_cms['site_address'] ?? 'Laikipia, Nanyuki, Kenya'));
 define('SITE_PHONE', (string) ($_kora_cms['site_phone'] ?? '0790355707'));
 define('SITE_PHONE_LINK', (string) ($_kora_cms['site_phone_link'] ?? '+254790355707'));
-define('SITE_EMAIL', (string) ($_kora_cms['site_email'] ?? 'koradesignprint@gmail.com'));
+define('SITE_EMAIL', (string) ($_kora_cms['site_email'] ?? 'info@kora.fraittech.co.ke'));
 define('SITE_URL', (string) ($_kora_cms['site_url'] ?? 'https://kora.fraittech.co.ke'));
 define('SITE_YEAR', (string) ($_kora_cms['site_year'] ?? '2026'));
 define('SITE_INSTAGRAM', (string) ($_kora_cms['site_instagram'] ?? 'https://www.instagram.com/koralasercraft'));

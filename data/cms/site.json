@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "updated_at": "2026-09-10 18:08:16",
+    "updated_at": "2026-09-10 18:19:08",
     "settings": {
         "site_name": "KORA",
         "site_tagline": "Custom Awards & Trophies",
@@ -8,7 +8,7 @@
         "site_address": "Laikipia, Nanyuki, Kenya",
         "site_phone": "0790355707",
         "site_phone_link": "+254790355707",
-        "site_email": "koradesignprint@gmail.com",
+        "site_email": "info@kora.fraittech.co.ke",
         "site_url": "https://kora.fraittech.co.ke",
         "site_year": "2026",
         "site_instagram": "https://www.instagram.com/koralasercraft",
@@ -129,6 +129,10 @@
                     {
                         "label": "How it works",
                         "href": "/how-it-works.php"
+                    },
+                    {
+                        "label": "Contact Us",
+                        "href": "/contact-us"
                     }
                 ],
                 "products_nav": [
@@ -174,6 +178,11 @@
                         "label": "How it works",
                         "href": "/how-it-works",
                         "page": "how-it-works"
+                    },
+                    {
+                        "label": "Contact Us",
+                        "href": "/contact-us",
+                        "page": "contact-us"
                     }
                 ],
                 "cta": {
@@ -999,6 +1008,72 @@
                     "alt": "Custom KORA awards, medals, and souvenirs displayed in the workshop",
                     "width": 2752,
                     "height": 1536
+                }
+            }
+        },
+        "contact_us": {
+            "title": "Contact Us",
+            "content": {
+                "hero": {
+                    "title": "Contact Us",
+                    "lead": "Speak with the KORA studio — we are here to help with awards, medals, plaques, and custom keepsakes.",
+                    "image": {
+                        "file": "workshop_hero.jpeg",
+                        "alt": "KORA workshop in Nanyuki",
+                        "width": 1200,
+                        "height": 800
+                    }
+                },
+                "intro_title": "Reach the workshop",
+                "intro_text": "Whether you have a quick question or want to talk through an idea before requesting a quotation, send us a message or use the channels below. We reply within one business day.",
+                "channels": [
+                    {
+                        "label": "WhatsApp",
+                        "value": "Chat with KORA",
+                        "href": "https://wa.me/254790355707",
+                        "external": true,
+                        "icon": "whatsapp"
+                    },
+                    {
+                        "label": "Phone",
+                        "value": "0790355707",
+                        "href": "tel:+254790355707",
+                        "external": false,
+                        "icon": "phone"
+                    },
+                    {
+                        "label": "Email",
+                        "value": "info@kora.fraittech.co.ke",
+                        "href": "mailto:info@kora.fraittech.co.ke",
+                        "external": false,
+                        "icon": "email"
+                    },
+                    {
+                        "label": "Visit",
+                        "value": "Laikipia, Nanyuki, Kenya",
+                        "href": "",
+                        "external": false,
+                        "icon": "location"
+                    },
+                    {
+                        "label": "Hours",
+                        "value": "Mon–Sat, 8am–6pm",
+                        "href": "",
+                        "external": false,
+                        "icon": "hours"
+                    }
+                ],
+                "form": {
+                    "title": "Send a message",
+                    "note": "Fields marked * are required. We will get back to you by email or phone.",
+                    "action": "/process-contact.php",
+                    "submit_label": "Send message"
+                },
+                "aside": {
+                    "title": "Need a formal quotation?",
+                    "text": "Share your event details, quantity, and materials for a priced quote within 24 hours.",
+                    "cta_label": "Request a Quotation",
+                    "cta_href": "/request-quote"
                 }
             }
         }

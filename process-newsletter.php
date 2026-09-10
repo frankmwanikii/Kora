@@ -32,12 +32,7 @@ $plain = "New newsletter subscription from the website.\n\n"
     . "Email: {$email}\n"
     . 'Submitted: ' . date('Y-m-d H:i:s') . "\n";
 
-$html = '<p style="margin:0 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.5;color:#333652;">'
-    . 'New newsletter subscription from the website.'
-    . '</p>'
-    . '<p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;color:#333652;">'
-    . '<strong>Email:</strong> ' . htmlspecialchars($email, ENT_QUOTES, 'UTF-8')
-    . '</p>';
+$html = kora_newsletter_email_html($email);
 
 kora_send_mail(SITE_EMAIL, $subject, $plain, $email, [], $html);
 

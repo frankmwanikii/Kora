@@ -18,11 +18,18 @@ function respondQuoteRequest(array $errors, string $successRedirect, string $err
 
         if ($errors !== []) {
             http_response_code(422);
-            echo json_encode(['errors' => $errors], JSON_THROW_ON_ERROR);
+            echo json_encode(['ok' => false, 'errors' => $errors], JSON_THROW_ON_ERROR);
             exit;
         }
 
-        echo json_encode(['redirect' => $successRedirect], JSON_THROW_ON_ERROR);
+        echo json_encode([
+            'ok' => true,
+            'success' => true,
+            'message' => 'Request received — thank you!',
+            'whatsapp' => SITE_WHATSAPP,
+            // Keep redirect for older clients; frontend no longer navigates on success.
+            'redirect' => $successRedirect,
+        ], JSON_THROW_ON_ERROR);
         exit;
     }
 
@@ -171,6 +178,8 @@ if ($uploads !== []) {
             'name' => $safeName,
             'mime' => in_array($detectedMime, $allowedMimeTypes, true) ? $detectedMime : $fallbackMime,
             'data' => $fileData,
+            'size' => $size,
+            'cid' => 'kora-attach-' . count($attachments),
         ];
     }
 }
@@ -179,9 +188,12 @@ if ($errors !== []) {
     respondQuoteRequest($errors, $successRedirect, $errorRedirect);
 }
 
-$attachmentNames = array_column($attachments, 'name');
-$adminEmail = kora_quote_admin_email($fields, $attachmentNames);
-$confirmationEmail = kora_quote_confirmation_email($fields, $attachmentNames);
+$attachments = kora_persist_quote_attachments($attachments);
+$adminEmail = kora_quote_admin_email($fields, $attachments);
+$confirmationEmail = kora_quote_confirmation_email($fields, $attachments);
+
+// Persist the request even if SMTP fails, so leads are never lost.
+kora_store_quote_request($fields, $attachments);
 
 $adminSent = kora_send_mail(
     SITE_EMAIL,
@@ -201,9 +213,14 @@ $confirmationSent = kora_send_mail(
     $confirmationEmail['html']
 );
 
-if (!$adminSent || !$confirmationSent) {
-    $errors['form'] = 'Your request could not be sent. Please try again or email us directly.';
+if (!$adminSent) {
+    $errors['form'] = 'Your request was saved, but email delivery failed. Please email us directly at ' . SITE_EMAIL . '.';
     respondQuoteRequest($errors, $successRedirect, $errorRedirect);
+}
+
+// Confirmation to the customer is best-effort once admin mail succeeded.
+if (!$confirmationSent) {
+    error_log('KORA quote confirmation email failed for ' . $fields['email']);
 }
 
 respondQuoteRequest([], $successRedirect, $errorRedirect);

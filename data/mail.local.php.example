@@ -1,0 +1,34 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Copy to mail.local.php and fill in credentials.
+ *
+ * On Hostinger VPS, smtp.hostinger.com:465 is preferred when mailbox auth works.
+ * Keep a local Postfix fallback on 127.0.0.1:25 (kora.fraittech.co.ke:465 is often closed).
+ */
+return [
+    'host' => 'smtp.hostinger.com',
+    'port' => 465,
+    'encryption' => 'ssl',
+    'username' => 'info@kora.fraittech.co.ke',
+    'password' => 'CHANGE_ME',
+    'from_email' => 'info@kora.fraittech.co.ke',
+    'from_name' => 'KORA',
+    'timeout' => 30,
+    'transports' => [
+        [
+            'host' => 'smtp.hostinger.com',
+            'port' => 465,
+            'encryption' => 'ssl',
+        ],
+        [
+            'host' => '127.0.0.1',
+            'port' => 25,
+            'encryption' => 'none',
+            'username' => '',
+            'password' => '',
+        ],
+    ],
+];

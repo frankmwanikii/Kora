@@ -1,0 +1,16 @@
+{
+    "id": "contact-20260910-162601-143b4d4a",
+    "submitted_at": "2026-09-10T16:26:01+00:00",
+    "fields": {
+        "name": "frank mwaniki",
+        "organization": "frank hosting services",
+        "email": "f33mwaniki@gmail.com",
+        "phone": "+254742451220",
+        "subject": "Regarding frank mwaniki — Golden Strikers Academy",
+        "message": "Hello"
+    },
+    "mail": {
+        "admin": true,
+        "customer": true
+    }
+}

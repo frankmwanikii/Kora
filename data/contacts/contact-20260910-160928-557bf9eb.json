@@ -1,0 +1,16 @@
+{
+    "id": "contact-20260910-160928-557bf9eb",
+    "submitted_at": "2026-09-10T16:09:28+00:00",
+    "fields": {
+        "name": "Test User",
+        "organization": "KORA QA",
+        "email": "test@example.com",
+        "phone": "+254790355707",
+        "subject": "Contact page check",
+        "message": "Hello from automated contact form test."
+    },
+    "mail": {
+        "admin": true,
+        "customer": true
+    }
+}

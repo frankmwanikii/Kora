@@ -9,6 +9,8 @@
 
     var statusEl = document.getElementById('form-status');
     var submitBtn = form.querySelector('button[type="submit"]');
+    var successEl = document.getElementById('quote-success');
+    var defaultSubmitLabel = submitBtn ? submitBtn.textContent.trim() : 'Request a Quotation';
     var inspoInput = document.getElementById('inspo_files');
     var inspoListEl = document.getElementById('inspo-file-list');
     var uploadProgressEl = document.getElementById('upload-progress');
@@ -328,6 +330,78 @@
         });
     }
 
+    function showQuoteSuccess(whatsappUrl) {
+        if (!successEl) {
+            if (statusEl) {
+                statusEl.textContent = 'Request received — thank you! Your quotation request has been sent.';
+                statusEl.style.color = 'var(--color-navy)';
+            }
+            return;
+        }
+
+        var link = successEl.querySelector('[data-quote-whatsapp]');
+        if (link && whatsappUrl) {
+            link.setAttribute('href', whatsappUrl);
+        }
+
+        successEl.hidden = false;
+        successEl.classList.add('is-visible');
+
+        if (statusEl) {
+            statusEl.textContent = '';
+        }
+
+        // Keep the form usable for another request, but clear values.
+        form.reset();
+        inspoSelectedFiles = [];
+        renderInspoFileList();
+        hideUploadProgress();
+
+        fields.forEach(function (field) {
+            var errorEl = document.getElementById(field.id + '-error');
+            field.classList.remove('is-invalid');
+            if (errorEl) {
+                errorEl.textContent = '';
+            }
+        });
+
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = defaultSubmitLabel;
+        }
+
+        isSubmitting = false;
+
+        window.requestAnimationFrame(function () {
+            successEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+    }
+
+    function applyServerErrors(errors) {
+        var firstMessage = '';
+
+        Object.keys(errors || {}).forEach(function (key) {
+            var message = errors[key];
+            if (!firstMessage) {
+                firstMessage = message;
+            }
+
+            if (key === 'form') {
+                return;
+            }
+
+            var field = form.querySelector('[name="' + key + '"], [name="' + key + '[]"]');
+            if (field) {
+                setFieldState(field, message);
+            }
+        });
+
+        if (statusEl) {
+            statusEl.textContent = firstMessage || messages.uploadFailed;
+            statusEl.style.color = '#8b3a3a';
+        }
+    }
+
     function submitWithProgress() {
         var xhr = new XMLHttpRequest();
         var formData = new FormData(form);
@@ -335,6 +409,11 @@
         var uploadActive = false;
 
         appendInspoFilesToFormData(formData);
+
+        if (successEl) {
+            successEl.hidden = true;
+            successEl.classList.remove('is-visible');
+        }
 
         isSubmitting = true;
         renderInspoFileList();
@@ -351,6 +430,7 @@
 
         xhr.open('POST', form.action);
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.setRequestHeader('Accept', 'application/json');
 
         xhr.upload.addEventListener('progress', function (event) {
             if (!hasFiles || event.total === 0 || event.loaded === 0) {
@@ -379,12 +459,12 @@
                 response = null;
             }
 
-            if (xhr.status >= 200 && xhr.status < 300 && response && response.redirect) {
+            if (xhr.status >= 200 && xhr.status < 300 && response && (response.success || response.ok)) {
                 if (hasFiles && uploadActive) {
                     setInspoFileStatuses(messages.uploaded, 'is-uploaded');
                 }
 
-                window.location.href = response.redirect;
+                showQuoteSuccess(response.whatsapp || form.getAttribute('data-whatsapp') || '');
                 return;
             }
 
@@ -392,20 +472,16 @@
 
             if (submitBtn) {
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Request a Quotation';
+                submitBtn.textContent = defaultSubmitLabel;
             }
 
             hideUploadProgress();
             renderInspoFileList();
 
-            if (statusEl) {
-                if (response && response.errors) {
-                    var firstError = Object.values(response.errors)[0];
-                    statusEl.textContent = firstError || messages.uploadFailed;
-                } else {
-                    statusEl.textContent = messages.uploadFailed;
-                }
-
+            if (response && response.errors) {
+                applyServerErrors(response.errors);
+            } else if (statusEl) {
+                statusEl.textContent = messages.uploadFailed;
                 statusEl.style.color = '#8b3a3a';
             }
         });
@@ -415,7 +491,7 @@
 
             if (submitBtn) {
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Request a Quotation';
+                submitBtn.textContent = defaultSubmitLabel;
             }
 
             hideUploadProgress();
@@ -481,8 +557,269 @@
         submitWithProgress();
     });
 
-    if (window.location.search.indexOf('submitted=1') !== -1 && statusEl) {
-        statusEl.textContent = 'Thank you. Your quotation request has been sent, and a confirmation email is on its way. We will respond shortly.';
-        statusEl.style.color = 'var(--color-navy)';
+    if (window.location.search.indexOf('submitted=1') !== -1) {
+        showQuoteSuccess(form.getAttribute('data-whatsapp') || '');
+
+        if (window.history && window.history.replaceState) {
+            var cleanUrl = window.location.pathname + window.location.hash;
+            window.history.replaceState({}, document.title, cleanUrl);
+        }
+    }
+})();
+
+(function () {
+    'use strict';
+
+    var form = document.getElementById('contact-form');
+
+    if (!form) {
+        return;
+    }
+
+    var statusEl = document.getElementById('contact-form-status');
+    var submitBtn = form.querySelector('button[type="submit"]');
+    var successEl = document.getElementById('contact-success');
+    var defaultSubmitLabel = submitBtn ? submitBtn.textContent.trim() : 'Send message';
+    var fields = form.querySelectorAll('[data-validate]');
+    var isSubmitting = false;
+
+    var messages = {
+        required: 'This field is required.',
+        email: 'Enter a valid email address.',
+        phone: 'Enter a valid phone number.',
+        failed: 'Something went wrong. Please try again.'
+    };
+
+    function isValidEmail(value) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+
+    function isValidPhone(value) {
+        return /^[\d\s+()-]{7,20}$/.test(value);
+    }
+
+    function getFieldError(field) {
+        var rule = field.getAttribute('data-validate') || '';
+        var value = (field.value || '').trim();
+
+        if (rule === 'optional') {
+            return '';
+        }
+
+        if (value === '') {
+            return messages.required;
+        }
+
+        if (rule === 'email' && !isValidEmail(value)) {
+            return messages.email;
+        }
+
+        if (rule === 'phone' && !isValidPhone(value)) {
+            return messages.phone;
+        }
+
+        return '';
+    }
+
+    function setFieldState(field, error) {
+        var errorEl = document.getElementById(field.id + '-error');
+
+        if (error) {
+            field.classList.add('is-invalid');
+            if (errorEl) {
+                errorEl.textContent = error;
+            }
+            return false;
+        }
+
+        field.classList.remove('is-invalid');
+        if (errorEl) {
+            errorEl.textContent = '';
+        }
+
+        return true;
+    }
+
+    function validateForm() {
+        var valid = true;
+
+        fields.forEach(function (field) {
+            if (!setFieldState(field, getFieldError(field))) {
+                valid = false;
+            }
+        });
+
+        return valid;
+    }
+
+    function showContactSuccess(whatsappUrl) {
+        if (!successEl) {
+            if (statusEl) {
+                statusEl.textContent = 'Message sent — thank you!';
+                statusEl.style.color = 'var(--color-navy)';
+            }
+            return;
+        }
+
+        var link = successEl.querySelector('[data-contact-whatsapp]');
+        if (link && whatsappUrl) {
+            link.setAttribute('href', whatsappUrl);
+        }
+
+        successEl.hidden = false;
+        successEl.classList.add('is-visible');
+
+        if (statusEl) {
+            statusEl.textContent = '';
+        }
+
+        form.reset();
+
+        fields.forEach(function (field) {
+            setFieldState(field, '');
+        });
+
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = defaultSubmitLabel;
+        }
+
+        isSubmitting = false;
+
+        window.requestAnimationFrame(function () {
+            successEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+    }
+
+    function applyServerErrors(errors) {
+        var firstMessage = '';
+
+        Object.keys(errors || {}).forEach(function (key) {
+            var message = errors[key];
+            if (!firstMessage) {
+                firstMessage = message;
+            }
+
+            if (key === 'form') {
+                return;
+            }
+
+            var field = form.querySelector('[name="' + key + '"]');
+            if (field) {
+                setFieldState(field, message);
+            }
+        });
+
+        if (statusEl) {
+            statusEl.textContent = firstMessage || messages.failed;
+            statusEl.style.color = '#8b3a3a';
+        }
+    }
+
+    function submitAjax() {
+        isSubmitting = true;
+
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending…';
+        }
+
+        if (successEl) {
+            successEl.hidden = true;
+            successEl.classList.remove('is-visible');
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', form.getAttribute('action') || '/process-contact.php');
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.setRequestHeader('Accept', 'application/json');
+
+        xhr.addEventListener('load', function () {
+            var response = null;
+
+            try {
+                response = JSON.parse(xhr.responseText);
+            } catch (error) {
+                response = null;
+            }
+
+            if (xhr.status >= 200 && xhr.status < 300 && response && (response.success || response.ok)) {
+                showContactSuccess(response.whatsapp || form.getAttribute('data-whatsapp') || '');
+                return;
+            }
+
+            isSubmitting = false;
+
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = defaultSubmitLabel;
+            }
+
+            if (response && response.errors) {
+                applyServerErrors(response.errors);
+            } else if (statusEl) {
+                statusEl.textContent = messages.failed;
+                statusEl.style.color = '#8b3a3a';
+            }
+        });
+
+        xhr.addEventListener('error', function () {
+            isSubmitting = false;
+
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = defaultSubmitLabel;
+            }
+
+            if (statusEl) {
+                statusEl.textContent = messages.failed;
+                statusEl.style.color = '#8b3a3a';
+            }
+        });
+
+        xhr.send(new FormData(form));
+    }
+
+    fields.forEach(function (field) {
+        field.addEventListener('blur', function () {
+            setFieldState(field, getFieldError(field));
+        });
+
+        field.addEventListener('input', function () {
+            if (field.classList.contains('is-invalid')) {
+                setFieldState(field, getFieldError(field));
+            }
+        });
+    });
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        if (isSubmitting) {
+            return;
+        }
+
+        if (!validateForm()) {
+            if (statusEl) {
+                statusEl.textContent = 'Please correct the highlighted fields.';
+                statusEl.style.color = '#8b3a3a';
+            }
+            return;
+        }
+
+        if (statusEl) {
+            statusEl.textContent = '';
+        }
+
+        submitAjax();
+    });
+
+    if (window.location.search.indexOf('submitted=1') !== -1) {
+        showContactSuccess(form.getAttribute('data-whatsapp') || '');
+
+        if (window.history && window.history.replaceState) {
+            var cleanUrl = window.location.pathname + window.location.hash;
+            window.history.replaceState({}, document.title, cleanUrl);
+        }
     }
 })();

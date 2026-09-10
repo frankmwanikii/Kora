@@ -12,6 +12,7 @@ $headerNavDefault = [
     ['label' => 'Our work', 'href' => '/work-samples', 'page' => 'work-samples'],
     ['label' => 'Products', 'href' => '/products', 'page' => 'products'],
     ['label' => 'How it works', 'href' => '/how-it-works', 'page' => 'how-it-works'],
+    ['label' => 'Contact Us', 'href' => '/contact-us', 'page' => 'contact-us'],
 ];
 $headerNav = (isset($headerCms['nav']) && is_array($headerCms['nav']) && $headerCms['nav'] !== [])
     ? array_values($headerCms['nav'])

@@ -19,7 +19,7 @@ $contact_channels = cms_list('contact', 'channels', [
             <p class="lead-italic"><?= htmlspecialchars($contact_lead) ?></p>
         </div>
         <div class="contact-section__form reveal">
-            <form class="quote-form" id="quote-form" action="<?= htmlspecialchars($contact_action) ?>" method="post" enctype="multipart/form-data" novalidate>
+            <form class="quote-form" id="quote-form" action="<?= htmlspecialchars($contact_action) ?>" method="post" enctype="multipart/form-data" novalidate data-whatsapp="<?= htmlspecialchars(SITE_WHATSAPP) ?>">
                 <div class="form-row">
                     <div class="form-field">
                         <label for="name">Your name</label>
@@ -89,6 +89,21 @@ $contact_channels = cms_list('contact', 'channels', [
                 <button type="submit" class="btn btn--solid"><?= htmlspecialchars($contact_submit) ?></button>
                 <p class="form-field__error" id="form-status" role="status"></p>
             </form>
+            <div
+                class="quote-success quote-success--below<?= (isset($_GET['submitted']) && $_GET['submitted'] === '1') ? ' is-visible' : '' ?>"
+                id="quote-success"
+                role="status"
+                <?= (isset($_GET['submitted']) && $_GET['submitted'] === '1') ? '' : 'hidden' ?>
+                aria-live="polite"
+            >
+                <span class="quote-success__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                </span>
+                <div>
+                    <h2 class="quote-success__title">Request received — thank you!</h2>
+                    <p class="quote-success__text">Your quotation request has been sent, and a confirmation email is on its way. We will review your brief and respond within one business day. Need it faster? <a href="<?= htmlspecialchars(SITE_WHATSAPP) ?>" target="_blank" rel="noopener noreferrer" data-quote-whatsapp>Message us on WhatsApp</a>.</p>
+                </div>
+            </div>
         </div>
         <div class="contact-section__channels btn-group btn-group--row reveal">
             <?php foreach ($contact_channels as $channel): ?>
