@@ -100,11 +100,11 @@ $products = [
         ],
         'materials' => 'Premium MDF, solid wood, plywood, and acrylic',
         'ideal_for' => 'Marathons, fun runs, school sports, corporate challenges, and charity walks',
-        'hero' => ['file' => 'medals-collection.jpg', 'alt' => 'Collection of custom KORA medals', 'width' => 800, 'height' => 533],
+        'hero' => ['file' => 'medals/medal_hero.jpeg', 'alt' => 'Collection of custom KORA medals', 'width' => 2752, 'height' => 1536],
         'images' => [
-            ['file' => 'sample-marathon.jpg', 'alt' => 'Marathon medal design sample', 'width' => 600, 'height' => 351],
-            ['file' => 'sample-sports.jpg', 'alt' => 'Sports medal on ribbon', 'width' => 600, 'height' => 400],
-            ['file' => 'hero-laser.jpg', 'alt' => 'Laser engraving on a custom medal', 'width' => 1200, 'height' => 800],
+            ['file' => 'medals/marathon.jpg', 'alt' => 'Custom Steps of Hope marathon medal', 'width' => 3376, 'height' => 4199],
+            ['file' => 'medals/bike.jpg', 'alt' => 'Custom bike challenge medal', 'width' => 2926, 'height' => 3455],
+            ['file' => 'medals/football.jpg', 'alt' => 'Custom football tournament medal', 'width' => 3740, 'height' => 2538],
         ],
     ],
     [
@@ -122,11 +122,11 @@ $products = [
         ],
         'materials' => 'Solid wood, MDF, plywood, acrylic, and mixed finishes',
         'ideal_for' => 'Corporate awards, sports championships, school prizegivings, and NGO recognition',
-        'hero' => ['file' => 'award-trophy.jpg', 'alt' => 'Handcrafted wooden trophy by KORA', 'width' => 900, 'height' => 1350],
+        'hero' => ['file' => 'awards/Award_hero.jpeg', 'alt' => 'Handcrafted business award by KORA', 'width' => 2752, 'height' => 1536],
         'images' => [
-            ['file' => 'sample-award-2.jpg', 'alt' => 'Engraved acrylic award', 'width' => 600, 'height' => 394],
-            ['file' => 'acrylic-color.jpg', 'alt' => 'Layered acrylic award detail', 'width' => 800, 'height' => 533],
-            ['file' => 'process-craft.jpg', 'alt' => 'Trophy finishing in the KORA workshop', 'width' => 900, 'height' => 600],
+            ['file' => 'awards/Aw5.jpg', 'alt' => 'Mountain bike award with acrylic detail', 'width' => 2796, 'height' => 3123],
+            ['file' => 'awards/Padel Award.jpg', 'alt' => 'Nairobi Padel Open champion award', 'width' => 3614, 'height' => 3016],
+            ['file' => 'awards/Golf_award.jpg', 'alt' => 'Custom golf award', 'width' => 3376, 'height' => 4667],
         ],
         'reverse' => true,
     ],
@@ -145,11 +145,11 @@ $products = [
         ],
         'materials' => 'Mixed materials depending on product — wood accents, acrylic, and branded merchandise bases',
         'ideal_for' => 'Conferences, corporate events, tourism campaigns, and branded giveaways',
-        'hero' => ['file' => 'souvenir-tumbler.jpg', 'alt' => 'Branded tumbler souvenir by KORA', 'width' => 800, 'height' => 1200],
+        'hero' => ['file' => 'souvenir/souvenir_hero.jpeg', 'alt' => 'Branded travel souvenir gift set by KORA', 'width' => 2752, 'height' => 1536],
         'images' => [
-            ['file' => 'sample-pin.jpg', 'alt' => 'Custom pin badge souvenir', 'width' => 600, 'height' => 400],
-            ['file' => 'souvenir-magnet.jpg', 'alt' => 'Fridge magnet souvenir sample', 'width' => 600, 'height' => 400],
-            ['file' => 'sample-gift.jpg', 'alt' => 'Branded corporate giveaway', 'width' => 600, 'height' => 450],
+            ['file' => 'souvenir/travel.png', 'alt' => 'Wanderlust travel souvenir box with tumbler and keepsakes', 'width' => 1402, 'height' => 1122],
+            ['file' => 'souvenir/souvenir_hero.jpeg', 'alt' => 'Open souvenir gift set with engraved tumbler', 'width' => 2752, 'height' => 1536],
+            ['file' => 'medals/workshop_hero.jpeg', 'alt' => 'Souvenir gift set displayed with awards and medals', 'width' => 2752, 'height' => 1536],
         ],
     ],
 ];
@@ -157,16 +157,15 @@ $products = [
 <section class="products-hero" aria-labelledby="products-hero-title">
     <img
         class="products-hero__image reveal"
-        src="<?= img('process-craft.jpg') ?>"
-        alt="Craftsperson finishing a custom award in the KORA workshop"
-        width="900"
-        height="600"
+        src="<?= img('awards/Hero Section.jpg') ?>"
+        alt="Collection of custom KORA awards and trophies"
+        width="4558"
+        height="3376"
         loading="eager"
     >
     <div class="products-hero__overlay">
         <div class="products-hero__content reveal">
             <h1 id="products-hero-title" class="products-hero__title">Our Products</h1>
-            <p class="products-hero__subtitle lead-italic">Custom awards, medals, and souvenirs — designed and made in-house in Laikipia.</p>
         </div>
     </div>
 </section>
@@ -204,17 +203,17 @@ $products = [
             </div>
             <div class="products-materials__grid">
                 <article class="products-materials__item">
-                    <img src="<?= img('material-wood.jpg') ?>" alt="Solid wood material sample" width="800" height="533" loading="lazy">
+                    <img src="<?= img('wood_material.jpeg') ?>" alt="Solid wood material sample" width="2752" height="1536" loading="lazy">
                     <h3>Wood</h3>
                     <p>Rich, natural finishes ideal for trophies and premium medals.</p>
                 </article>
                 <article class="products-materials__item">
-                    <img src="<?= img('material-mdf.jpg') ?>" alt="MDF material sample" width="800" height="533" loading="lazy">
+                    <img src="<?= img('mdf_material.jpeg') ?>" alt="MDF material sample" width="2752" height="1536" loading="lazy">
                     <h3>MDF &amp; Plywood</h3>
                     <p>Reliable bases for shaped medals, layered builds, and detailed engraving.</p>
                 </article>
                 <article class="products-materials__item">
-                    <img src="<?= img('acrylic-color.jpg') ?>" alt="Acrylic material sample" width="800" height="533" loading="lazy">
+                    <img src="<?= img('acrylic_material.jpeg') ?>" alt="Acrylic material sample" width="2752" height="1536" loading="lazy">
                     <h3>Acrylic</h3>
                     <p>Clean, modern awards with colour, depth, and sharp branded detail.</p>
                 </article>

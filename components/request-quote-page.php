@@ -8,17 +8,16 @@ $quote_min_date = date('Y-m-d');
 <section class="quote-hero" aria-labelledby="quote-hero-title">
     <img
         class="quote-hero__image"
-        src="<?= img('process-craft.jpg') ?>"
-        alt="KORA craftsperson finishing a custom engraved award"
-        width="1200"
-        height="800"
+        src="<?= img('acrylic_material.jpeg') ?>"
+        alt="Acrylic material used for custom KORA awards"
+        width="2752"
+        height="1536"
         fetchpriority="high"
         draggable="false"
     >
     <div class="quote-hero__overlay">
         <div class="quote-hero__content">
             <h1 class="quote-hero__title" id="quote-hero-title">Request a Quotation</h1>
-            <p class="quote-hero__subtitle lead-italic">Share your brief and receive a tailored, no-obligation quote within 24 hours.</p>
         </div>
     </div>
 </section>

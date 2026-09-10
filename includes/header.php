@@ -34,13 +34,13 @@ $page_description = $page_description ?? 'KORA creates custom awards, medals, pl
             <nav class="site-nav" aria-label="Primary">
                 <ul class="site-nav__list">
                     <li><a class="site-nav__link<?= $current_page === 'home' ? ' is-active' : '' ?>" href="/">Home</a></li>
-                    <li><a class="site-nav__link<?= $current_page === 'work-samples' ? ' is-active' : '' ?>" href="/work-samples.php">Our work</a></li>
-                    <li><a class="site-nav__link<?= $current_page === 'products' ? ' is-active' : '' ?>" href="/products.php">Products</a></li>
-                    <li><a class="site-nav__link<?= $current_page === 'how-it-works' ? ' is-active' : '' ?>" href="/how-it-works.php">How it works</a></li>
+                    <li><a class="site-nav__link<?= $current_page === 'work-samples' ? ' is-active' : '' ?>" href="/work-samples">Our work</a></li>
+                    <li><a class="site-nav__link<?= $current_page === 'products' ? ' is-active' : '' ?>" href="/products">Products</a></li>
+                    <li><a class="site-nav__link<?= $current_page === 'how-it-works' ? ' is-active' : '' ?>" href="/how-it-works">How it works</a></li>
                 </ul>
             </nav>
             <div class="site-header__actions">
-                <a class="site-header__cta btn btn--solid" href="/request-quote.php">Request a Quotation</a>
+                <a class="site-header__cta btn btn--solid" href="/request-quote">Request a Quotation</a>
                 <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
                     <span class="nav-toggle__bars" aria-hidden="true">
                         <span></span>
@@ -55,10 +55,10 @@ $page_description = $page_description ?? 'KORA creates custom awards, medals, pl
     <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile" hidden>
         <ul class="mobile-nav__list">
             <li><a class="mobile-nav__link<?= $current_page === 'home' ? ' is-active' : '' ?>" href="/">Home</a></li>
-            <li><a class="mobile-nav__link<?= $current_page === 'work-samples' ? ' is-active' : '' ?>" href="/work-samples.php">Our work</a></li>
-            <li><a class="mobile-nav__link<?= $current_page === 'products' ? ' is-active' : '' ?>" href="/products.php">Products</a></li>
-            <li><a class="mobile-nav__link<?= $current_page === 'how-it-works' ? ' is-active' : '' ?>" href="/how-it-works.php">How it works</a></li>
-            <li class="mobile-nav__cta-item"><a class="mobile-nav__cta btn btn--solid" href="/request-quote.php">Request a Quotation</a></li>
+            <li><a class="mobile-nav__link<?= $current_page === 'work-samples' ? ' is-active' : '' ?>" href="/work-samples">Our work</a></li>
+            <li><a class="mobile-nav__link<?= $current_page === 'products' ? ' is-active' : '' ?>" href="/products">Products</a></li>
+            <li><a class="mobile-nav__link<?= $current_page === 'how-it-works' ? ' is-active' : '' ?>" href="/how-it-works">How it works</a></li>
+            <li class="mobile-nav__cta-item"><a class="mobile-nav__cta btn btn--solid" href="/request-quote">Request a Quotation</a></li>
         </ul>
     </nav>
     <main id="main">

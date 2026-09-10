@@ -11,6 +11,10 @@ const SITE_PHONE_LINK = '+254790355707';
 const SITE_EMAIL = 'koradesignprint@gmail.com';
 const SITE_URL = 'https://kora.fraittech.co.ke';
 const SITE_YEAR = '2026';
+const SITE_INSTAGRAM = 'https://www.instagram.com/';
+const SITE_TIKTOK = 'https://www.tiktok.com/';
+const SITE_FACEBOOK = 'https://www.facebook.com/';
+const SITE_YOUTUBE = 'https://www.youtube.com/';
 
 require_once __DIR__ . '/brand-logo.php';
 
@@ -21,7 +25,10 @@ function asset(string $path): string
 
 function img(string $filename): string
 {
-    return asset('assets/images/' . ltrim($filename, '/'));
+    $parts = explode('/', ltrim($filename, '/'));
+    $encoded = implode('/', array_map('rawurlencode', $parts));
+
+    return asset('assets/images/' . $encoded);
 }
 
 function page_title(string $page = ''): string

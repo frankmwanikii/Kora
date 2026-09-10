@@ -11,14 +11,20 @@ function render_sample_gallery(string $label, array $images): void
     <div class="sample-gallery-wrap">
         <div class="sample-gallery" tabindex="0" role="region" aria-label="<?= htmlspecialchars($label) ?> sample gallery">
             <?php foreach ($images as $image): ?>
-                <img
-                    src="<?= img($image['file']) ?>"
-                    alt="<?= htmlspecialchars($image['alt']) ?>"
-                    width="<?= (int) $image['width'] ?>"
-                    height="<?= (int) $image['height'] ?>"
-                    loading="lazy"
-                    draggable="false"
+                <button
+                    type="button"
+                    class="sample-gallery__item"
+                    aria-label="View larger: <?= htmlspecialchars($image['alt']) ?>"
                 >
+                    <img
+                        src="<?= img($image['file']) ?>"
+                        alt="<?= htmlspecialchars($image['alt']) ?>"
+                        width="<?= (int) $image['width'] ?>"
+                        height="<?= (int) $image['height'] ?>"
+                        loading="lazy"
+                        draggable="false"
+                    >
+                </button>
             <?php endforeach; ?>
         </div>
         <div class="sample-gallery__controls">
@@ -38,42 +44,41 @@ function render_sample_gallery(string $label, array $images): void
 }
 
 $medal_samples = [
-    ['file' => 'sample-marathon.jpg', 'alt' => 'Custom marathon medal sample', 'width' => 600, 'height' => 351],
-    ['file' => 'sample-sports.jpg', 'alt' => 'Race medal on ribbon sample', 'width' => 600, 'height' => 400],
-    ['file' => 'medals-collection.jpg', 'alt' => 'Wooden engraved medal sample', 'width' => 800, 'height' => 533],
-    ['file' => 'sample-team.jpg', 'alt' => 'Event medal collection sample', 'width' => 600, 'height' => 400],
-    ['file' => 'process-wood.jpg', 'alt' => 'Wood medal crafting in the KORA workshop', 'width' => 900, 'height' => 600],
-    ['file' => 'hero-laser.jpg', 'alt' => 'Laser engraving detail on a custom medal', 'width' => 1200, 'height' => 800],
-    ['file' => 'sample-office.jpg', 'alt' => 'Corporate event medal presentation', 'width' => 600, 'height' => 400],
+    ['file' => 'medals/marathon.jpg', 'alt' => 'Custom Steps of Hope marathon medal', 'width' => 3376, 'height' => 4199],
+    ['file' => 'medals/bike.jpg', 'alt' => 'Custom bike challenge medal', 'width' => 2926, 'height' => 3455],
+    ['file' => 'medals/football.jpg', 'alt' => 'Custom football tournament medal', 'width' => 3740, 'height' => 2538],
+    ['file' => 'medals/steps.jpg', 'alt' => 'Custom layered steps medal', 'width' => 2251, 'height' => 4355],
+    ['file' => 'medals/medal_hero.jpeg', 'alt' => 'Collection of custom KORA medals and awards', 'width' => 2752, 'height' => 1536],
+    ['file' => 'medals/hero.jpeg', 'alt' => 'Custom KORA medals on display', 'width' => 2752, 'height' => 1536],
 ];
 
 $award_samples = [
-    ['file' => 'award-trophy.jpg', 'alt' => 'Wooden trophy award sample', 'width' => 900, 'height' => 1350],
-    ['file' => 'sample-award-2.jpg', 'alt' => 'Engraved acrylic award sample', 'width' => 600, 'height' => 394],
-    ['file' => 'acrylic-color.jpg', 'alt' => 'Layered acrylic award detail', 'width' => 800, 'height' => 533],
-    ['file' => 'process-craft.jpg', 'alt' => 'Hand finished trophy in workshop', 'width' => 900, 'height' => 600],
-    ['file' => 'material-wood.jpg', 'alt' => 'Premium wood award material sample', 'width' => 800, 'height' => 533],
-    ['file' => 'material-mdf.jpg', 'alt' => 'MDF award base material sample', 'width' => 800, 'height' => 533],
-    ['file' => 'about-workshop.jpg', 'alt' => 'Awards being prepared in the KORA workshop', 'width' => 1600, 'height' => 1067],
+    ['file' => 'awards/Award_hero.jpeg', 'alt' => 'Business award trophy on a wooden base', 'width' => 2752, 'height' => 1536],
+    ['file' => 'awards/Aw5.jpg', 'alt' => 'Mountain bike award with acrylic detail', 'width' => 2796, 'height' => 3123],
+    ['file' => 'awards/Golf_award.jpg', 'alt' => 'Custom golf award', 'width' => 3376, 'height' => 4667],
+    ['file' => 'awards/Padel Award.jpg', 'alt' => 'Nairobi Padel Open champion award', 'width' => 3614, 'height' => 3016],
+    ['file' => 'awards/Graduation.jpg', 'alt' => 'Custom graduation award', 'width' => 3682, 'height' => 3376],
+    ['file' => 'awards/Football.jpg', 'alt' => 'Custom football tournament award', 'width' => 3376, 'height' => 5221],
+    ['file' => 'awards/teacher.jpg', 'alt' => 'Custom teacher appreciation award', 'width' => 3203, 'height' => 3680],
+    ['file' => 'awards/retire.jpg', 'alt' => 'Custom retirement plaque', 'width' => 3448, 'height' => 3376],
+    ['file' => 'awards/Golf_Award_1.jpg', 'alt' => 'Layered golf award sample', 'width' => 3376, 'height' => 3801],
+    ['file' => 'awards/Aw3.jpg', 'alt' => 'Custom engraved award sample', 'width' => 3376, 'height' => 3593],
+    ['file' => 'awards/Aw4.jpg', 'alt' => 'Multi-layer award sample', 'width' => 3185, 'height' => 3376],
+    ['file' => 'awards/appreciate.png', 'alt' => 'Appreciation award sample', 'width' => 1254, 'height' => 1254],
 ];
 
 $souvenir_samples = [
-    ['file' => 'souvenir-tumbler.jpg', 'alt' => 'Branded tumbler souvenir sample', 'width' => 800, 'height' => 1200],
-    ['file' => 'sample-pin.jpg', 'alt' => 'Custom pin badge souvenir sample', 'width' => 600, 'height' => 400],
-    ['file' => 'souvenir-magnet.jpg', 'alt' => 'Fridge magnet souvenir sample', 'width' => 600, 'height' => 400],
-    ['file' => 'sample-gift.jpg', 'alt' => 'Branded corporate giveaway sample', 'width' => 600, 'height' => 450],
-    ['file' => 'sample-office.jpg', 'alt' => 'Branded souvenirs for a corporate team', 'width' => 600, 'height' => 400],
-    ['file' => 'process-craft.jpg', 'alt' => 'Custom souvenir finishing detail', 'width' => 900, 'height' => 600],
-    ['file' => 'about-workshop.jpg', 'alt' => 'Souvenir production in the KORA workshop', 'width' => 1600, 'height' => 1067],
+    ['file' => 'souvenir/souvenir_hero.jpeg', 'alt' => 'Branded travel souvenir gift set', 'width' => 2752, 'height' => 1536],
+    ['file' => 'souvenir/travel.png', 'alt' => 'Wanderlust travel souvenir box with tumbler and keepsakes', 'width' => 1402, 'height' => 1122],
 ];
 ?>
 <section class="work-samples-hero" aria-labelledby="samples-title">
     <img
         class="work-samples-hero__image reveal"
-        src="<?= img('medals-collection.jpg') ?>"
+        src="<?= img('medals/medal_hero.jpeg') ?>"
         alt="Collection of custom KORA medals and awards"
-        width="1600"
-        height="1067"
+        width="2752"
+        height="1536"
         loading="eager"
     >
     <div class="work-samples-hero__overlay">
@@ -112,3 +117,28 @@ $souvenir_samples = [
         </div>
     </article>
 </section>
+
+<div class="sample-lightbox" id="sample-lightbox" hidden>
+    <div class="sample-lightbox__backdrop" data-lightbox-close></div>
+    <div class="sample-lightbox__dialog" role="dialog" aria-modal="true" aria-labelledby="sample-lightbox-caption">
+        <button type="button" class="sample-lightbox__close" data-lightbox-close aria-label="Close image viewer">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" aria-hidden="true">
+                <path d="M6 6l12 12M18 6 6 18"/>
+            </svg>
+        </button>
+        <button type="button" class="sample-lightbox__nav sample-lightbox__nav--prev" data-lightbox-prev aria-label="Previous image">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14.5 6.5 9 12l5.5 5.5"/>
+            </svg>
+        </button>
+        <figure class="sample-lightbox__figure">
+            <img class="sample-lightbox__image" src="" alt="" width="1200" height="1200">
+            <figcaption class="sample-lightbox__caption" id="sample-lightbox-caption"></figcaption>
+        </figure>
+        <button type="button" class="sample-lightbox__nav sample-lightbox__nav--next" data-lightbox-next aria-label="Next image">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9.5 6.5 15 12l-5.5 5.5"/>
+            </svg>
+        </button>
+    </div>
+</div>

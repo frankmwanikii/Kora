@@ -62,7 +62,7 @@ $step_details = [
             'Mention product type — medals, awards, souvenirs, or a mix',
             'Include approximate quantities so we can plan production',
         ],
-        'image' => ['file' => 'sample-team.jpg', 'alt' => 'Team celebrating with custom KORA awards', 'width' => 600, 'height' => 400],
+        'image' => ['file' => 'medals/medal_hero.jpeg', 'alt' => 'Custom KORA medals and awards for events', 'width' => 2752, 'height' => 1536],
     ],
     [
         'id' => 'step-send-details',
@@ -75,7 +75,7 @@ $step_details = [
             'List names, titles, or categories if they vary per piece',
             'Note ribbon colours, sizes, or packaging preferences',
         ],
-        'image' => ['file' => 'sample-office.jpg', 'alt' => 'Corporate team reviewing branded award details', 'width' => 600, 'height' => 400],
+        'image' => ['file' => 'awards/Aw1.jpg', 'alt' => 'Laser engraving a custom design in the KORA workshop', 'width' => 3376, 'height' => 3593],
         'reverse' => true,
     ],
     [
@@ -89,7 +89,7 @@ $step_details = [
             'We can suggest alternatives to match your budget',
             'Ask questions — we are happy to explain each line item',
         ],
-        'image' => ['file' => 'sample-award-2.jpg', 'alt' => 'Engraved award sample prepared for client review', 'width' => 600, 'height' => 394],
+        'image' => ['file' => 'awards/Award_hero.jpeg', 'alt' => 'Finished award sample prepared for client review', 'width' => 2752, 'height' => 1536],
     ],
     [
         'id' => 'step-approve',
@@ -102,7 +102,7 @@ $step_details = [
             'Confirm quantities before production starts',
             'Approval triggers scheduling in the KORA workshop',
         ],
-        'image' => ['file' => 'process-craft.jpg', 'alt' => 'Craftsperson finishing a custom award in the workshop', 'width' => 900, 'height' => 600],
+        'image' => ['file' => 'finish_hero.jpeg', 'alt' => 'Custom pieces being finished on the laser engraver', 'width' => 2752, 'height' => 1536],
         'reverse' => true,
     ],
     [
@@ -116,7 +116,7 @@ $step_details = [
             'Collection available from our Laikipia workshop',
             'Delivery options can be discussed when you confirm',
         ],
-        'image' => ['file' => 'about-workshop.jpg', 'alt' => 'Finished KORA products ready in the workshop', 'width' => 1600, 'height' => 1067],
+        'image' => ['file' => 'medals/workshop_hero.jpeg', 'alt' => 'Finished KORA awards, medals, and souvenirs ready for handover', 'width' => 2752, 'height' => 1536],
     ],
 ];
 
@@ -132,16 +132,15 @@ $prepare_items = [
 <section class="how-hero" aria-labelledby="how-hero-title">
     <img
         class="how-hero__image reveal"
-        src="<?= img('workshop-banner.jpg') ?>"
+        src="<?= img('finish_hero.jpeg') ?>"
         alt="KORA workshop where custom awards are made by hand"
-        width="1600"
-        height="1067"
+        width="2752"
+        height="1536"
         loading="eager"
     >
     <div class="how-hero__overlay">
         <div class="how-hero__content reveal">
             <h1 id="how-hero-title" class="how-hero__title">How It Works</h1>
-            <p class="how-hero__subtitle lead-italic">A clear five-step path from first brief to finished pieces — made in-house in Laikipia.</p>
         </div>
     </div>
 </section>

@@ -5,7 +5,7 @@
             <p class="lead-italic">Tell us what you have in mind. We’ll review your brief and recommend suitable options based on your event, quantity, materials, and budget.</p>
         </div>
         <div class="contact-section__form reveal">
-            <form class="quote-form" id="quote-form" action="/process-quote.php" method="post" enctype="multipart/form-data" novalidate>
+            <form class="quote-form" id="quote-form" action="/process-quote" method="post" enctype="multipart/form-data" novalidate>
                 <div class="form-row">
                     <div class="form-field">
                         <label for="name">Your name</label>

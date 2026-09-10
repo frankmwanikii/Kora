@@ -37,8 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // Whitelisted redirect targets per form origin.
 $fromQuotePage = trim((string) ($_POST['form_origin'] ?? '')) === 'request-quote';
-$successRedirect = $fromQuotePage ? '/request-quote.php?submitted=1' : '/?submitted=1#contact';
-$errorRedirect = $fromQuotePage ? '/request-quote.php#quote-form-section' : '/#contact';
+$successRedirect = $fromQuotePage ? '/request-quote?submitted=1' : '/?submitted=1#contact';
+$errorRedirect = $fromQuotePage ? '/request-quote#quote-form-section' : '/#contact';
 
 // Honeypot: bots that fill this hidden field get a fake success response.
 if (trim((string) ($_POST['website'] ?? '')) !== '') {

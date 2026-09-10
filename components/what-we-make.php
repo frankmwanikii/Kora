@@ -8,10 +8,10 @@
             <article class="what-we-make__card what-we-make__card--awards reveal">
                 <div class="what-we-make__pill">
                     <img
-                        src="<?= img('award-trophy.jpg') ?>"
-                        alt="Wooden award trophy crafted in the KORA studio"
-                        width="900"
-                        height="1350"
+                        src="<?= img('awards/Aw5.jpg') ?>"
+                        alt="Custom mountain bike award crafted in the KORA studio"
+                        width="2796"
+                        height="3123"
                         loading="lazy"
                     >
                 </div>
@@ -21,10 +21,10 @@
             <article class="what-we-make__card what-we-make__card--medals reveal">
                 <div class="what-we-make__pill">
                     <img
-                        src="<?= img('medals-collection.jpg') ?>"
-                        alt="Collection of medals and race awards"
-                        width="800"
-                        height="533"
+                        src="<?= img('medals/marathon.jpg') ?>"
+                        alt="Custom layered wooden marathon medal"
+                        width="3376"
+                        height="4199"
                         loading="lazy"
                     >
                 </div>
@@ -34,10 +34,10 @@
             <article class="what-we-make__card what-we-make__card--souvenirs reveal">
                 <div class="what-we-make__pill">
                     <img
-                        src="<?= img('souvenir-tumbler.jpg') ?>"
-                        alt="Branded insulated tumbler souvenir"
-                        width="800"
-                        height="1200"
+                        src="<?= img('souvenir/souvenir_hero.jpeg') ?>"
+                        alt="Branded travel souvenir gift set with tumbler and keepsakes"
+                        width="2752"
+                        height="1536"
                         loading="lazy"
                     >
                 </div>
@@ -56,18 +56,18 @@
                 <div class="process-stack">
                     <img
                         class="process-stack__back"
-                        src="<?= img('process-craft.jpg') ?>"
-                        alt="Craftsman working with wood in the KORA workshop"
-                        width="900"
-                        height="600"
+                        src="<?= img('finish_hero.jpeg') ?>"
+                        alt="Laser engraver finishing a custom piece in the KORA workshop"
+                        width="2752"
+                        height="1536"
                         loading="lazy"
                     >
                     <img
                         class="process-stack__front"
-                        src="<?= img('process-wood.jpg') ?>"
-                        alt="Wood shavings from hand shaping in the workshop"
-                        width="900"
-                        height="600"
+                        src="<?= img('awards/Aw1.jpg') ?>"
+                        alt="Close-up of laser engraving a custom design onto wood"
+                        width="3376"
+                        height="3593"
                         loading="lazy"
                     >
                 </div>
@@ -77,19 +77,19 @@
                 <div class="materials" aria-label="Materials">
                     <div class="material">
                         <div class="material__thumb">
-                            <img src="<?= img('material-wood.jpg') ?>" alt="" width="108" height="108" loading="lazy">
+                            <img src="<?= img('wood_material.jpeg') ?>" alt="" width="108" height="108" loading="lazy">
                         </div>
                         <span class="material__name">Wood</span>
                     </div>
                     <div class="material">
                         <div class="material__thumb">
-                            <img src="<?= img('material-mdf.jpg') ?>" alt="" width="108" height="108" loading="lazy">
+                            <img src="<?= img('mdf_material.jpeg') ?>" alt="" width="108" height="108" loading="lazy">
                         </div>
                         <span class="material__name">MDF</span>
                     </div>
                     <div class="material">
                         <div class="material__thumb">
-                            <img src="<?= img('acrylic-color.jpg') ?>" alt="" width="108" height="108" loading="lazy">
+                            <img src="<?= img('acrylic_material.jpeg') ?>" alt="" width="108" height="108" loading="lazy">
                         </div>
                         <span class="material__name">Acrylic</span>
                     </div>
