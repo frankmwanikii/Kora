@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/seo.php';
 
 $current_page = $current_page ?? 'home';
 
@@ -24,20 +25,65 @@ $headerCtaHref = (string) ($headerCta['href'] ?? '/request-quote');
 
 $page_title = $page_title ?? page_title();
 $page_description = $page_description ?? (string) ($headerCms['default_description'] ?? 'KORA creates custom awards, medals, plaques, and souvenirs in Nanyuki, Laikipia — laser-cut and hand-finished. Recognition made personal for organisations, NGOs, corporates, and sports teams.');
+$page_keywords = $page_keywords ?? 'custom awards Kenya, custom medals Nanyuki, trophies Laikipia, laser cut awards, plaques, souvenirs, KORA Laser Craft, corporate awards Kenya, marathon medals';
+$page_robots = $page_robots ?? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+$page_og_type = $page_og_type ?? 'website';
+$page_og_image = $page_og_image ?? seo_default_image();
+$page_og_image_alt = $page_og_image_alt ?? (SITE_NAME . ' — custom awards, medals, and souvenirs');
+$canonical_url = seo_canonical_url($page_canonical ?? null);
+$page_schemas = is_array($page_schemas ?? null) ? $page_schemas : [];
+
+$logo_icon = seo_image_url('logos/kora_logo1.webp');
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-KE">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($page_title) ?></title>
     <meta name="description" content="<?= htmlspecialchars($page_description) ?>">
-    <link rel="canonical" href="<?= htmlspecialchars(SITE_URL . ($_SERVER['REQUEST_URI'] === '/' ? '' : $_SERVER['REQUEST_URI'])) ?>">
+    <meta name="keywords" content="<?= htmlspecialchars($page_keywords) ?>">
+    <meta name="author" content="<?= htmlspecialchars(SITE_NAME) ?>">
+    <meta name="robots" content="<?= htmlspecialchars($page_robots) ?>">
+    <meta name="googlebot" content="<?= htmlspecialchars($page_robots) ?>">
+    <meta name="theme-color" content="#333652">
+    <meta name="color-scheme" content="light">
+    <meta name="format-detection" content="telephone=yes">
+    <meta name="geo.region" content="KE-30">
+    <meta name="geo.placename" content="Nanyuki, Laikipia">
+    <meta name="geo.position" content="-0.0166;37.0728">
+    <meta name="ICBM" content="-0.0166, 37.0728">
+
+    <link rel="canonical" href="<?= htmlspecialchars($canonical_url) ?>">
+    <link rel="alternate" hreflang="en-ke" href="<?= htmlspecialchars($canonical_url) ?>">
+    <link rel="alternate" hreflang="x-default" href="<?= htmlspecialchars($canonical_url) ?>">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="<?= htmlspecialchars(seo_url('/sitemap.xml')) ?>">
+
+    <link rel="icon" href="<?= htmlspecialchars($logo_icon) ?>" type="image/webp">
+    <link rel="apple-touch-icon" href="<?= htmlspecialchars($logo_icon) ?>">
+
+    <meta property="og:site_name" content="<?= htmlspecialchars(SITE_NAME) ?>">
+    <meta property="og:locale" content="en_KE">
     <meta property="og:title" content="<?= htmlspecialchars($page_title) ?>">
     <meta property="og:description" content="<?= htmlspecialchars($page_description) ?>">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="<?= htmlspecialchars(SITE_URL) ?>">
-    <meta property="og:image" content="<?= htmlspecialchars(SITE_URL . asset('assets/images/logos/kora_logo1.webp')) ?>">
+    <meta property="og:type" content="<?= htmlspecialchars($page_og_type) ?>">
+    <meta property="og:url" content="<?= htmlspecialchars($canonical_url) ?>">
+    <meta property="og:image" content="<?= htmlspecialchars($page_og_image) ?>">
+    <meta property="og:image:secure_url" content="<?= htmlspecialchars($page_og_image) ?>">
+    <meta property="og:image:alt" content="<?= htmlspecialchars($page_og_image_alt) ?>">
+    <meta property="og:image:type" content="image/webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= htmlspecialchars($page_title) ?>">
+    <meta name="twitter:description" content="<?= htmlspecialchars($page_description) ?>">
+    <meta name="twitter:image" content="<?= htmlspecialchars($page_og_image) ?>">
+    <meta name="twitter:image:alt" content="<?= htmlspecialchars($page_og_image_alt) ?>">
+
+    <?php
+    $baseSchemas = [seo_organization_schema(), seo_website_schema()];
+    seo_render_json_ld(array_merge($baseSchemas, $page_schemas));
+    ?>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">

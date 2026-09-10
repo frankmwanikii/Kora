@@ -146,6 +146,44 @@ if ($galleries === []) {
         </article>
     <?php endforeach; ?>
 </section>
+<?php
+if (function_exists('seo_render_json_ld') && $galleries !== []) {
+    $imageObjects = [];
+    foreach ($galleries as $gallery) {
+        if (!is_array($gallery)) {
+            continue;
+        }
+        $galleryTitle = (string) ($gallery['title'] ?? 'KORA sample');
+        foreach ((array) ($gallery['images'] ?? []) as $image) {
+            if (!is_array($image)) {
+                continue;
+            }
+            $file = (string) ($image['file'] ?? '');
+            if ($file === '') {
+                continue;
+            }
+            $imageObjects[] = [
+                '@type' => 'ImageObject',
+                'contentUrl' => seo_image_url($file),
+                'name' => (string) ($image['alt'] ?? $galleryTitle),
+                'caption' => (string) ($image['alt'] ?? $galleryTitle),
+                'representativeOfPage' => false,
+            ];
+        }
+    }
+
+    if ($imageObjects !== []) {
+        seo_render_json_ld([
+            '@context' => 'https://schema.org',
+            '@type' => 'ImageGallery',
+            'name' => $work_hero_title,
+            'url' => seo_url('/work-samples'),
+            'description' => 'Studio samples of custom medals, awards, trophies, and souvenirs by KORA.',
+            'image' => $imageObjects,
+        ]);
+    }
+}
+?>
 
 <div class="sample-lightbox" id="sample-lightbox" hidden>
     <div class="sample-lightbox__backdrop" data-lightbox-close></div>

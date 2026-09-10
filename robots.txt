@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Private / app areas
+Disallow: /Admin_dashboard/
+Disallow: /data/
+Disallow: /vendor/
+Disallow: /includes/
+Disallow: /components/
+
+# Form handlers and private file views
+Disallow: /process-contact.php
+Disallow: /process-newsletter.php
+Disallow: /process-quote.php
+Disallow: /view-quote-attachment.php
+
+Sitemap: https://kora.fraittech.co.ke/sitemap.xml

@@ -26,6 +26,7 @@ define('SITE_FOOTER_TAGLINE', (string) ($_kora_cms['site_tagline_footer'] ?? 'Re
 unset($_kora_cms);
 
 require_once __DIR__ . '/brand-logo.php';
+require_once __DIR__ . '/seo.php';
 
 function asset(string $path): string
 {

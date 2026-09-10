@@ -43,12 +43,6 @@
                     <h2 id="footer-newsletter-title" class="site-footer__newsletter-title"><?= htmlspecialchars($footer_newsletter_title) ?></h2>
                     <p class="site-footer__newsletter-text"><?= htmlspecialchars($footer_newsletter_text) ?></p>
 
-                    <?php if ($newsletter_ok): ?>
-                        <p class="site-footer__newsletter-success" role="status">Thanks for subscribing — a confirmation email is on its way.</p>
-                    <?php elseif ($newsletter_err): ?>
-                        <p class="site-footer__newsletter-error" role="alert">Please enter a valid email address and try again.</p>
-                    <?php endif; ?>
-
                     <form class="site-footer__newsletter-form" action="/process-newsletter.php" method="post" novalidate>
                         <label class="visually-hidden" for="newsletter-email">Email address</label>
                         <div class="site-footer__newsletter-field">
@@ -67,6 +61,12 @@
                         </div>
                         <input type="text" name="website" value="" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true">
                     </form>
+
+                    <?php if ($newsletter_ok): ?>
+                        <p class="site-footer__newsletter-success" id="newsletter-feedback" role="status" data-auto-dismiss="6000">Thanks for subscribing — a confirmation email is on its way.</p>
+                    <?php elseif ($newsletter_err): ?>
+                        <p class="site-footer__newsletter-error" id="newsletter-feedback" role="alert" data-auto-dismiss="8000">Please enter a valid email address and try again.</p>
+                    <?php endif; ?>
 
                     <p class="site-footer__newsletter-note">You will be able to unsubscribe at any time. Read our <a href="<?= htmlspecialchars($footer_privacy_href) ?>">privacy policy here</a>.</p>
                 </div>

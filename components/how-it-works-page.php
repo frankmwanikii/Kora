@@ -318,3 +318,47 @@ $howCtaSecondaryLabel = (string) ($howCta['secondary_label'] ?? 'View our produc
         </div>
     </div>
 </section>
+<?php
+if (function_exists('seo_render_json_ld') && is_array($step_details) && $step_details !== []) {
+    $howToSteps = [];
+    foreach ($step_details as $step) {
+        if (!is_array($step)) {
+            continue;
+        }
+        $stepName = (string) ($step['title'] ?? '');
+        $stepText = trim((string) ($step['summary'] ?? '') . ' ' . (string) ($step['body'] ?? ''));
+        if ($stepName === '' || $stepText === '') {
+            continue;
+        }
+        $howToStep = [
+            '@type' => 'HowToStep',
+            'name' => $stepName,
+            'text' => $stepText,
+            'url' => seo_url('/how-it-works') . '#' . rawurlencode((string) ($step['id'] ?? '')),
+        ];
+        $stepImage = (string) ($step['image']['file'] ?? '');
+        if ($stepImage !== '') {
+            $howToStep['image'] = seo_image_url($stepImage);
+        }
+        $howToSteps[] = $howToStep;
+    }
+
+    if ($howToSteps !== []) {
+        seo_render_json_ld([
+            '@context' => 'https://schema.org',
+            '@type' => 'HowTo',
+            'name' => 'How to order custom awards from KORA',
+            'description' => $howIntroText,
+            'totalTime' => 'P7D',
+            'supply' => [
+                ['@type' => 'HowToSupply', 'name' => 'Event brief'],
+                ['@type' => 'HowToSupply', 'name' => 'Logo or artwork'],
+            ],
+            'tool' => [
+                ['@type' => 'HowToTool', 'name' => 'KORA quotation form'],
+            ],
+            'step' => $howToSteps,
+        ]);
+    }
+}
+?>

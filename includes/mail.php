@@ -224,12 +224,14 @@ function kora_phpmailer_send(
                 continue;
             }
 
+            $logoMime = str_ends_with(strtolower($logoPath), '.png') ? 'image/png' : 'image/webp';
+
             $mail->addStringEmbeddedImage(
                 $logoData,
                 $cid,
                 basename($logoPath),
                 PHPMailer::ENCODING_BASE64,
-                'image/webp'
+                $logoMime
             );
         }
 

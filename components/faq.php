@@ -88,3 +88,31 @@ $faq_cta_href = (string) ($faq['cta_href'] ?? '#contact');
         </div>
     </div>
 </section>
+<?php
+$faqEntities = [];
+foreach ($faqs as $faqItem) {
+    if (!is_array($faqItem)) {
+        continue;
+    }
+    $q = (string) ($faqItem['q'] ?? $faqItem['question'] ?? '');
+    $a = (string) ($faqItem['a'] ?? $faqItem['answer'] ?? '');
+    if ($q === '' || $a === '') {
+        continue;
+    }
+    $faqEntities[] = [
+        '@type' => 'Question',
+        'name' => $q,
+        'acceptedAnswer' => [
+            '@type' => 'Answer',
+            'text' => $a,
+        ],
+    ];
+}
+if ($faqEntities !== [] && function_exists('seo_render_json_ld')) {
+    seo_render_json_ld([
+        '@context' => 'https://schema.org',
+        '@type' => 'FAQPage',
+        'mainEntity' => $faqEntities,
+    ]);
+}
+?>

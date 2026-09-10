@@ -291,3 +291,44 @@ $productsCtaSecondaryLabel = (string) ($productsCta['secondary_label'] ?? 'Brows
         </div>
     </div>
 </section>
+<?php
+if (function_exists('seo_render_json_ld')) {
+    $productListItems = [];
+    $position = 1;
+    foreach ($products as $product) {
+        if (!is_array($product)) {
+            continue;
+        }
+        $pid = (string) ($product['id'] ?? '');
+        $ptitle = (string) ($product['title'] ?? '');
+        if ($pid === '' || $ptitle === '') {
+            continue;
+        }
+        $heroFile = (string) (($product['hero']['file'] ?? '') ?: '');
+        $productListItems[] = [
+            '@type' => 'ListItem',
+            'position' => $position,
+            'name' => $ptitle,
+            'url' => seo_url('/products') . '#' . rawurlencode($pid),
+            'image' => $heroFile !== '' ? seo_image_url($heroFile) : seo_default_image(),
+            'description' => (string) ($product['lead'] ?? $product['body'] ?? ''),
+        ];
+        $position++;
+    }
+
+    if ($productListItems !== []) {
+        seo_render_json_ld([
+            '@context' => 'https://schema.org',
+            '@type' => 'CollectionPage',
+            'name' => 'KORA Products',
+            'url' => seo_url('/products'),
+            'description' => $productsIntroText,
+            'mainEntity' => [
+                '@type' => 'ItemList',
+                'itemListElement' => $productListItems,
+                'numberOfItems' => count($productListItems),
+            ],
+        ]);
+    }
+}
+?>

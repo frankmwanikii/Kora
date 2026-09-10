@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/seo.php';
 
 $privacy = cms_section('privacy');
 $privacy_title = (string) ($privacy['title'] ?? 'Privacy Policy');
@@ -155,6 +156,23 @@ if ($privacy_intro === '' && isset($privacy_sections_default[0])) {
 $current_page = 'privacy';
 $page_title = page_title($privacy_title !== '' ? $privacy_title : 'Privacy Policy');
 $page_description = 'Privacy policy for KORA — how we collect, use, and protect personal information for quotation requests, contact messages, newsletter signup, and orders in Nanyuki, Laikipia.';
+$page_robots = 'index, follow';
+$page_schemas = [
+    seo_breadcrumb_schema([
+        ['name' => 'Home', 'url' => '/'],
+        ['name' => 'Privacy Policy', 'url' => '/privacy'],
+    ]),
+    [
+        '@context' => 'https://schema.org',
+        '@type' => 'WebPage',
+        'name' => $privacy_title !== '' ? $privacy_title : 'Privacy Policy',
+        'url' => seo_url('/privacy'),
+        'description' => $page_description,
+        'dateModified' => $privacy_updated,
+        'isPartOf' => ['@id' => seo_url('/') . '#website'],
+        'about' => ['@id' => seo_url('/') . '#organization'],
+    ],
+];
 
 /**
  * Autolink email / phone / WhatsApp mentions in the final contact paragraph.

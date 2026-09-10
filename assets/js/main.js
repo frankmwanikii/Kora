@@ -798,4 +798,38 @@
 
     initHeroSlider();
     initHeroTypewriter();
+    initNewsletterFeedback();
+
+    function initNewsletterFeedback() {
+        var feedback = document.getElementById('newsletter-feedback');
+        if (!feedback) {
+            return;
+        }
+
+        var delay = parseInt(feedback.getAttribute('data-auto-dismiss') || '6000', 10);
+        if (!Number.isFinite(delay) || delay < 1000) {
+            delay = 6000;
+        }
+
+        window.setTimeout(function () {
+            feedback.classList.add('is-dismissed');
+            window.setTimeout(function () {
+                if (feedback.parentNode) {
+                    feedback.hidden = true;
+                }
+
+                // Clean the status query so a refresh does not resurrect the message.
+                try {
+                    var url = new URL(window.location.href);
+                    if (url.searchParams.has('newsletter')) {
+                        url.searchParams.delete('newsletter');
+                        var next = url.pathname + (url.search ? url.search : '') + (url.hash || '');
+                        window.history.replaceState({}, '', next);
+                    }
+                } catch (e) {
+                    /* ignore */
+                }
+            }, 480);
+        }, delay);
+    }
 })();

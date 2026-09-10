@@ -16,14 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // Honeypot
 if (trim((string) ($_POST['website'] ?? '')) !== '') {
-    header('Location: ' . $redirectBase . '?newsletter=1#footer-newsletter-title');
+    header('Location: ' . $redirectBase . '?newsletter=1#newsletter-feedback');
     exit;
 }
 
 $email = trim((string) ($_POST['email'] ?? ''));
 
 if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    header('Location: ' . $redirectBase . '?newsletter=error#footer-newsletter-title');
+    header('Location: ' . $redirectBase . '?newsletter=error#newsletter-feedback');
     exit;
 }
 
@@ -53,7 +53,7 @@ if (!$customerOk) {
 }
 
 if (!$adminOk && !$customerOk) {
-    header('Location: ' . $redirectBase . '?newsletter=error#footer-newsletter-title');
+    header('Location: ' . $redirectBase . '?newsletter=error#newsletter-feedback');
     exit;
 }
 
@@ -78,5 +78,5 @@ if (is_dir($storeDir) && is_writable($storeDir)) {
     );
 }
 
-header('Location: ' . $redirectBase . '?newsletter=1#footer-newsletter-title');
+header('Location: ' . $redirectBase . '?newsletter=1#newsletter-feedback');
 exit;

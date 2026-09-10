@@ -39,10 +39,11 @@ function kora_email_is_image_mime(string $mime): bool
 
 /**
  * Absolute URL for the brand logo used in outbound emails (remote fallback).
+ * PNG is preferred — many clients still mishandle WebP embeds.
  */
 function kora_email_logo_url(string $variant = 'white'): string
 {
-    $file = $variant === 'mark' ? 'kora_logo1.webp' : 'kora_logo_white.webp';
+    $file = $variant === 'mark' ? 'kora_logo1.png' : 'kora_logo_white.png';
 
     return rtrim(SITE_URL, '/') . '/assets/images/logos/' . $file;
 }
@@ -60,9 +61,17 @@ function kora_email_logo_cid(string $variant = 'white'): string
  */
 function kora_email_logo_path(string $variant = 'white'): string
 {
-    $file = $variant === 'mark' ? 'kora_logo1.webp' : 'kora_logo_white.webp';
+    $file = $variant === 'mark' ? 'kora_logo1.png' : 'kora_logo_white.png';
+    $png = dirname(__DIR__) . '/assets/images/logos/' . $file;
 
-    return dirname(__DIR__) . '/assets/images/logos/' . $file;
+    if (is_file($png) && is_readable($png)) {
+        return $png;
+    }
+
+    // Fallback if PNG is missing (legacy WebP assets).
+    $webp = preg_replace('/\.png$/i', '.webp', $png) ?: $png;
+
+    return $webp;
 }
 
 /**
@@ -751,7 +760,8 @@ function kora_newsletter_email_html(string $email, bool $isAdmin): string
     return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>' . kora_email_escape($heading) . '</title></head>'
         . '<body style="margin:0;padding:24px;background:#f0eeea;font-family:Arial,Helvetica,sans-serif;color:' . $navy . ';">'
         . '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:620px;margin:0 auto;background:#ffffff;border-radius:18px;overflow:hidden;">'
-        . kora_email_simple_header_html('Newsletter')
+        . '<tr>' . kora_email_brand_header_html('Newsletter') . '</tr>'
+        . '<tr><td style="height:5px;background:' . $copper . ';font-size:0;line-height:0;">&nbsp;</td></tr>'
         . '<tr><td style="padding:28px;">'
         . '<h1 style="margin:0 0 12px;font-size:24px;line-height:1.25;color:' . $navy . ';font-weight:700;">' . kora_email_escape($heading) . '</h1>'
         . '<p style="margin:0 0 18px;font-size:16px;line-height:1.55;">' . kora_email_escape($intro) . '</p>'
@@ -874,7 +884,8 @@ function kora_contact_email_html(array $fields, bool $isAdmin): string
     return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>' . kora_email_escape($heading) . '</title></head>'
         . '<body style="margin:0;padding:24px;background:#f0eeea;font-family:Arial,Helvetica,sans-serif;color:' . $navy . ';">'
         . '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:620px;margin:0 auto;background:#ffffff;border-radius:18px;overflow:hidden;">'
-        . kora_email_simple_header_html('Contact')
+        . '<tr>' . kora_email_brand_header_html('Contact') . '</tr>'
+        . '<tr><td style="height:5px;background:' . $copper . ';font-size:0;line-height:0;">&nbsp;</td></tr>'
         . '<tr><td style="padding:28px;">'
         . '<h1 style="margin:0 0 12px;font-size:24px;line-height:1.25;color:' . $navy . ';font-weight:700;">' . kora_email_escape($heading) . '</h1>'
         . '<p style="margin:0 0 18px;font-size:16px;line-height:1.55;">' . kora_email_escape($intro) . '</p>'
