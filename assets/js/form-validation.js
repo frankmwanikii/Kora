@@ -67,6 +67,47 @@
     var fields = form.querySelectorAll('[data-validate]');
     var inspoSelectedFiles = [];
     var isSubmitting = false;
+    var productSelect = form.querySelector('[data-product-select]');
+    var productOtherField = form.querySelector('[data-product-other-field]');
+    var productOtherInput = form.querySelector('#product_other');
+
+    function syncProductOtherField() {
+        if (!productSelect || !productOtherField || !productOtherInput) {
+            return;
+        }
+
+        var needsOther = productSelect.value === 'Mix / Other';
+        productOtherField.hidden = !needsOther;
+
+        if (needsOther) {
+            productOtherInput.setAttribute('required', 'required');
+            productOtherInput.setAttribute('data-validate', 'required');
+        } else {
+            productOtherInput.removeAttribute('required');
+            productOtherInput.removeAttribute('data-validate');
+            productOtherInput.value = '';
+            productOtherInput.classList.remove('is-valid', 'is-invalid');
+            var otherError = document.getElementById('product_other-error');
+            if (otherError) {
+                otherError.textContent = '';
+            }
+        }
+    }
+
+    if (productSelect) {
+        productSelect.addEventListener('change', syncProductOtherField);
+        syncProductOtherField();
+    }
+
+    if (productOtherInput) {
+        ['input', 'blur'].forEach(function (eventName) {
+            productOtherInput.addEventListener(eventName, function () {
+                if (productOtherField && !productOtherField.hidden) {
+                    validateField(productOtherInput);
+                }
+            });
+        });
+    }
 
     var messages = {
         required: 'This field is required.',
@@ -359,12 +400,19 @@
 
     function validateForm() {
         var valid = true;
+        var liveFields = form.querySelectorAll('[data-validate]');
 
-        fields.forEach(function (field) {
+        liveFields.forEach(function (field) {
             if (!validateField(field)) {
                 valid = false;
             }
         });
+
+        if (productOtherField && !productOtherField.hidden && productOtherInput) {
+            if (!validateField(productOtherInput)) {
+                valid = false;
+            }
+        }
 
         return valid;
     }

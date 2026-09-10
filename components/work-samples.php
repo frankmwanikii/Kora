@@ -55,7 +55,7 @@ function render_sample_gallery(string $label, array $images): void
 $work = cms_section('work_samples');
 $work_hero = is_array($work['hero'] ?? null) ? $work['hero'] : [];
 $work_hero_image = is_array($work_hero['image'] ?? null) ? $work_hero['image'] : [];
-$work_hero_file = (string) ($work_hero_image['file'] ?? 'workshop_hero.jpeg');
+$work_hero_file = (string) ($work_hero_image['file'] ?? 'workshop_hero.webp');
 $work_hero_alt = (string) ($work_hero_image['alt'] ?? 'Custom KORA awards, medals, and souvenirs displayed in the workshop');
 $work_hero_title = (string) ($work_hero['title'] ?? 'Our Studio Samples');
 
@@ -68,9 +68,9 @@ if ($galleries === []) {
             'text' => 'Made in premium MDF, solid wood, plywood, or acrylic, single or multi layered, and cut into any shape. Medals give every participant something to keep, building a sense of belonging and making your event more memorable.',
             'reverse' => false,
             'images' => [
-                ['file' => 'medals/marathon.jpg', 'alt' => 'Custom Steps of Hope marathon medal', 'width' => 3376, 'height' => 4199],
-                ['file' => 'medals/bike.jpg', 'alt' => 'Custom bike challenge medal', 'width' => 2926, 'height' => 3455],
-                ['file' => 'medals/football.jpg', 'alt' => 'Custom football tournament medal', 'width' => 3740, 'height' => 2538],
+                ['file' => 'medals/marathon.webp', 'alt' => 'Custom Steps of Hope marathon medal', 'width' => 3376, 'height' => 4199],
+                ['file' => 'medals/bike.webp', 'alt' => 'Custom bike challenge medal', 'width' => 2926, 'height' => 3455],
+                ['file' => 'medals/football.webp', 'alt' => 'Custom football tournament medal', 'width' => 3740, 'height' => 2538],
             ],
         ],
         [
@@ -79,18 +79,18 @@ if ($galleries === []) {
             'text' => 'Made in the same range of materials, single or multi layered, and cut into any shape. Awards give recognition a physical form, motivating winners and encouraging others to perform better next time.',
             'reverse' => true,
             'images' => [
-                ['file' => 'awards/Award_hero.jpeg', 'alt' => 'Business award trophy on a wooden base', 'width' => 2752, 'height' => 1536],
-                ['file' => 'awards/Aw5.jpg', 'alt' => 'Mountain bike award with acrylic detail', 'width' => 2796, 'height' => 3123],
-                ['file' => 'awards/Golf_award.jpg', 'alt' => 'Custom golf award', 'width' => 3376, 'height' => 4667],
-                ['file' => 'awards/Padel Award.jpg', 'alt' => 'Nairobi Padel Open champion award', 'width' => 3614, 'height' => 3016],
-                ['file' => 'awards/Graduation.jpg', 'alt' => 'Custom graduation award', 'width' => 3682, 'height' => 3376],
-                ['file' => 'awards/Football.jpg', 'alt' => 'Custom football tournament award', 'width' => 3376, 'height' => 5221],
-                ['file' => 'awards/teacher.jpg', 'alt' => 'Custom teacher appreciation award', 'width' => 3203, 'height' => 3680],
-                ['file' => 'awards/retire.jpg', 'alt' => 'Custom retirement plaque', 'width' => 3448, 'height' => 3376],
-                ['file' => 'awards/WOODEN AWARD.png', 'alt' => 'Custom layered wooden cycling award', 'width' => 1207, 'height' => 1303],
-                ['file' => 'awards/Aw4.jpg', 'alt' => 'Multi-layer award sample', 'width' => 3185, 'height' => 3376],
-                ['file' => 'awards/appreciate.png', 'alt' => 'Appreciation award sample', 'width' => 1254, 'height' => 1254],
-                ['file' => 'awards/Golf_Award.jpg', 'alt' => 'Appreciation award sample', 'width' => 1254, 'height' => 1254],
+                ['file' => 'awards/Award_hero.webp', 'alt' => 'Business award trophy on a wooden base', 'width' => 2752, 'height' => 1536],
+                ['file' => 'awards/Aw5.webp', 'alt' => 'Mountain bike award with acrylic detail', 'width' => 2796, 'height' => 3123],
+                ['file' => 'awards/Golf_award.webp', 'alt' => 'Custom golf award', 'width' => 3376, 'height' => 4667],
+                ['file' => 'awards/Padel Award.webp', 'alt' => 'Nairobi Padel Open champion award', 'width' => 3614, 'height' => 3016],
+                ['file' => 'awards/Graduation.webp', 'alt' => 'Custom graduation award', 'width' => 3682, 'height' => 3376],
+                ['file' => 'awards/Football.webp', 'alt' => 'Custom football tournament award', 'width' => 3376, 'height' => 5221],
+                ['file' => 'awards/teacher.webp', 'alt' => 'Custom teacher appreciation award', 'width' => 3203, 'height' => 3680],
+                ['file' => 'awards/retire.webp', 'alt' => 'Custom retirement plaque', 'width' => 3448, 'height' => 3376],
+                ['file' => 'awards/WOODEN AWARD.webp', 'alt' => 'Custom layered wooden cycling award', 'width' => 1207, 'height' => 1303],
+                ['file' => 'awards/Aw4.webp', 'alt' => 'Multi-layer award sample', 'width' => 3185, 'height' => 3376],
+                ['file' => 'awards/appreciate.webp', 'alt' => 'Appreciation award sample', 'width' => 1254, 'height' => 1254],
+                ['file' => 'awards/Golf_Award.webp', 'alt' => 'Appreciation award sample', 'width' => 1254, 'height' => 1254],
             ],
         ],
         [
@@ -99,8 +99,8 @@ if ($galleries === []) {
             'text' => 'From fridge magnets and tumblers to badge pins and other branded giveaways. Souvenirs keep your organisation present in people\'s everyday lives, extending your event\'s reach and building lasting goodwill.',
             'reverse' => false,
             'images' => [
-                ['file' => 'souvenir/souvenir_hero.jpeg', 'alt' => 'Branded travel souvenir gift set', 'width' => 2752, 'height' => 1536],
-                ['file' => 'souvenir/travel.png', 'alt' => 'Wanderlust travel souvenir box with tumbler and keepsakes', 'width' => 1402, 'height' => 1122],
+                ['file' => 'souvenir/souvenir_hero.webp', 'alt' => 'Branded travel souvenir gift set', 'width' => 2752, 'height' => 1536],
+                ['file' => 'souvenir/travel.webp', 'alt' => 'Wanderlust travel souvenir box with tumbler and keepsakes', 'width' => 1402, 'height' => 1122],
             ],
         ],
     ];

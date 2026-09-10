@@ -24,8 +24,8 @@ $adminUsername = (string) ($adminUser['username'] ?? '');
 $adminInitials = initials($adminName !== '' ? $adminName : $adminUsername);
 $cssPath = __DIR__ . '/../assets/css/admin.css';
 $cssVersion = is_file($cssPath) ? (int) filemtime($cssPath) : 1;
-$logoWhitePath = site_root() . '/assets/images/logos/kora_logo_white.png';
-$logoFallbackPath = site_root() . '/assets/images/logos/kora_logo1.png';
+$logoWhitePath = site_root() . '/assets/images/logos/kora_logo_white.webp';
+$logoFallbackPath = site_root() . '/assets/images/logos/kora_logo1.webp';
 $logoPath = is_file($logoWhitePath) ? $logoWhitePath : $logoFallbackPath;
 $logoUrl = '/assets/images/logos/' . basename($logoPath) . '?v=' . (is_file($logoPath) ? (int) filemtime($logoPath) : 1);
 ?>

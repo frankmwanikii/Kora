@@ -7,7 +7,7 @@
     $footer = cms_section('footer');
     $footer_newsletter = is_array($footer['newsletter'] ?? null) ? $footer['newsletter'] : [];
     $footer_newsletter_image = is_array($footer_newsletter['image'] ?? null) ? $footer_newsletter['image'] : [];
-    $footer_newsletter_file = (string) ($footer_newsletter_image['file'] ?? 'awards/Golf_Award.jpg');
+    $footer_newsletter_file = (string) ($footer_newsletter_image['file'] ?? 'awards/Golf_Award.webp');
     $footer_newsletter_alt = (string) ($footer_newsletter_image['alt'] ?? 'Custom KORA golf Most Valuable Player award');
     $footer_newsletter_title = (string) ($footer_newsletter['title'] ?? 'Subscribe to our newsletter to get updates on our latest collections');
     $footer_newsletter_text = (string) ($footer_newsletter['text'] ?? 'Be first to see new awards, medals, souvenirs plus seasonal offers from the KORA workshop.');

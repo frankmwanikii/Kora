@@ -88,11 +88,11 @@ function kora_section_defaults(string $slug): array
                 'title_rest' => 'Made Personal',
                 'subtitle' => 'Crafting Custom awards, medals and souvenirs.',
                 'slides' => [
-                    ['file' => 'awards/Award_hero.jpeg', 'alt' => 'Collection of custom KORA awards and trophies', 'width' => 4558, 'height' => 3376],
-                    ['file' => 'medals/hero.jpeg', 'alt' => 'Custom KORA medals laid out on wood', 'width' => 2752, 'height' => 1536],
-                    ['file' => 'souvenir/souvenir_hero.jpeg', 'alt' => 'Custom KORA souvenirs and keepsakes', 'width' => 2752, 'height' => 1536],
-                    ['file' => 'workshop_hero.jpeg', 'alt' => 'Laser engraving detail on wood in the KORA workshop', 'width' => 1200, 'height' => 800],
-                    ['file' => 'laser_1.jpg', 'alt' => 'Close-up of the laser engraving a custom design into wood', 'width' => 6000, 'height' => 3376],
+                    ['file' => 'awards/Award_hero.webp', 'alt' => 'Collection of custom KORA awards and trophies', 'width' => 4558, 'height' => 3376],
+                    ['file' => 'medals/hero.webp', 'alt' => 'Custom KORA medals laid out on wood', 'width' => 2752, 'height' => 1536],
+                    ['file' => 'souvenir/souvenir_hero.webp', 'alt' => 'Custom KORA souvenirs and keepsakes', 'width' => 2752, 'height' => 1536],
+                    ['file' => 'workshop_hero.webp', 'alt' => 'Laser engraving detail on wood in the KORA workshop', 'width' => 1200, 'height' => 800],
+                    ['file' => 'laser_1.webp', 'alt' => 'Close-up of the laser engraving a custom design into wood', 'width' => 6000, 'height' => 3376],
                 ],
                 'actions' => [
                     ['label' => 'View Our Work', 'href' => '/work-samples.php', 'style' => 'solid'],
@@ -105,7 +105,7 @@ function kora_section_defaults(string $slug): array
             'title' => $title,
             'content' => [
                 'title' => 'Where laser meets craft',
-                'background_image' => 'about image.jpg',
+                'background_image' => 'about image.webp',
                 'paragraphs' => [
                     'KORA is a custom awards studio based in Nanyuki, Laikipia, specialising in the design and creation of premium awards, medals, plaques, and souvenirs.',
                     'We blend advanced laser-cutting technology with meticulous hand-assembly and finishing to craft every piece.',
@@ -123,17 +123,17 @@ function kora_section_defaults(string $slug): array
                     [
                         'id' => 'awards',
                         'label' => 'Awards & Trophies',
-                        'image' => ['file' => 'awards/WOODEN AWARD.png', 'alt' => 'Custom layered wooden cycling award by KORA', 'width' => 1207, 'height' => 1303],
+                        'image' => ['file' => 'awards/WOODEN AWARD.webp', 'alt' => 'Custom layered wooden cycling award by KORA', 'width' => 1207, 'height' => 1303],
                     ],
                     [
                         'id' => 'medals',
                         'label' => 'Medals',
-                        'image' => ['file' => 'medals/marathon.jpg', 'alt' => 'Custom layered wooden marathon medal', 'width' => 3376, 'height' => 4199],
+                        'image' => ['file' => 'medals/marathon.webp', 'alt' => 'Custom layered wooden marathon medal', 'width' => 3376, 'height' => 4199],
                     ],
                     [
                         'id' => 'souvenirs',
                         'label' => 'Souvenirs & Keepsakes',
-                        'image' => ['file' => 'souvenir/souvenir_hero.jpeg', 'alt' => 'Branded travel souvenir gift set with tumbler and keepsakes', 'width' => 2752, 'height' => 1536],
+                        'image' => ['file' => 'souvenir/souvenir_hero.webp', 'alt' => 'Branded travel souvenir gift set with tumbler and keepsakes', 'width' => 2752, 'height' => 1536],
                     ],
                 ],
                 'actions' => [
@@ -142,13 +142,13 @@ function kora_section_defaults(string $slug): array
                     ['label' => 'Request a Quote', 'href' => '/request-quote.php'],
                 ],
                 'process_images' => [
-                    ['file' => 'laser_1.jpg', 'alt' => 'Close-up of the laser engraving a custom design into wood', 'width' => 6000, 'height' => 3376, 'role' => 'back'],
-                    ['file' => 'awards/Aw1.jpg', 'alt' => 'Close-up of laser engraving a custom design onto wood', 'width' => 3376, 'height' => 3593, 'role' => 'front'],
+                    ['file' => 'laser_1.webp', 'alt' => 'Close-up of the laser engraving a custom design into wood', 'width' => 6000, 'height' => 3376, 'role' => 'back'],
+                    ['file' => 'awards/Aw1.webp', 'alt' => 'Close-up of laser engraving a custom design onto wood', 'width' => 3376, 'height' => 3593, 'role' => 'front'],
                 ],
                 'materials' => [
-                    ['name' => 'Wood', 'image' => 'WOOD.jpg'],
-                    ['name' => 'MDF', 'image' => 'MDF.jpg'],
-                    ['name' => 'Acrylic', 'image' => 'ACRYLIC.png'],
+                    ['name' => 'Wood', 'image' => 'WOOD.webp'],
+                    ['name' => 'MDF', 'image' => 'MDF.webp'],
+                    ['name' => 'Acrylic', 'image' => 'ACRYLIC.webp'],
                 ],
             ],
         ],
@@ -172,7 +172,7 @@ function kora_section_defaults(string $slug): array
             'title' => $title,
             'content' => [
                 'image' => [
-                    'file' => 'medals/workshop_hero.jpeg',
+                    'file' => 'medals/workshop_hero.webp',
                     'alt' => 'Custom KORA awards, medals, and souvenirs displayed in the workshop',
                     'width' => 2752,
                     'height' => 1536,
@@ -206,7 +206,7 @@ function kora_section_defaults(string $slug): array
             'content' => [
                 'hero' => [
                     'title' => 'Our Products',
-                    'image' => ['file' => 'awards/Hero Section.jpg', 'alt' => 'Collection of custom KORA awards and trophies', 'width' => 4558, 'height' => 3376],
+                    'image' => ['file' => 'awards/Hero Section.webp', 'alt' => 'Collection of custom KORA awards and trophies', 'width' => 4558, 'height' => 3376],
                 ],
                 'intro' => [
                     'title' => 'What we make',
@@ -233,11 +233,11 @@ function kora_section_defaults(string $slug): array
                         ],
                         'materials' => 'Premium MDF, solid wood, plywood, and acrylic',
                         'ideal_for' => 'Marathons, fun runs, school sports, corporate challenges, and charity walks',
-                        'hero' => ['file' => 'medals/hero.jpeg', 'alt' => 'Custom KORA medals laid out on wood', 'width' => 2752, 'height' => 1536],
+                        'hero' => ['file' => 'medals/hero.webp', 'alt' => 'Custom KORA medals laid out on wood', 'width' => 2752, 'height' => 1536],
                         'images' => [
-                            ['file' => 'medals/marathon.jpg', 'alt' => 'Custom Steps of Hope marathon medal', 'width' => 3376, 'height' => 4199],
-                            ['file' => 'medals/bike.jpg', 'alt' => 'Custom bike challenge medal', 'width' => 2926, 'height' => 3455],
-                            ['file' => 'medals/football.jpg', 'alt' => 'Custom football tournament medal', 'width' => 3740, 'height' => 2538],
+                            ['file' => 'medals/marathon.webp', 'alt' => 'Custom Steps of Hope marathon medal', 'width' => 3376, 'height' => 4199],
+                            ['file' => 'medals/bike.webp', 'alt' => 'Custom bike challenge medal', 'width' => 2926, 'height' => 3455],
+                            ['file' => 'medals/football.webp', 'alt' => 'Custom football tournament medal', 'width' => 3740, 'height' => 2538],
                         ],
                         'reverse' => false,
                     ],
@@ -256,11 +256,11 @@ function kora_section_defaults(string $slug): array
                         ],
                         'materials' => 'Solid wood, MDF, plywood, acrylic, and mixed finishes',
                         'ideal_for' => 'Corporate awards, sports championships, school prizegivings, and NGO recognition',
-                        'hero' => ['file' => 'awards/Award_hero.jpeg', 'alt' => 'Handcrafted business award by KORA', 'width' => 2752, 'height' => 1536],
+                        'hero' => ['file' => 'awards/Award_hero.webp', 'alt' => 'Handcrafted business award by KORA', 'width' => 2752, 'height' => 1536],
                         'images' => [
-                            ['file' => 'awards/Aw5.jpg', 'alt' => 'Mountain bike award with acrylic detail', 'width' => 2796, 'height' => 3123],
-                            ['file' => 'awards/Padel Award.jpg', 'alt' => 'Nairobi Padel Open champion award', 'width' => 3614, 'height' => 3016],
-                            ['file' => 'awards/Golf_award.jpg', 'alt' => 'Custom golf award', 'width' => 3376, 'height' => 4667],
+                            ['file' => 'awards/Aw5.webp', 'alt' => 'Mountain bike award with acrylic detail', 'width' => 2796, 'height' => 3123],
+                            ['file' => 'awards/Padel Award.webp', 'alt' => 'Nairobi Padel Open champion award', 'width' => 3614, 'height' => 3016],
+                            ['file' => 'awards/Golf_award.webp', 'alt' => 'Custom golf award', 'width' => 3376, 'height' => 4667],
                         ],
                         'reverse' => true,
                     ],
@@ -279,11 +279,11 @@ function kora_section_defaults(string $slug): array
                         ],
                         'materials' => 'Mixed materials depending on product — wood accents, acrylic, and branded merchandise bases',
                         'ideal_for' => 'Conferences, corporate events, tourism campaigns, and branded giveaways',
-                        'hero' => ['file' => 'souvenir/souvenir_hero.jpeg', 'alt' => 'Branded travel souvenir gift set by KORA', 'width' => 2752, 'height' => 1536],
+                        'hero' => ['file' => 'souvenir/souvenir_hero.webp', 'alt' => 'Branded travel souvenir gift set by KORA', 'width' => 2752, 'height' => 1536],
                         'images' => [
-                            ['file' => 'souvenir/travel.png', 'alt' => 'Wanderlust travel souvenir box with tumbler and keepsakes', 'width' => 1402, 'height' => 1122],
-                            ['file' => 'souvenir/souvenir_hero.jpeg', 'alt' => 'Open souvenir gift set with engraved tumbler', 'width' => 2752, 'height' => 1536],
-                            ['file' => 'medals/workshop_hero.jpeg', 'alt' => 'Souvenir gift set displayed with awards and medals', 'width' => 2752, 'height' => 1536],
+                            ['file' => 'souvenir/travel.webp', 'alt' => 'Wanderlust travel souvenir box with tumbler and keepsakes', 'width' => 1402, 'height' => 1122],
+                            ['file' => 'souvenir/souvenir_hero.webp', 'alt' => 'Open souvenir gift set with engraved tumbler', 'width' => 2752, 'height' => 1536],
+                            ['file' => 'medals/workshop_hero.webp', 'alt' => 'Souvenir gift set displayed with awards and medals', 'width' => 2752, 'height' => 1536],
                         ],
                         'reverse' => false,
                     ],
@@ -292,9 +292,9 @@ function kora_section_defaults(string $slug): array
                     'title' => 'Materials we work with',
                     'text' => 'We select materials based on the look, weight, and durability your product needs. Whether you want the warmth of natural wood, the precision of layered acrylic, or the versatility of MDF and plywood, we advise on the best combination for your event or brand.',
                     'items' => [
-                        ['name' => 'Wood', 'image' => 'WOOD.jpg', 'alt' => 'Solid wood material sample', 'description' => 'Rich, natural finishes ideal for trophies and premium medals.'],
-                        ['name' => 'MDF & Plywood', 'image' => 'MDF.jpg', 'alt' => 'MDF material sample', 'description' => 'Reliable bases for shaped medals, layered builds, and detailed engraving.'],
-                        ['name' => 'Acrylic', 'image' => 'ACRYLIC.png', 'alt' => 'Acrylic material sample', 'description' => 'Clean, modern awards with colour, depth, and sharp branded detail.'],
+                        ['name' => 'Wood', 'image' => 'WOOD.webp', 'alt' => 'Solid wood material sample', 'description' => 'Rich, natural finishes ideal for trophies and premium medals.'],
+                        ['name' => 'MDF & Plywood', 'image' => 'MDF.webp', 'alt' => 'MDF material sample', 'description' => 'Reliable bases for shaped medals, layered builds, and detailed engraving.'],
+                        ['name' => 'Acrylic', 'image' => 'ACRYLIC.webp', 'alt' => 'Acrylic material sample', 'description' => 'Clean, modern awards with colour, depth, and sharp branded detail.'],
                     ],
                 ],
                 'cta' => [
@@ -313,7 +313,7 @@ function kora_section_defaults(string $slug): array
             'content' => [
                 'hero' => [
                     'title' => 'Our Studio Samples',
-                    'image' => ['file' => 'workshop_hero.jpeg', 'alt' => 'Custom KORA awards, medals, and souvenirs displayed in the workshop', 'width' => 2752, 'height' => 1536],
+                    'image' => ['file' => 'workshop_hero.webp', 'alt' => 'Custom KORA awards, medals, and souvenirs displayed in the workshop', 'width' => 2752, 'height' => 1536],
                 ],
                 'galleries' => [
                     [
@@ -322,9 +322,9 @@ function kora_section_defaults(string $slug): array
                         'text' => 'Made in premium MDF, solid wood, plywood, or acrylic, single or multi layered, and cut into any shape. Medals give every participant something to keep, building a sense of belonging and making your event more memorable.',
                         'reverse' => false,
                         'images' => [
-                            ['file' => 'medals/marathon.jpg', 'alt' => 'Custom Steps of Hope marathon medal', 'width' => 3376, 'height' => 4199],
-                            ['file' => 'medals/bike.jpg', 'alt' => 'Custom bike challenge medal', 'width' => 2926, 'height' => 3455],
-                            ['file' => 'medals/football.jpg', 'alt' => 'Custom football tournament medal', 'width' => 3740, 'height' => 2538],
+                            ['file' => 'medals/marathon.webp', 'alt' => 'Custom Steps of Hope marathon medal', 'width' => 3376, 'height' => 4199],
+                            ['file' => 'medals/bike.webp', 'alt' => 'Custom bike challenge medal', 'width' => 2926, 'height' => 3455],
+                            ['file' => 'medals/football.webp', 'alt' => 'Custom football tournament medal', 'width' => 3740, 'height' => 2538],
                         ],
                     ],
                     [
@@ -333,18 +333,18 @@ function kora_section_defaults(string $slug): array
                         'text' => 'Made in the same range of materials, single or multi layered, and cut into any shape. Awards give recognition a physical form, motivating winners and encouraging others to perform better next time.',
                         'reverse' => true,
                         'images' => [
-                            ['file' => 'awards/Award_hero.jpeg', 'alt' => 'Business award trophy on a wooden base', 'width' => 2752, 'height' => 1536],
-                            ['file' => 'awards/Aw5.jpg', 'alt' => 'Mountain bike award with acrylic detail', 'width' => 2796, 'height' => 3123],
-                            ['file' => 'awards/Golf_award.jpg', 'alt' => 'Custom golf award', 'width' => 3376, 'height' => 4667],
-                            ['file' => 'awards/Padel Award.jpg', 'alt' => 'Nairobi Padel Open champion award', 'width' => 3614, 'height' => 3016],
-                            ['file' => 'awards/Graduation.jpg', 'alt' => 'Custom graduation award', 'width' => 3682, 'height' => 3376],
-                            ['file' => 'awards/Football.jpg', 'alt' => 'Custom football tournament award', 'width' => 3376, 'height' => 5221],
-                            ['file' => 'awards/teacher.jpg', 'alt' => 'Custom teacher appreciation award', 'width' => 3203, 'height' => 3680],
-                            ['file' => 'awards/retire.jpg', 'alt' => 'Custom retirement plaque', 'width' => 3448, 'height' => 3376],
-                            ['file' => 'awards/WOODEN AWARD.png', 'alt' => 'Custom layered wooden cycling award', 'width' => 1207, 'height' => 1303],
-                            ['file' => 'awards/Aw4.jpg', 'alt' => 'Multi-layer award sample', 'width' => 3185, 'height' => 3376],
-                            ['file' => 'awards/appreciate.png', 'alt' => 'Appreciation award sample', 'width' => 1254, 'height' => 1254],
-                            ['file' => 'awards/Golf_Award.jpg', 'alt' => 'Custom golf award sample', 'width' => 1254, 'height' => 1254],
+                            ['file' => 'awards/Award_hero.webp', 'alt' => 'Business award trophy on a wooden base', 'width' => 2752, 'height' => 1536],
+                            ['file' => 'awards/Aw5.webp', 'alt' => 'Mountain bike award with acrylic detail', 'width' => 2796, 'height' => 3123],
+                            ['file' => 'awards/Golf_award.webp', 'alt' => 'Custom golf award', 'width' => 3376, 'height' => 4667],
+                            ['file' => 'awards/Padel Award.webp', 'alt' => 'Nairobi Padel Open champion award', 'width' => 3614, 'height' => 3016],
+                            ['file' => 'awards/Graduation.webp', 'alt' => 'Custom graduation award', 'width' => 3682, 'height' => 3376],
+                            ['file' => 'awards/Football.webp', 'alt' => 'Custom football tournament award', 'width' => 3376, 'height' => 5221],
+                            ['file' => 'awards/teacher.webp', 'alt' => 'Custom teacher appreciation award', 'width' => 3203, 'height' => 3680],
+                            ['file' => 'awards/retire.webp', 'alt' => 'Custom retirement plaque', 'width' => 3448, 'height' => 3376],
+                            ['file' => 'awards/WOODEN AWARD.webp', 'alt' => 'Custom layered wooden cycling award', 'width' => 1207, 'height' => 1303],
+                            ['file' => 'awards/Aw4.webp', 'alt' => 'Multi-layer award sample', 'width' => 3185, 'height' => 3376],
+                            ['file' => 'awards/appreciate.webp', 'alt' => 'Appreciation award sample', 'width' => 1254, 'height' => 1254],
+                            ['file' => 'awards/Golf_Award.webp', 'alt' => 'Custom golf award sample', 'width' => 1254, 'height' => 1254],
                         ],
                     ],
                     [
@@ -353,8 +353,8 @@ function kora_section_defaults(string $slug): array
                         'text' => 'From fridge magnets and tumblers to badge pins and other branded giveaways. Souvenirs keep your organisation present in people\'s everyday lives, extending your event\'s reach and building lasting goodwill.',
                         'reverse' => false,
                         'images' => [
-                            ['file' => 'souvenir/souvenir_hero.jpeg', 'alt' => 'Branded travel souvenir gift set', 'width' => 2752, 'height' => 1536],
-                            ['file' => 'souvenir/travel.png', 'alt' => 'Wanderlust travel souvenir box with tumbler and keepsakes', 'width' => 1402, 'height' => 1122],
+                            ['file' => 'souvenir/souvenir_hero.webp', 'alt' => 'Branded travel souvenir gift set', 'width' => 2752, 'height' => 1536],
+                            ['file' => 'souvenir/travel.webp', 'alt' => 'Wanderlust travel souvenir box with tumbler and keepsakes', 'width' => 1402, 'height' => 1122],
                         ],
                     ],
                 ],
@@ -366,7 +366,7 @@ function kora_section_defaults(string $slug): array
             'content' => [
                 'hero' => [
                     'title' => 'How It Works',
-                    'image' => ['file' => 'laser_1.jpg', 'alt' => 'Laser engraving a custom design in the KORA workshop', 'width' => 6000, 'height' => 3376],
+                    'image' => ['file' => 'laser_1.webp', 'alt' => 'Laser engraving a custom design in the KORA workshop', 'width' => 6000, 'height' => 3376],
                 ],
                 'intro' => [
                     'title' => 'Simple process, careful craft',
@@ -387,7 +387,7 @@ function kora_section_defaults(string $slug): array
                         'summary' => 'Start with the event, the product, and the outcome you want people to feel.',
                         'body' => 'Reach out with the basics: what you are celebrating, what you need made, how many pieces you require, and when you need them ready.',
                         'tips' => ['Share your event date and ideal delivery window', 'Mention product type — medals, awards, souvenirs, or a mix', 'Include approximate quantities so we can plan production'],
-                        'image' => ['file' => 'medals/hero.jpeg', 'alt' => 'Custom KORA medals for events and challenges', 'width' => 2752, 'height' => 1536],
+                        'image' => ['file' => 'medals/hero.webp', 'alt' => 'Custom KORA medals for events and challenges', 'width' => 2752, 'height' => 1536],
                         'reverse' => false,
                     ],
                     [
@@ -397,7 +397,7 @@ function kora_section_defaults(string $slug): array
                         'summary' => 'Give us the artwork, names, and specifications we need to shape your pieces.',
                         'body' => 'Once we know the direction, send your logo files, wording, dates, colour preferences, ribbon choices, and any reference images.',
                         'tips' => ['Logo files in PDF, PNG, or AI work best', 'List names, titles, or categories if they vary per piece', 'Note ribbon colours, sizes, or packaging preferences'],
-                        'image' => ['file' => 'awards/Aw1.jpg', 'alt' => 'Laser engraving a custom design in the KORA workshop', 'width' => 3376, 'height' => 3593],
+                        'image' => ['file' => 'awards/Aw1.webp', 'alt' => 'Laser engraving a custom design in the KORA workshop', 'width' => 3376, 'height' => 3593],
                         'reverse' => true,
                     ],
                     [
@@ -407,7 +407,7 @@ function kora_section_defaults(string $slug): array
                         'summary' => 'We respond with a clear design direction and pricing based on your brief.',
                         'body' => 'Our team reviews your requirements and prepares a quotation covering design approach, materials, quantities, and timeline.',
                         'tips' => ['Quotes reflect material choice, complexity, and volume', 'We can suggest alternatives to match your budget', 'Ask questions — we are happy to explain each line item'],
-                        'image' => ['file' => 'awards/Award_hero.jpeg', 'alt' => 'Finished award sample prepared for client review', 'width' => 2752, 'height' => 1536],
+                        'image' => ['file' => 'awards/Award_hero.webp', 'alt' => 'Finished award sample prepared for client review', 'width' => 2752, 'height' => 1536],
                         'reverse' => false,
                     ],
                     [
@@ -417,7 +417,7 @@ function kora_section_defaults(string $slug): array
                         'summary' => 'Review the direction, confirm details, and secure your production slot.',
                         'body' => 'When you are happy with the quote and design approach, approve the order and confirm with a deposit where required.',
                         'tips' => ['Double-check spelling, dates, and logo placement', 'Confirm quantities before production starts', 'Approval triggers scheduling in the KORA workshop'],
-                        'image' => ['file' => 'laser_1.jpg', 'alt' => 'Close-up of the laser engraving a custom design into wood', 'width' => 6000, 'height' => 3376],
+                        'image' => ['file' => 'laser_1.webp', 'alt' => 'Close-up of the laser engraving a custom design into wood', 'width' => 6000, 'height' => 3376],
                         'reverse' => true,
                     ],
                     [
@@ -427,7 +427,7 @@ function kora_section_defaults(string $slug): array
                         'summary' => 'Your finished pieces are prepared, checked, and ready for the moment.',
                         'body' => 'We produce your order in-house, inspect each piece, and prepare everything for handover.',
                         'tips' => ['Lead times depend on quantity and complexity', 'Collection available from our Laikipia workshop', 'Delivery options can be discussed when you confirm'],
-                        'image' => ['file' => 'medals/workshop_hero.jpeg', 'alt' => 'Finished KORA awards, medals, and souvenirs ready for handover', 'width' => 2752, 'height' => 1536],
+                        'image' => ['file' => 'medals/workshop_hero.webp', 'alt' => 'Finished KORA awards, medals, and souvenirs ready for handover', 'width' => 2752, 'height' => 1536],
                         'reverse' => false,
                     ],
                 ],
@@ -469,9 +469,15 @@ function kora_section_defaults(string $slug): array
                 'lead' => 'Tell us what you have in mind. We\'ll review your brief and recommend suitable options based on your event, quantity, materials, and budget.',
                 'submit_label' => 'Request a Quotation',
                 'form_action' => '/process-quote.php',
+                'image' => [
+                    'file' => 'medals/workshop_hero.webp',
+                    'alt' => 'Custom KORA awards and medals in the workshop',
+                    'width' => 2752,
+                    'height' => 1536,
+                ],
                 'channels' => [
                     ['label' => 'Whatsapp KORA', 'href' => 'https://wa.me/254790355707', 'external' => true],
-                    ['label' => 'Email KORA', 'href' => 'mailto:koradesignprint@gmail.com', 'external' => false],
+                    ['label' => 'Email KORA', 'href' => 'mailto:info@koralasercraft.com', 'external' => false],
                 ],
             ],
         ],
@@ -481,7 +487,7 @@ function kora_section_defaults(string $slug): array
             'content' => [
                 'hero' => [
                     'title' => 'Request a Quotation',
-                    'image' => ['file' => 'acrylic_material.jpeg', 'alt' => 'Acrylic material used for custom KORA awards', 'width' => 2752, 'height' => 1536],
+                    'image' => ['file' => 'acrylic_material.webp', 'alt' => 'Acrylic material used for custom KORA awards', 'width' => 2752, 'height' => 1536],
                 ],
                 'trust' => [
                     ['label' => '24-hour response', 'text' => 'Quotations prepared within one business day.'],
@@ -530,7 +536,7 @@ function kora_section_defaults(string $slug): array
                 'newsletter' => [
                     'title' => 'Subscribe to our newsletter to get updates on our latest collections',
                     'text' => 'Be first to see new awards, medals, souvenirs plus seasonal offers from the KORA workshop.',
-                    'image' => ['file' => 'awards/Golf_Award.jpg', 'alt' => 'Custom KORA golf Most Valuable Player award', 'width' => 1200, 'height' => 1500],
+                    'image' => ['file' => 'awards/Golf_Award.webp', 'alt' => 'Custom KORA golf Most Valuable Player award', 'width' => 1200, 'height' => 1500],
                     'privacy_href' => '/privacy.php',
                 ],
                 'blurb' => 'Custom awards, medals and souvenirs designed and made for organisations, schools, corporates, and sports teams.',
@@ -557,7 +563,7 @@ function kora_section_defaults(string $slug): array
                     'title' => 'Contact Us',
                     'lead' => '',
                     'image' => [
-                        'file' => 'workshop_hero.jpeg',
+                        'file' => 'workshop_hero.webp',
                         'alt' => 'KORA workshop in Nanyuki',
                         'width' => 1200,
                         'height' => 800,

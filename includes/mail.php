@@ -207,6 +207,32 @@ function kora_phpmailer_send(
         $mail->Body = $htmlBody;
         $mail->AltBody = $plainBody;
 
+        // Embed brand logos referenced as cid: so they display even when remote asset URLs 403.
+        foreach (['white', 'mark'] as $logoVariant) {
+            $cid = kora_email_logo_cid($logoVariant);
+            if (!str_contains($htmlBody, 'cid:' . $cid)) {
+                continue;
+            }
+
+            $logoPath = kora_email_logo_path($logoVariant);
+            if (!is_file($logoPath) || !is_readable($logoPath)) {
+                continue;
+            }
+
+            $logoData = file_get_contents($logoPath);
+            if ($logoData === false || $logoData === '') {
+                continue;
+            }
+
+            $mail->addStringEmbeddedImage(
+                $logoData,
+                $cid,
+                basename($logoPath),
+                PHPMailer::ENCODING_BASE64,
+                'image/webp'
+            );
+        }
+
         foreach ($attachments as $index => $attachment) {
             $name = (string) ($attachment['name'] ?? 'attachment');
             $mime = (string) ($attachment['mime'] ?? 'application/octet-stream');

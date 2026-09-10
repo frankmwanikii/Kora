@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "updated_at": "2026-09-10 22:26:07",
+    "updated_at": "2026-09-11 00:07:59",
     "settings": {
         "site_name": "Kora Laser Craft",
         "site_tagline": "Custom Awards & Trophies",
@@ -8,8 +8,8 @@
         "site_address": "Laikipia, Nanyuki, Kenya",
         "site_phone": "0790355707",
         "site_phone_link": "+254790355707",
-        "site_email": "info@koralasercraft.com",
-        "site_url": "https://koralasercraft.com",
+        "site_email": "info@kora.fraittech.co.ke",
+        "site_url": "https://kora.fraittech.co.ke",
         "site_year": "2026",
         "site_instagram": "https://www.instagram.com/koralasercraft",
         "site_tiktok": "https://www.tiktok.com/@koralasercraft",
@@ -24,7 +24,7 @@
             "title": "About",
             "content": {
                 "title": "Where laser meets craft",
-                "background_image": "about image.jpg",
+                "background_image": "about image.webp",
                 "paragraphs": [
                     "KORA is a custom awards studio based in Nanyuki, Laikipia, specialising in the design and creation of premium awards, medals, plaques, and souvenirs.",
                     "We blend advanced laser-cutting technology with meticulous hand-assembly and finishing to craft every piece.",
@@ -47,10 +47,16 @@
                     },
                     {
                         "label": "Email KORA",
-                        "href": "mailto:koradesignprint@gmail.com",
+                        "href": "mailto:info@koralasercraft.com",
                         "external": false
                     }
                 ],
+                "image": {
+                    "file": "medals/workshop_hero.webp",
+                    "alt": "Custom KORA awards and medals in the workshop",
+                    "width": 2752,
+                    "height": 1536
+                },
                 "submit_label": "Request a Quotation"
             }
         },
@@ -59,13 +65,13 @@
             "content": {
                 "eyebrow": "Common questions",
                 "title": "Frequently Asked Questions",
-                "lead": "Clear answers on timing, production, and delivery — so you know what to expect before you request a quote.",
+                "lead": "Clear answers on timing, production, and delivery  so you know what to expect before you request a quote.",
                 "cta_label": "Still have a question?",
                 "cta_href": "#contact",
                 "items": [
                     {
                         "q": "How quickly will I receive a quote?",
-                        "a": "A quote is shared within 24 hours of receiving your brief. Share as much detail as you can — event type, quantity, materials, and timeline — and we will get back to you the same day or next business day."
+                        "a": "A quote is shared within 24 hours of receiving your brief. Share as much detail as you can  event type, quantity, materials, and timeline  and we will get back to you the same day or next business day."
                     },
                     {
                         "q": "How long does production take?",
@@ -105,7 +111,7 @@
                     "title": "Subscribe to our newsletter to get updates on our latest collections",
                     "text": "Be first to see new awards, medals, souvenirs plus seasonal offers from the KORA workshop.",
                     "image": {
-                        "file": "awards/Golf_Award.jpg",
+                        "file": "awards/Golf_Award.webp",
                         "alt": "Custom KORA golf Most Valuable Player award",
                         "width": 3376,
                         "height": 4476
@@ -197,31 +203,31 @@
                 "subtitle": "Crafting Custom awards, medals and souvenirs.",
                 "slides": [
                     {
-                        "file": "awards/Award_hero.jpeg",
+                        "file": "awards/Award_hero.webp",
                         "alt": "Collection of custom KORA awards and trophies",
                         "width": 4558,
                         "height": 3376
                     },
                     {
-                        "file": "medals/hero.jpeg",
+                        "file": "medals/hero.webp",
                         "alt": "Custom KORA medals laid out on wood",
                         "width": 2752,
                         "height": 1536
                     },
                     {
-                        "file": "souvenir/souvenir_hero.jpeg",
+                        "file": "souvenir/souvenir_hero.webp",
                         "alt": "Custom KORA souvenirs and keepsakes",
                         "width": 2752,
                         "height": 1536
                     },
                     {
-                        "file": "workshop_hero.jpeg",
+                        "file": "workshop_hero.webp",
                         "alt": "Laser engraving detail on wood in the KORA workshop",
                         "width": 1200,
                         "height": 800
                     },
                     {
-                        "file": "laser_1.jpg",
+                        "file": "laser_1.webp",
                         "alt": "Close-up of the laser engraving a custom design into wood",
                         "width": 6000,
                         "height": 3376
@@ -247,7 +253,7 @@
                 "hero": {
                     "title": "How It Works",
                     "image": {
-                        "file": "laser_1.jpg",
+                        "file": "laser_1.webp",
                         "alt": "Laser engraving a custom design in the KORA workshop",
                         "width": 6000,
                         "height": 3376
@@ -297,7 +303,7 @@
                             "Include approximate quantities so we can plan production"
                         ],
                         "image": {
-                            "file": "medals/hero.jpeg",
+                            "file": "medals/hero.webp",
                             "alt": "Custom KORA medals for events and challenges",
                             "width": 2752,
                             "height": 1536
@@ -316,7 +322,7 @@
                             "Note ribbon colours, sizes, or packaging preferences"
                         ],
                         "image": {
-                            "file": "awards/Aw1.jpg",
+                            "file": "awards/Aw1.webp",
                             "alt": "Laser engraving a custom design in the KORA workshop",
                             "width": 3376,
                             "height": 3593
@@ -335,7 +341,7 @@
                             "Ask questions — we are happy to explain each line item"
                         ],
                         "image": {
-                            "file": "awards/Award_hero.jpeg",
+                            "file": "awards/Award_hero.webp",
                             "alt": "Finished award sample prepared for client review",
                             "width": 2752,
                             "height": 1536
@@ -354,7 +360,7 @@
                             "Approval triggers scheduling in the KORA workshop"
                         ],
                         "image": {
-                            "file": "laser_1.jpg",
+                            "file": "laser_1.webp",
                             "alt": "Close-up of the laser engraving a custom design into wood",
                             "width": 6000,
                             "height": 3376
@@ -373,7 +379,7 @@
                             "Delivery options can be discussed when you confirm"
                         ],
                         "image": {
-                            "file": "medals/workshop_hero.jpeg",
+                            "file": "medals/workshop_hero.webp",
                             "alt": "Finished KORA awards, medals, and souvenirs ready for handover",
                             "width": 2752,
                             "height": 1536
@@ -610,7 +616,7 @@
                 "hero": {
                     "title": "Our Products",
                     "image": {
-                        "file": "awards/Hero Section.jpg",
+                        "file": "awards/Hero Section.webp",
                         "alt": "Collection of custom KORA awards and trophies",
                         "width": 4558,
                         "height": 3376
@@ -651,26 +657,26 @@
                         "materials": "Premium MDF, solid wood, plywood, and acrylic",
                         "ideal_for": "Marathons, fun runs, school sports, corporate challenges, and charity walks",
                         "hero": {
-                            "file": "medals/hero.jpeg",
+                            "file": "medals/hero.webp",
                             "alt": "Custom KORA medals laid out on wood",
                             "width": 2752,
                             "height": 1536
                         },
                         "images": [
                             {
-                                "file": "medals/marathon.jpg",
+                                "file": "medals/marathon.webp",
                                 "alt": "Custom Steps of Hope marathon medal",
                                 "width": 3376,
                                 "height": 4199
                             },
                             {
-                                "file": "medals/bike.jpg",
+                                "file": "medals/bike.webp",
                                 "alt": "Custom bike challenge medal",
                                 "width": 2926,
                                 "height": 3455
                             },
                             {
-                                "file": "medals/football.jpg",
+                                "file": "medals/football.webp",
                                 "alt": "Custom football tournament medal",
                                 "width": 3740,
                                 "height": 2538
@@ -694,26 +700,26 @@
                         "materials": "Solid wood, MDF, plywood, acrylic, and mixed finishes",
                         "ideal_for": "Corporate awards, sports championships, school prizegivings, and NGO recognition",
                         "hero": {
-                            "file": "awards/Award_hero.jpeg",
+                            "file": "awards/Award_hero.webp",
                             "alt": "Handcrafted business award by KORA",
                             "width": 2752,
                             "height": 1536
                         },
                         "images": [
                             {
-                                "file": "awards/Aw5.jpg",
+                                "file": "awards/Aw5.webp",
                                 "alt": "Mountain bike award with acrylic detail",
                                 "width": 2796,
                                 "height": 3123
                             },
                             {
-                                "file": "awards/Padel Award.jpg",
+                                "file": "awards/Padel Award.webp",
                                 "alt": "Nairobi Padel Open champion award",
                                 "width": 3614,
                                 "height": 3016
                             },
                             {
-                                "file": "awards/Golf_award.jpg",
+                                "file": "awards/Golf_award.webp",
                                 "alt": "Custom golf award",
                                 "width": 3376,
                                 "height": 4667
@@ -737,26 +743,26 @@
                         "materials": "Mixed materials depending on product — wood accents, acrylic, and branded merchandise bases",
                         "ideal_for": "Conferences, corporate events, tourism campaigns, and branded giveaways",
                         "hero": {
-                            "file": "souvenir/souvenir_hero.jpeg",
+                            "file": "souvenir/souvenir_hero.webp",
                             "alt": "Branded travel souvenir gift set by KORA",
                             "width": 2752,
                             "height": 1536
                         },
                         "images": [
                             {
-                                "file": "souvenir/travel.png",
+                                "file": "souvenir/travel.webp",
                                 "alt": "Wanderlust travel souvenir box with tumbler and keepsakes",
                                 "width": 1402,
                                 "height": 1122
                             },
                             {
-                                "file": "souvenir/souvenir_hero.jpeg",
+                                "file": "souvenir/souvenir_hero.webp",
                                 "alt": "Open souvenir gift set with engraved tumbler",
                                 "width": 2752,
                                 "height": 1536
                             },
                             {
-                                "file": "medals/workshop_hero.jpeg",
+                                "file": "medals/workshop_hero.webp",
                                 "alt": "Souvenir gift set displayed with awards and medals",
                                 "width": 2752,
                                 "height": 1536
@@ -771,19 +777,19 @@
                     "items": [
                         {
                             "name": "Wood",
-                            "image": "WOOD.jpg",
+                            "image": "WOOD.webp",
                             "alt": "Solid wood material sample",
                             "description": "Rich, natural finishes ideal for trophies and premium medals."
                         },
                         {
                             "name": "MDF & Plywood",
-                            "image": "MDF.jpg",
+                            "image": "MDF.webp",
                             "alt": "MDF material sample",
                             "description": "Reliable bases for shaped medals, layered builds, and detailed engraving."
                         },
                         {
                             "name": "Acrylic",
-                            "image": "ACRYLIC.png",
+                            "image": "ACRYLIC.webp",
                             "alt": "Acrylic material sample",
                             "description": "Clean, modern awards with colour, depth, and sharp branded detail."
                         }
@@ -805,7 +811,7 @@
                 "hero": {
                     "title": "Request a Quotation",
                     "image": {
-                        "file": "awards/Padel Award.jpg",
+                        "file": "awards/Padel Award.webp",
                         "alt": "Acrylic material used for custom KORA awards",
                         "width": 2752,
                         "height": 1536
@@ -902,7 +908,7 @@
                         "id": "awards",
                         "label": "Awards & Trophies",
                         "image": {
-                            "file": "awards/WOODEN AWARD.png",
+                            "file": "awards/WOODEN AWARD.webp",
                             "alt": "Custom layered wooden cycling award by KORA",
                             "width": 1207,
                             "height": 1303
@@ -912,7 +918,7 @@
                         "id": "medals",
                         "label": "Medals",
                         "image": {
-                            "file": "medals/marathon.jpg",
+                            "file": "medals/marathon.webp",
                             "alt": "Custom layered wooden marathon medal",
                             "width": 3376,
                             "height": 4199
@@ -922,7 +928,7 @@
                         "id": "souvenirs",
                         "label": "Souvenirs & Keepsakes",
                         "image": {
-                            "file": "souvenir/souvenir_hero.jpeg",
+                            "file": "souvenir/souvenir_hero.webp",
                             "alt": "Branded travel souvenir gift set with tumbler and keepsakes",
                             "width": 2752,
                             "height": 1536
@@ -945,14 +951,14 @@
                 ],
                 "process_images": [
                     {
-                        "file": "laser_1.jpg",
+                        "file": "laser_1.webp",
                         "alt": "Close-up of the laser engraving a custom design into wood",
                         "width": 6000,
                         "height": 3376,
                         "role": "back"
                     },
                     {
-                        "file": "awards/Aw1.jpg",
+                        "file": "awards/Aw1.webp",
                         "alt": "Close-up of laser engraving a custom design onto wood",
                         "width": 3376,
                         "height": 3593,
@@ -962,15 +968,15 @@
                 "materials": [
                     {
                         "name": "Wood",
-                        "image": "WOOD.jpg"
+                        "image": "WOOD.webp"
                     },
                     {
                         "name": "MDF",
-                        "image": "MDF.jpg"
+                        "image": "MDF.webp"
                     },
                     {
                         "name": "Acrylic",
-                        "image": "ACRYLIC.png"
+                        "image": "ACRYLIC.webp"
                     }
                 ]
             }
@@ -981,7 +987,7 @@
                 "hero": {
                     "title": "Our Studio Samples",
                     "image": {
-                        "file": "workshop_hero.jpeg",
+                        "file": "workshop_hero.webp",
                         "alt": "Custom KORA awards, medals, and souvenirs displayed in the workshop",
                         "width": 2752,
                         "height": 1536
@@ -995,19 +1001,19 @@
                         "reverse": false,
                         "images": [
                             {
-                                "file": "medals/marathon.jpg",
+                                "file": "medals/marathon.webp",
                                 "alt": "Custom Steps of Hope marathon medal",
                                 "width": 3376,
                                 "height": 4199
                             },
                             {
-                                "file": "medals/bike.jpg",
+                                "file": "medals/bike.webp",
                                 "alt": "Custom bike challenge medal",
                                 "width": 2926,
                                 "height": 3455
                             },
                             {
-                                "file": "medals/football.jpg",
+                                "file": "medals/football.webp",
                                 "alt": "Custom football tournament medal",
                                 "width": 3740,
                                 "height": 2538
@@ -1021,73 +1027,73 @@
                         "reverse": true,
                         "images": [
                             {
-                                "file": "awards/Award_hero.jpeg",
+                                "file": "awards/Award_hero.webp",
                                 "alt": "Business award trophy on a wooden base",
                                 "width": 2752,
                                 "height": 1536
                             },
                             {
-                                "file": "awards/Aw5.jpg",
+                                "file": "awards/Aw5.webp",
                                 "alt": "Mountain bike award with acrylic detail",
                                 "width": 2796,
                                 "height": 3123
                             },
                             {
-                                "file": "awards/Golf_award.jpg",
+                                "file": "awards/Golf_award.webp",
                                 "alt": "Custom golf award",
                                 "width": 3376,
                                 "height": 4667
                             },
                             {
-                                "file": "awards/Padel Award.jpg",
+                                "file": "awards/Padel Award.webp",
                                 "alt": "Nairobi Padel Open champion award",
                                 "width": 3614,
                                 "height": 3016
                             },
                             {
-                                "file": "awards/Graduation.jpg",
+                                "file": "awards/Graduation.webp",
                                 "alt": "Custom graduation award",
                                 "width": 3682,
                                 "height": 3376
                             },
                             {
-                                "file": "awards/Football.jpg",
+                                "file": "awards/Football.webp",
                                 "alt": "Custom football tournament award",
                                 "width": 3376,
                                 "height": 5221
                             },
                             {
-                                "file": "awards/teacher.jpg",
+                                "file": "awards/teacher.webp",
                                 "alt": "Custom teacher appreciation award",
                                 "width": 3203,
                                 "height": 3680
                             },
                             {
-                                "file": "awards/retire.jpg",
+                                "file": "awards/retire.webp",
                                 "alt": "Custom retirement plaque",
                                 "width": 3448,
                                 "height": 3376
                             },
                             {
-                                "file": "awards/WOODEN AWARD.png",
+                                "file": "awards/WOODEN AWARD.webp",
                                 "alt": "Custom layered wooden cycling award",
                                 "width": 1207,
                                 "height": 1303
                             },
                             {
-                                "file": "awards/Aw4.jpg",
+                                "file": "awards/Aw4.webp",
                                 "alt": "Multi-layer award sample",
                                 "width": 3185,
                                 "height": 3376
                             },
                             {
-                                "file": "awards/appreciate.png",
+                                "file": "awards/appreciate.webp",
                                 "alt": "Appreciation award sample",
                                 "width": 1254,
                                 "height": 1254
                             },
                             {
-                                "file": "awards/Golf_Award.jpg",
+                                "file": "awards/Golf_Award.webp",
                                 "alt": "Custom golf award sample",
                                 "width": 1254,
                                 "height": 1254
@@ -1101,13 +1107,13 @@
                         "reverse": false,
                         "images": [
                             {
-                                "file": "souvenir/souvenir_hero.jpeg",
+                                "file": "souvenir/souvenir_hero.webp",
                                 "alt": "Branded travel souvenir gift set",
                                 "width": 2752,
                                 "height": 1536
                             },
                             {
-                                "file": "souvenir/travel.png",
+                                "file": "souvenir/travel.webp",
                                 "alt": "Wanderlust travel souvenir box with tumbler and keepsakes",
                                 "width": 1402,
                                 "height": 1122
@@ -1121,7 +1127,7 @@
             "title": "Workshop Banner",
             "content": {
                 "image": {
-                    "file": "medals/workshop_hero.jpeg",
+                    "file": "medals/workshop_hero.webp",
                     "alt": "Custom KORA awards, medals, and souvenirs displayed in the workshop",
                     "width": 2752,
                     "height": 1536
@@ -1135,7 +1141,7 @@
                     "title": "Contact Us",
                     "lead": "",
                     "image": {
-                        "file": "workshop_hero.jpeg",
+                        "file": "workshop_hero.webp",
                         "alt": "KORA workshop in Nanyuki",
                         "width": 1200,
                         "height": 800

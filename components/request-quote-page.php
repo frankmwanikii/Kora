@@ -9,7 +9,7 @@ $quote = cms_section('request_quote');
 
 $quoteHero = is_array($quote['hero'] ?? null) ? $quote['hero'] : [];
 $quoteHeroImage = is_array($quoteHero['image'] ?? null) ? $quoteHero['image'] : [];
-$quoteHeroFile = (string) ($quoteHeroImage['file'] ?? 'acrylic_material.jpeg');
+$quoteHeroFile = (string) ($quoteHeroImage['file'] ?? 'acrylic_material.webp');
 $quoteHeroAlt = (string) ($quoteHeroImage['alt'] ?? 'Acrylic material used for custom KORA awards');
 $quoteHeroTitle = (string) ($quoteHero['title'] ?? 'Request a Quotation');
 
@@ -159,9 +159,20 @@ $trustIcons = [
                         </div>
                         <div class="form-field">
                             <label for="product">Product required <span class="req" aria-hidden="true">*</span></label>
-                            <input type="text" id="product" name="product" required maxlength="160" placeholder="Trophies, medals, souvenirs…" data-validate="required">
+                            <select id="product" name="product" required data-validate="required" data-product-select>
+                                <option value="" disabled selected>Select a product</option>
+                                <option value="Medals">Medals</option>
+                                <option value="Awards & Trophies">Awards & Trophies</option>
+                                <option value="Souvenirs & Keepsakes">Souvenirs & Keepsakes</option>
+                                <option value="Mix / Other">Mix / Other</option>
+                            </select>
                             <p class="form-field__error" id="product-error" role="alert"></p>
                         </div>
+                    </div>
+                    <div class="form-field form-field--product-other" data-product-other-field hidden>
+                        <label for="product_other">Please specify <span class="req" aria-hidden="true">*</span></label>
+                        <input type="text" id="product_other" name="product_other" maxlength="160" placeholder="e.g. Medals and trophies for a sports day" autocomplete="off">
+                        <p class="form-field__error" id="product_other-error" role="alert"></p>
                     </div>
                     <div class="form-row">
                         <div class="form-field">

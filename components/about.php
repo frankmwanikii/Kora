@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 $about = cms_section('about');
 $about_title = (string) ($about['title'] ?? 'Where laser meets craft');
-$about_bg = (string) ($about['background_image'] ?? 'about image.jpg');
+$about_bg = (string) ($about['background_image'] ?? 'about image.webp');
 $about_paragraphs = cms_list('about', 'paragraphs', [
     'KORA is a custom awards studio based in Nanyuki, Laikipia, specialising in the design and creation of premium awards, medals, plaques, and souvenirs.',
     'We blend advanced laser-cutting technology with meticulous hand-assembly and finishing to craft every piece.',

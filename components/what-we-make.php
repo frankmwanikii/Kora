@@ -8,17 +8,17 @@ $wwm_cards = cms_list('what_we_make', 'cards', [
     [
         'id' => 'awards',
         'label' => 'Awards & Trophies',
-        'image' => ['file' => 'awards/WOODEN AWARD.png', 'alt' => 'Custom layered wooden cycling award by KORA', 'width' => 1207, 'height' => 1303],
+        'image' => ['file' => 'awards/WOODEN AWARD.webp', 'alt' => 'Custom layered wooden cycling award by KORA', 'width' => 1207, 'height' => 1303],
     ],
     [
         'id' => 'medals',
         'label' => 'Medals',
-        'image' => ['file' => 'medals/marathon.jpg', 'alt' => 'Custom layered wooden marathon medal', 'width' => 3376, 'height' => 4199],
+        'image' => ['file' => 'medals/marathon.webp', 'alt' => 'Custom layered wooden marathon medal', 'width' => 3376, 'height' => 4199],
     ],
     [
         'id' => 'souvenirs',
         'label' => 'Souvenirs & Keepsakes',
-        'image' => ['file' => 'souvenir/souvenir_hero.jpeg', 'alt' => 'Branded travel souvenir gift set with tumbler and keepsakes', 'width' => 2752, 'height' => 1536],
+        'image' => ['file' => 'souvenir/souvenir_hero.webp', 'alt' => 'Branded travel souvenir gift set with tumbler and keepsakes', 'width' => 2752, 'height' => 1536],
     ],
 ]);
 $wwm_actions = cms_list('what_we_make', 'actions', [
@@ -27,13 +27,13 @@ $wwm_actions = cms_list('what_we_make', 'actions', [
     ['label' => 'Request a Quote', 'href' => '/request-quote.php'],
 ]);
 $wwm_process = cms_list('what_we_make', 'process_images', [
-    ['file' => 'laser_1.jpg', 'alt' => 'Close-up of the laser engraving a custom design into wood', 'width' => 6000, 'height' => 3376, 'role' => 'back'],
-    ['file' => 'awards/Aw1.jpg', 'alt' => 'Close-up of laser engraving a custom design onto wood', 'width' => 3376, 'height' => 3593, 'role' => 'front'],
+    ['file' => 'laser_1.webp', 'alt' => 'Close-up of the laser engraving a custom design into wood', 'width' => 6000, 'height' => 3376, 'role' => 'back'],
+    ['file' => 'awards/Aw1.webp', 'alt' => 'Close-up of laser engraving a custom design onto wood', 'width' => 3376, 'height' => 3593, 'role' => 'front'],
 ]);
 $wwm_materials = cms_list('what_we_make', 'materials', [
-    ['name' => 'Wood', 'image' => 'WOOD.jpg'],
-    ['name' => 'MDF', 'image' => 'MDF.jpg'],
-    ['name' => 'Acrylic', 'image' => 'ACRYLIC.png'],
+    ['name' => 'Wood', 'image' => 'WOOD.webp'],
+    ['name' => 'MDF', 'image' => 'MDF.webp'],
+    ['name' => 'Acrylic', 'image' => 'ACRYLIC.webp'],
 ]);
 
 $processBack = null;
@@ -111,7 +111,7 @@ if ($processFront === null && isset($wwm_process[1]) && is_array($wwm_process[1]
                     <?php if (is_array($processBack)): ?>
                         <img
                             class="process-stack__back"
-                            src="<?= img((string) ($processBack['file'] ?? 'laser_1.jpg')) ?>"
+                            src="<?= img((string) ($processBack['file'] ?? 'laser_1.webp')) ?>"
                             alt="<?= htmlspecialchars((string) ($processBack['alt'] ?? '')) ?>"
                             width="<?= (int) ($processBack['width'] ?? 6000) ?>"
                             height="<?= (int) ($processBack['height'] ?? 3376) ?>"
@@ -121,7 +121,7 @@ if ($processFront === null && isset($wwm_process[1]) && is_array($wwm_process[1]
                     <?php if (is_array($processFront)): ?>
                         <img
                             class="process-stack__front"
-                            src="<?= img((string) ($processFront['file'] ?? 'awards/Aw1.jpg')) ?>"
+                            src="<?= img((string) ($processFront['file'] ?? 'awards/Aw1.webp')) ?>"
                             alt="<?= htmlspecialchars((string) ($processFront['alt'] ?? '')) ?>"
                             width="<?= (int) ($processFront['width'] ?? 3376) ?>"
                             height="<?= (int) ($processFront['height'] ?? 3593) ?>"

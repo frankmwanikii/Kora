@@ -101,11 +101,11 @@ $productsDefault = [
         ],
         'materials' => 'Premium MDF, solid wood, plywood, and acrylic',
         'ideal_for' => 'Marathons, fun runs, school sports, corporate challenges, and charity walks',
-        'hero' => ['file' => 'medals/hero.jpeg', 'alt' => 'Custom KORA medals laid out on wood', 'width' => 2752, 'height' => 1536],
+        'hero' => ['file' => 'medals/hero.webp', 'alt' => 'Custom KORA medals laid out on wood', 'width' => 2752, 'height' => 1536],
         'images' => [
-            ['file' => 'medals/marathon.jpg', 'alt' => 'Custom Steps of Hope marathon medal', 'width' => 3376, 'height' => 4199],
-            ['file' => 'medals/bike.jpg', 'alt' => 'Custom bike challenge medal', 'width' => 2926, 'height' => 3455],
-            ['file' => 'medals/football.jpg', 'alt' => 'Custom football tournament medal', 'width' => 3740, 'height' => 2538],
+            ['file' => 'medals/marathon.webp', 'alt' => 'Custom Steps of Hope marathon medal', 'width' => 3376, 'height' => 4199],
+            ['file' => 'medals/bike.webp', 'alt' => 'Custom bike challenge medal', 'width' => 2926, 'height' => 3455],
+            ['file' => 'medals/football.webp', 'alt' => 'Custom football tournament medal', 'width' => 3740, 'height' => 2538],
         ],
     ],
     [
@@ -123,11 +123,11 @@ $productsDefault = [
         ],
         'materials' => 'Solid wood, MDF, plywood, acrylic, and mixed finishes',
         'ideal_for' => 'Corporate awards, sports championships, school prizegivings, and NGO recognition',
-        'hero' => ['file' => 'awards/Award_hero.jpeg', 'alt' => 'Handcrafted business award by KORA', 'width' => 2752, 'height' => 1536],
+        'hero' => ['file' => 'awards/Award_hero.webp', 'alt' => 'Handcrafted business award by KORA', 'width' => 2752, 'height' => 1536],
         'images' => [
-            ['file' => 'awards/Aw5.jpg', 'alt' => 'Mountain bike award with acrylic detail', 'width' => 2796, 'height' => 3123],
-            ['file' => 'awards/Padel Award.jpg', 'alt' => 'Nairobi Padel Open champion award', 'width' => 3614, 'height' => 3016],
-            ['file' => 'awards/Golf_award.jpg', 'alt' => 'Custom golf award', 'width' => 3376, 'height' => 4667],
+            ['file' => 'awards/Aw5.webp', 'alt' => 'Mountain bike award with acrylic detail', 'width' => 2796, 'height' => 3123],
+            ['file' => 'awards/Padel Award.webp', 'alt' => 'Nairobi Padel Open champion award', 'width' => 3614, 'height' => 3016],
+            ['file' => 'awards/Golf_award.webp', 'alt' => 'Custom golf award', 'width' => 3376, 'height' => 4667],
         ],
         'reverse' => true,
     ],
@@ -146,11 +146,11 @@ $productsDefault = [
         ],
         'materials' => 'Mixed materials depending on product — wood accents, acrylic, and branded merchandise bases',
         'ideal_for' => 'Conferences, corporate events, tourism campaigns, and branded giveaways',
-        'hero' => ['file' => 'souvenir/souvenir_hero.jpeg', 'alt' => 'Branded travel souvenir gift set by KORA', 'width' => 2752, 'height' => 1536],
+        'hero' => ['file' => 'souvenir/souvenir_hero.webp', 'alt' => 'Branded travel souvenir gift set by KORA', 'width' => 2752, 'height' => 1536],
         'images' => [
-            ['file' => 'souvenir/travel.png', 'alt' => 'Wanderlust travel souvenir box with tumbler and keepsakes', 'width' => 1402, 'height' => 1122],
-            ['file' => 'souvenir/souvenir_hero.jpeg', 'alt' => 'Open souvenir gift set with engraved tumbler', 'width' => 2752, 'height' => 1536],
-            ['file' => 'medals/workshop_hero.jpeg', 'alt' => 'Souvenir gift set displayed with awards and medals', 'width' => 2752, 'height' => 1536],
+            ['file' => 'souvenir/travel.webp', 'alt' => 'Wanderlust travel souvenir box with tumbler and keepsakes', 'width' => 1402, 'height' => 1122],
+            ['file' => 'souvenir/souvenir_hero.webp', 'alt' => 'Open souvenir gift set with engraved tumbler', 'width' => 2752, 'height' => 1536],
+            ['file' => 'medals/workshop_hero.webp', 'alt' => 'Souvenir gift set displayed with awards and medals', 'width' => 2752, 'height' => 1536],
         ],
     ],
 ];
@@ -178,7 +178,7 @@ $products = $productsDeduped !== [] ? $productsDeduped : $productsDefault;
 
 $productsHero = is_array($productsCms['hero'] ?? null) ? $productsCms['hero'] : [];
 $productsHeroImage = is_array($productsHero['image'] ?? null) ? $productsHero['image'] : [];
-$productsHeroFile = (string) ($productsHeroImage['file'] ?? 'awards/Hero Section.jpg');
+$productsHeroFile = (string) ($productsHeroImage['file'] ?? 'awards/Hero Section.webp');
 $productsHeroAlt = (string) ($productsHeroImage['alt'] ?? 'Collection of custom KORA awards and trophies');
 $productsHeroTitle = (string) ($productsHero['title'] ?? 'Our Products');
 
@@ -197,9 +197,9 @@ $productsMaterials = is_array($productsCms['materials_section'] ?? null)
 $productsMaterialsTitle = (string) ($productsMaterials['title'] ?? 'Materials we work with');
 $productsMaterialsText = (string) ($productsMaterials['text'] ?? 'We select materials based on the look, weight, and durability your product needs. Whether you want the warmth of natural wood, the precision of layered acrylic, or the versatility of MDF and plywood, we advise on the best combination for your event or brand.');
 $productsMaterialsItems = is_array($productsMaterials['items'] ?? null) ? $productsMaterials['items'] : [
-    ['name' => 'Wood', 'image' => 'WOOD.jpg', 'alt' => 'Solid wood material sample', 'text' => 'Rich, natural finishes ideal for trophies and premium medals.'],
-    ['name' => 'MDF & Plywood', 'image' => 'MDF.jpg', 'alt' => 'MDF material sample', 'text' => 'Reliable bases for shaped medals, layered builds, and detailed engraving.'],
-    ['name' => 'Acrylic', 'image' => 'ACRYLIC.png', 'alt' => 'Acrylic material sample', 'text' => 'Clean, modern awards with colour, depth, and sharp branded detail.'],
+    ['name' => 'Wood', 'image' => 'WOOD.webp', 'alt' => 'Solid wood material sample', 'text' => 'Rich, natural finishes ideal for trophies and premium medals.'],
+    ['name' => 'MDF & Plywood', 'image' => 'MDF.webp', 'alt' => 'MDF material sample', 'text' => 'Reliable bases for shaped medals, layered builds, and detailed engraving.'],
+    ['name' => 'Acrylic', 'image' => 'ACRYLIC.webp', 'alt' => 'Acrylic material sample', 'text' => 'Clean, modern awards with colour, depth, and sharp branded detail.'],
 ];
 
 $productsCta = is_array($productsCms['cta'] ?? null) ? $productsCms['cta'] : [];

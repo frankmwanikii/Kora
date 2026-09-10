@@ -77,7 +77,7 @@ require __DIR__ . '/includes/layout.php';
                 <section class="panel">
                     <div class="panel__head"><h2 class="panel__title">Image tips</h2></div>
                     <div class="panel__body">
-                        <p class="muted" style="font-size:.875rem;margin:0 0 .75rem"><strong>Paste URL</strong> — paste a full image URL or a path like <code>awards/Aw1.jpg</code>.</p>
+                        <p class="muted" style="font-size:.875rem;margin:0 0 .75rem"><strong>Paste URL</strong> — paste a full image URL or a path like <code>awards/Aw1.webp</code>.</p>
                         <p class="muted" style="font-size:.875rem;margin:0 0 .75rem"><strong>Upload</strong> — add a new file to the media library and fill the field automatically.</p>
                         <p class="muted" style="font-size:.875rem;margin:0"><strong>Pick from gallery</strong> — browse existing site images and select one.</p>
                     </div>

@@ -54,7 +54,7 @@ $how = cms_section('how_it_works');
 
 $howHero = is_array($how['hero'] ?? null) ? $how['hero'] : [];
 $howHeroImage = is_array($howHero['image'] ?? null) ? $howHero['image'] : [];
-$howHeroFile = (string) ($howHeroImage['file'] ?? 'laser_1.jpg');
+$howHeroFile = (string) ($howHeroImage['file'] ?? 'laser_1.webp');
 $howHeroAlt = (string) ($howHeroImage['alt'] ?? 'Laser engraving a custom design in the KORA workshop');
 $howHeroTitle = (string) ($howHero['title'] ?? 'How It Works');
 
@@ -86,7 +86,7 @@ $stepDetailsDefault = [
             'Mention product type — medals, awards, souvenirs, or a mix',
             'Include approximate quantities so we can plan production',
         ],
-        'image' => ['file' => 'medals/hero.jpeg', 'alt' => 'Custom KORA medals for events and challenges', 'width' => 2752, 'height' => 1536],
+        'image' => ['file' => 'medals/hero.webp', 'alt' => 'Custom KORA medals for events and challenges', 'width' => 2752, 'height' => 1536],
     ],
     [
         'id' => 'step-send-details',
@@ -99,7 +99,7 @@ $stepDetailsDefault = [
             'List names, titles, or categories if they vary per piece',
             'Note ribbon colours, sizes, or packaging preferences',
         ],
-        'image' => ['file' => 'awards/Aw1.jpg', 'alt' => 'Laser engraving a custom design in the KORA workshop', 'width' => 3376, 'height' => 3593],
+        'image' => ['file' => 'awards/Aw1.webp', 'alt' => 'Laser engraving a custom design in the KORA workshop', 'width' => 3376, 'height' => 3593],
         'reverse' => true,
     ],
     [
@@ -113,7 +113,7 @@ $stepDetailsDefault = [
             'We can suggest alternatives to match your budget',
             'Ask questions — we are happy to explain each line item',
         ],
-        'image' => ['file' => 'awards/Award_hero.jpeg', 'alt' => 'Finished award sample prepared for client review', 'width' => 2752, 'height' => 1536],
+        'image' => ['file' => 'awards/Award_hero.webp', 'alt' => 'Finished award sample prepared for client review', 'width' => 2752, 'height' => 1536],
     ],
     [
         'id' => 'step-approve',
@@ -126,7 +126,7 @@ $stepDetailsDefault = [
             'Confirm quantities before production starts',
             'Approval triggers scheduling in the KORA workshop',
         ],
-        'image' => ['file' => 'laser_1.jpg', 'alt' => 'Close-up of the laser engraving a custom design into wood', 'width' => 6000, 'height' => 3376],
+        'image' => ['file' => 'laser_1.webp', 'alt' => 'Close-up of the laser engraving a custom design into wood', 'width' => 6000, 'height' => 3376],
         'reverse' => true,
     ],
     [
@@ -140,7 +140,7 @@ $stepDetailsDefault = [
             'Collection available from our Laikipia workshop',
             'Delivery options can be discussed when you confirm',
         ],
-        'image' => ['file' => 'medals/workshop_hero.jpeg', 'alt' => 'Finished KORA awards, medals, and souvenirs ready for handover', 'width' => 2752, 'height' => 1536],
+        'image' => ['file' => 'medals/workshop_hero.webp', 'alt' => 'Finished KORA awards, medals, and souvenirs ready for handover', 'width' => 2752, 'height' => 1536],
     ],
 ];
 

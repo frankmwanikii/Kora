@@ -265,7 +265,7 @@ function kora_convert_to_webp(string $source, string $destination, string $ext):
         imagesavealpha($image, true);
     }
 
-    $saved = imagewebp($image, $destination, 85);
+    $saved = imagewebp($image, $destination, 80);
     imagedestroy($image);
 
     return $saved;

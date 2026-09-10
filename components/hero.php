@@ -13,31 +13,31 @@ $hero_content = [
 
 $hero_slides = cms_list('hero', 'slides', [
     [
-        'file' => 'awards/Award_hero.jpeg',
+        'file' => 'awards/Award_hero.webp',
         'alt' => 'Collection of custom KORA awards and trophies',
         'width' => 4558,
         'height' => 3376,
     ],
     [
-        'file' => 'medals/hero.jpeg',
+        'file' => 'medals/hero.webp',
         'alt' => 'Custom KORA medals laid out on wood',
         'width' => 2752,
         'height' => 1536,
     ],
     [
-        'file' => 'souvenir/souvenir_hero.jpeg',
+        'file' => 'souvenir/souvenir_hero.webp',
         'alt' => 'Custom KORA souvenirs and keepsakes',
         'width' => 2752,
         'height' => 1536,
     ],
     [
-        'file' => 'workshop_hero.jpeg',
+        'file' => 'workshop_hero.webp',
         'alt' => 'Laser engraving detail on wood in the KORA workshop',
         'width' => 1200,
         'height' => 800,
     ],
     [
-        'file' => 'laser_1.jpg',
+        'file' => 'laser_1.webp',
         'alt' => 'Close-up of the laser engraving a custom design into wood',
         'width' => 6000,
         'height' => 3376,
@@ -88,15 +88,32 @@ if ($hero_actions === []) {
     </div>
 
     <div class="hero-slider__overlay">
-        <div class="hero-slider__content">
-            <p class="hero-slider__kicker"><?= htmlspecialchars($hero_content['kicker']) ?></p>
+        <div class="hero-slider__content" data-hero-typewriter>
+            <p
+                class="hero-slider__kicker is-complete"
+                data-typewriter
+                data-typewriter-text="<?= htmlspecialchars($hero_content['kicker'], ENT_QUOTES) ?>"
+            >
+                <span class="hero-slider__typed"><?= htmlspecialchars($hero_content['kicker']) ?></span><span class="hero-slider__caret" aria-hidden="true"></span>
+            </p>
             <h1 id="hero-title" class="hero-slider__title">
-                <span class="hero-slider__title-accent"><?= htmlspecialchars($hero_content['title_accent']) ?></span>
-                <?= htmlspecialchars($hero_content['title_rest']) ?>
+                <span
+                    class="hero-slider__title-accent"
+                    data-typewriter
+                    data-typewriter-text="<?= htmlspecialchars($hero_content['title_accent'], ENT_QUOTES) ?>"
+                ><span class="hero-slider__typed"><?= htmlspecialchars($hero_content['title_accent']) ?></span></span><span
+                    data-typewriter
+                    data-typewriter-text="<?= htmlspecialchars(' ' . ltrim($hero_content['title_rest']), ENT_QUOTES) ?>"
+                ><span class="hero-slider__typed"><?= htmlspecialchars(' ' . ltrim($hero_content['title_rest'])) ?></span></span><span class="hero-slider__caret hero-slider__caret--title" aria-hidden="true"></span>
             </h1>
-            <p class="hero-slider__subtitle"><?= htmlspecialchars($hero_content['subtitle']) ?></p>
-            <div class="btn-group hero-slider__actions">
-                <?php foreach ($hero_actions as $actionIndex => $action): ?>
+            <p
+                class="hero-slider__subtitle"
+                data-typewriter
+                data-typewriter-text="<?= htmlspecialchars($hero_content['subtitle'], ENT_QUOTES) ?>"
+            >
+                <span class="hero-slider__typed"><?= htmlspecialchars($hero_content['subtitle']) ?></span><span class="hero-slider__caret" aria-hidden="true"></span>
+            </p>
+            <div class="btn-group hero-slider__actions is-visible">                <?php foreach ($hero_actions as $actionIndex => $action): ?>
                     <?php
                     if (!is_array($action)) {
                         continue;

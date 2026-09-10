@@ -11,13 +11,53 @@ $contact_channels = cms_list('contact', 'channels', [
     ['label' => 'Whatsapp KORA', 'href' => SITE_WHATSAPP, 'external' => true],
     ['label' => 'Email KORA', 'href' => 'mailto:' . SITE_EMAIL, 'external' => false],
 ]);
+
+$contactImage = is_array($contact['image'] ?? null) ? $contact['image'] : [];
+$contactImageFile = (string) ($contactImage['file'] ?? 'medals/workshop_hero.webp');
+$contactImageAlt = (string) ($contactImage['alt'] ?? 'Custom KORA awards and medals in the workshop');
+$contactImageWidth = (int) ($contactImage['width'] ?? 2752);
+$contactImageHeight = (int) ($contactImage['height'] ?? 1536);
 ?>
 <section class="contact-section section" id="contact" aria-labelledby="contact-title">
     <div class="container contact-section__grid">
         <div class="contact-section__intro reveal">
             <h2 id="contact-title"><?= htmlspecialchars($contact_title) ?></h2>
             <p class="lead-italic"><?= htmlspecialchars($contact_lead) ?></p>
+
+            <div class="contact-section__channels btn-group btn-group--row">
+                <?php foreach ($contact_channels as $channel): ?>
+                    <?php
+                    if (!is_array($channel)) {
+                        continue;
+                    }
+                    $label = (string) ($channel['label'] ?? '');
+                    $href = (string) ($channel['href'] ?? '#');
+                    if ($label === '') {
+                        continue;
+                    }
+                    $external = !empty($channel['external']) || str_starts_with($href, 'http');
+                    ?>
+                    <a
+                        class="btn btn--light"
+                        href="<?= htmlspecialchars($href) ?>"
+                        <?= $external ? 'target="_blank" rel="noopener noreferrer"' : '' ?>
+                    ><?= htmlspecialchars($label) ?></a>
+                <?php endforeach; ?>
+            </div>
+
+            <figure class="contact-section__media">
+                <img
+                    src="<?= img($contactImageFile) ?>"
+                    alt="<?= htmlspecialchars($contactImageAlt) ?>"
+                    width="<?= $contactImageWidth ?>"
+                    height="<?= $contactImageHeight ?>"
+                    loading="lazy"
+                    decoding="async"
+                >
+                <span class="contact-section__media-veil" aria-hidden="true"></span>
+            </figure>
         </div>
+
         <div class="contact-section__form reveal">
             <form class="quote-form" id="quote-form" action="<?= htmlspecialchars($contact_action) ?>" method="post" enctype="multipart/form-data" novalidate data-whatsapp="<?= htmlspecialchars(SITE_WHATSAPP) ?>">
                 <div class="form-row">
@@ -52,9 +92,20 @@ $contact_channels = cms_list('contact', 'channels', [
                     </div>
                     <div class="form-field">
                         <label for="product">Product required</label>
-                        <input type="text" id="product" name="product" required placeholder="Trophies, medals, plaques…" data-validate="required">
+                        <select id="product" name="product" required data-validate="required" data-product-select>
+                            <option value="" disabled selected>Select a product</option>
+                            <option value="Medals">Medals</option>
+                            <option value="Awards & Trophies">Awards & Trophies</option>
+                            <option value="Souvenirs & Keepsakes">Souvenirs & Keepsakes</option>
+                            <option value="Mix / Other">Mix / Other</option>
+                        </select>
                         <p class="form-field__error" id="product-error" role="alert"></p>
                     </div>
+                </div>
+                <div class="form-field form-field--product-other" data-product-other-field hidden>
+                    <label for="product_other">Please specify</label>
+                    <input type="text" id="product_other" name="product_other" maxlength="160" placeholder="e.g. Medals and trophies for a sports day" autocomplete="off">
+                    <p class="form-field__error" id="product_other-error" role="alert"></p>
                 </div>
                 <div class="form-row">
                     <div class="form-field">
@@ -104,26 +155,6 @@ $contact_channels = cms_list('contact', 'channels', [
                     <p class="quote-success__text">Your quotation request has been sent, and a confirmation email is on its way. We will review your brief and respond within one business day. Need it faster? <a href="<?= htmlspecialchars(SITE_WHATSAPP) ?>" target="_blank" rel="noopener noreferrer" data-quote-whatsapp>Message us on WhatsApp</a>.</p>
                 </div>
             </div>
-        </div>
-        <div class="contact-section__channels btn-group btn-group--row reveal">
-            <?php foreach ($contact_channels as $channel): ?>
-                <?php
-                if (!is_array($channel)) {
-                    continue;
-                }
-                $label = (string) ($channel['label'] ?? '');
-                $href = (string) ($channel['href'] ?? '#');
-                if ($label === '') {
-                    continue;
-                }
-                $external = !empty($channel['external']) || str_starts_with($href, 'http');
-                ?>
-                <a
-                    class="btn btn--light"
-                    href="<?= htmlspecialchars($href) ?>"
-                    <?= $external ? 'target="_blank" rel="noopener noreferrer"' : '' ?>
-                ><?= htmlspecialchars($label) ?></a>
-            <?php endforeach; ?>
         </div>
     </div>
 </section>

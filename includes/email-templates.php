@@ -38,13 +38,45 @@ function kora_email_is_image_mime(string $mime): bool
 }
 
 /**
- * Absolute URL for the brand logo used in outbound emails.
+ * Absolute URL for the brand logo used in outbound emails (remote fallback).
  */
 function kora_email_logo_url(string $variant = 'white'): string
 {
-    $file = $variant === 'mark' ? 'kora_logo1.png' : 'kora_logo_white.png';
+    $file = $variant === 'mark' ? 'kora_logo1.webp' : 'kora_logo_white.webp';
 
     return rtrim(SITE_URL, '/') . '/assets/images/logos/' . $file;
+}
+
+/**
+ * CID used when embedding the brand logo inline in HTML emails.
+ */
+function kora_email_logo_cid(string $variant = 'white'): string
+{
+    return $variant === 'mark' ? 'kora-brand-logo-mark' : 'kora-brand-logo';
+}
+
+/**
+ * Absolute filesystem path to the brand logo for email embedding.
+ */
+function kora_email_logo_path(string $variant = 'white'): string
+{
+    $file = $variant === 'mark' ? 'kora_logo1.webp' : 'kora_logo_white.webp';
+
+    return dirname(__DIR__) . '/assets/images/logos/' . $file;
+}
+
+/**
+ * Prefer CID embedding so logos still show when remote image URLs are blocked (403/CDN).
+ */
+function kora_email_logo_src(string $variant = 'white'): string
+{
+    $path = kora_email_logo_path($variant);
+
+    if (is_file($path) && is_readable($path)) {
+        return 'cid:' . kora_email_logo_cid($variant);
+    }
+
+    return kora_email_logo_url($variant);
 }
 
 /**
@@ -54,7 +86,7 @@ function kora_email_brand_header_html(string $eyebrow = ''): string
 {
     $navy = '#333652';
     $copper = '#a66a3d';
-    $logoUrl = kora_email_logo_url('white');
+    $logoSrc = kora_email_logo_src('white');
     $siteUrl = rtrim(SITE_URL, '/');
 
     $eyebrowHtml = '';
@@ -69,7 +101,7 @@ function kora_email_brand_header_html(string $eyebrow = ''): string
         '<td style="background:linear-gradient(135deg,' . $navy . ' 0%,#2a2d44 100%);padding:26px 32px 22px;" class="email-pad">'
         . $eyebrowHtml
         . '<a href="' . kora_email_escape($siteUrl) . '" style="text-decoration:none;display:inline-block;">'
-        . '<img src="' . kora_email_escape($logoUrl) . '" alt="' . kora_email_escape(SITE_NAME . ' Laser Craft') . '" width="172" height="172" style="display:block;width:172px;max-width:52%;height:auto;border:0;outline:none;">'
+        . '<img src="' . kora_email_escape($logoSrc) . '" alt="' . kora_email_escape(SITE_NAME . ' Laser Craft') . '" width="180" height="80" style="display:block;width:180px;max-width:70%;height:auto;border:0;outline:none;">'
         . '</a>'
         . '<p style="margin:12px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.45;color:#cfd1db;">'
         . kora_email_escape(SITE_TAGLINE) . ' · ' . kora_email_escape(SITE_LOCATION)
@@ -84,7 +116,7 @@ function kora_email_simple_header_html(string $eyebrow = ''): string
 {
     $navy = '#333652';
     $copper = '#a66a3d';
-    $logoUrl = kora_email_logo_url('white');
+    $logoSrc = kora_email_logo_src('white');
     $siteUrl = rtrim(SITE_URL, '/');
 
     $eyebrowHtml = '';
@@ -99,7 +131,7 @@ function kora_email_simple_header_html(string $eyebrow = ''): string
         '<tr><td style="background:' . $navy . ';padding:22px 24px;">'
         . $eyebrowHtml
         . '<a href="' . kora_email_escape($siteUrl) . '" style="text-decoration:none;display:inline-block;">'
-        . '<img src="' . kora_email_escape($logoUrl) . '" alt="' . kora_email_escape(SITE_NAME . ' Laser Craft') . '" width="148" height="148" style="display:block;width:148px;max-width:55%;height:auto;border:0;outline:none;">'
+        . '<img src="' . kora_email_escape($logoSrc) . '" alt="' . kora_email_escape(SITE_NAME . ' Laser Craft') . '" width="160" height="72" style="display:block;width:160px;max-width:70%;height:auto;border:0;outline:none;">'
         . '</a>'
         . '</td></tr>';
 }
@@ -623,7 +655,7 @@ function kora_quote_email_html(
         <tr>
           <td class="email-pad" style="padding:22px 32px 26px;background:#f7f6f3;font-family:Arial,Helvetica,sans-serif;text-align:center;">
             <a href="' . kora_email_escape(rtrim(SITE_URL, '/')) . '" style="text-decoration:none;display:inline-block;margin:0 0 10px;">
-              <img src="' . kora_email_escape(kora_email_logo_url('white')) . '" alt="' . kora_email_escape(SITE_NAME) . '" width="96" height="96" style="display:block;width:96px;height:auto;margin:0 auto;border:0;outline:none;background:' . $navy . ';border-radius:12px;">
+              <img src="' . kora_email_escape(kora_email_logo_src('mark')) . '" alt="' . kora_email_escape(SITE_NAME) . '" width="140" height="62" style="display:block;width:140px;height:auto;margin:0 auto;border:0;outline:none;">
             </a>
             <p style="margin:0 0 4px;font-size:14px;color:' . $navy . ';font-weight:700;">' . kora_email_escape(SITE_NAME) . '</p>
             <p style="margin:0 0 6px;font-size:13px;line-height:1.5;color:' . $muted . ';">' . kora_email_escape(SITE_ADDRESS) . '</p>

@@ -7,7 +7,7 @@ $page = cms_section('contact_us');
 
 $hero = is_array($page['hero'] ?? null) ? $page['hero'] : [];
 $heroImage = is_array($hero['image'] ?? null) ? $hero['image'] : [];
-$heroFile = (string) ($heroImage['file'] ?? 'workshop_hero.jpeg');
+$heroFile = (string) ($heroImage['file'] ?? 'workshop_hero.webp');
 $heroAlt = (string) ($heroImage['alt'] ?? 'KORA workshop in Nanyuki');
 $heroTitle = (string) ($hero['title'] ?? 'Contact Us');
 $heroLead = (string) ($hero['lead'] ?? '');

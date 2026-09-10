@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 $workshop = cms_section('workshop');
 $workshopImage = is_array($workshop['image'] ?? null) ? $workshop['image'] : [];
-$workshopFile = (string) ($workshopImage['file'] ?? 'medals/workshop_hero.jpeg');
+$workshopFile = (string) ($workshopImage['file'] ?? 'medals/workshop_hero.webp');
 $workshopAlt = (string) ($workshopImage['alt'] ?? 'Custom KORA awards, medals, and souvenirs displayed in the workshop');
 ?>
 <section class="workshop-banner" aria-label="KORA workshop">

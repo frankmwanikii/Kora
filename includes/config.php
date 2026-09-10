@@ -29,7 +29,14 @@ require_once __DIR__ . '/brand-logo.php';
 
 function asset(string $path): string
 {
-    return '/' . ltrim($path, '/');
+    $url = '/' . ltrim($path, '/');
+    $file = dirname(__DIR__) . $url;
+
+    if (is_file($file)) {
+        $url .= '?v=' . filemtime($file);
+    }
+
+    return $url;
 }
 
 function img(string $filename): string

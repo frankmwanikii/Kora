@@ -59,11 +59,13 @@ $fields = [
     'email' => trim($_POST['email'] ?? ''),
     'event_type' => trim($_POST['event_type'] ?? ''),
     'product' => trim($_POST['product'] ?? ''),
+    'product_other' => trim($_POST['product_other'] ?? ''),
     'quantity' => trim($_POST['quantity'] ?? ''),
     'event_date' => trim($_POST['event_date'] ?? ''),
     'message' => trim($_POST['message'] ?? ''),
 ];
 
+$allowedProducts = ['Medals', 'Awards & Trophies', 'Souvenirs & Keepsakes', 'Mix / Other'];
 $required = ['name', 'phone', 'email', 'event_type', 'product', 'quantity', 'event_date', 'message'];
 $errors = [];
 
@@ -72,6 +74,22 @@ foreach ($required as $key) {
         $errors[$key] = 'This field is required.';
     }
 }
+
+if ($fields['product'] !== '' && !in_array($fields['product'], $allowedProducts, true)) {
+    $errors['product'] = 'Select a product from the list.';
+}
+
+if ($fields['product'] === 'Mix / Other') {
+    if ($fields['product_other'] === '') {
+        $errors['product_other'] = 'Please specify the product you need.';
+    } elseif (mb_strlen($fields['product_other']) > 160) {
+        $errors['product_other'] = 'Keep this under 160 characters.';
+    } else {
+        $fields['product'] = 'Mix / Other — ' . $fields['product_other'];
+    }
+}
+
+unset($fields['product_other']);
 
 if ($fields['email'] !== '' && !filter_var($fields['email'], FILTER_VALIDATE_EMAIL)) {
     $errors['email'] = 'Enter a valid email address.';
