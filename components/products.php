@@ -84,7 +84,8 @@ function render_product_detail(array $product): void
     <?php
 }
 
-$products = [
+$productsCms = cms_section('products');
+$productsDefault = [
     [
         'id' => 'medals',
         'tag' => 'Event recognition',
@@ -153,19 +154,52 @@ $products = [
         ],
     ],
 ];
+
+$products = cms_list('products', 'categories', $productsDefault);
+if ($products === []) {
+    $products = $productsDefault;
+}
+
+$productsHero = is_array($productsCms['hero'] ?? null) ? $productsCms['hero'] : [];
+$productsHeroImage = is_array($productsHero['image'] ?? null) ? $productsHero['image'] : [];
+$productsHeroFile = (string) ($productsHeroImage['file'] ?? 'awards/Hero Section.jpg');
+$productsHeroAlt = (string) ($productsHeroImage['alt'] ?? 'Collection of custom KORA awards and trophies');
+$productsHeroTitle = (string) ($productsHero['title'] ?? 'Our Products');
+
+$productsIntro = is_array($productsCms['intro'] ?? null) ? $productsCms['intro'] : [];
+$productsIntroTitle = (string) ($productsIntro['title'] ?? 'What we make');
+$productsIntroText = (string) ($productsIntro['text'] ?? 'KORA creates recognition products by hand for organisations, NGOs, corporates, schools, and sports teams. Every item starts with your brief — event, brand, quantity, and budget — and is shaped in our Nanyuki workshop using premium materials, precise engraving, and finishes built to last.');
+$productsIntroNav = is_array($productsIntro['nav'] ?? null) ? $productsIntro['nav'] : [
+    ['label' => 'Medals', 'href' => '#medals'],
+    ['label' => 'Awards', 'href' => '#awards'],
+    ['label' => 'Souvenirs', 'href' => '#souvenirs'],
+];
+
+$productsMaterials = is_array($productsCms['materials_block'] ?? null) ? $productsCms['materials_block'] : [];
+$productsMaterialsTitle = (string) ($productsMaterials['title'] ?? 'Materials we work with');
+$productsMaterialsText = (string) ($productsMaterials['text'] ?? 'We select materials based on the look, weight, and durability your product needs. Whether you want the warmth of natural wood, the precision of layered acrylic, or the versatility of MDF and plywood, we advise on the best combination for your event or brand.');
+$productsMaterialsItems = is_array($productsMaterials['items'] ?? null) ? $productsMaterials['items'] : [
+    ['name' => 'Wood', 'image' => 'WOOD.jpg', 'alt' => 'Solid wood material sample', 'text' => 'Rich, natural finishes ideal for trophies and premium medals.'],
+    ['name' => 'MDF & Plywood', 'image' => 'MDF.jpg', 'alt' => 'MDF material sample', 'text' => 'Reliable bases for shaped medals, layered builds, and detailed engraving.'],
+    ['name' => 'Acrylic', 'image' => 'ACRYLIC.png', 'alt' => 'Acrylic material sample', 'text' => 'Clean, modern awards with colour, depth, and sharp branded detail.'],
+];
+
+$productsCta = is_array($productsCms['cta'] ?? null) ? $productsCms['cta'] : [];
+$productsCtaTitle = (string) ($productsCta['title'] ?? 'Ready to brief your order?');
+$productsCtaText = (string) ($productsCta['text'] ?? 'Share your event, quantities, and design ideas — we will guide you from concept to finished pieces.');
 ?>
 <section class="products-hero" aria-labelledby="products-hero-title">
     <img
         class="products-hero__image reveal"
-        src="<?= img('awards/Hero Section.jpg') ?>"
-        alt="Collection of custom KORA awards and trophies"
-        width="4558"
-        height="3376"
+        src="<?= img($productsHeroFile) ?>"
+        alt="<?= htmlspecialchars($productsHeroAlt) ?>"
+        width="<?= (int) ($productsHeroImage['width'] ?? 4558) ?>"
+        height="<?= (int) ($productsHeroImage['height'] ?? 3376) ?>"
         loading="eager"
     >
     <div class="products-hero__overlay">
         <div class="products-hero__content reveal">
-            <h1 id="products-hero-title" class="products-hero__title">Our Products</h1>
+            <h1 id="products-hero-title" class="products-hero__title"><?= htmlspecialchars($productsHeroTitle) ?></h1>
         </div>
     </div>
 </section>
@@ -173,14 +207,15 @@ $products = [
 <section class="products-intro section" aria-labelledby="products-intro-title">
     <div class="container">
         <div class="products-intro__inner reveal">
-            <h2 id="products-intro-title" class="products-intro__title">What we make</h2>
-            <p class="products-intro__text text-body">
-                KORA creates recognition products by hand for organisations, NGOs, corporates, schools, and sports teams. Every item starts with your brief — event, brand, quantity, and budget — and is shaped in our Nanyuki workshop using premium materials, precise engraving, and finishes built to last.
-            </p>
+            <h2 id="products-intro-title" class="products-intro__title"><?= htmlspecialchars($productsIntroTitle) ?></h2>
+            <p class="products-intro__text text-body"><?= htmlspecialchars($productsIntroText) ?></p>
             <div class="products-intro__nav">
-                <a class="products-intro__link" href="#medals">Medals</a>
-                <a class="products-intro__link" href="#awards">Awards</a>
-                <a class="products-intro__link" href="#souvenirs">Souvenirs</a>
+                <?php foreach ($productsIntroNav as $navItem): ?>
+                    <?php if (!is_array($navItem) || (string) ($navItem['label'] ?? '') === '') {
+                        continue;
+                    } ?>
+                    <a class="products-intro__link" href="<?= htmlspecialchars((string) ($navItem['href'] ?? '#')) ?>"><?= htmlspecialchars((string) $navItem['label']) ?></a>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
@@ -196,27 +231,27 @@ $products = [
     <div class="container">
         <div class="products-materials__inner reveal">
             <div class="products-materials__copy">
-                <h2 id="products-materials-title" class="products-materials__title">Materials we work with</h2>
-                <p class="text-body">
-                    We select materials based on the look, weight, and durability your product needs. Whether you want the warmth of natural wood, the precision of layered acrylic, or the versatility of MDF and plywood, we advise on the best combination for your event or brand.
-                </p>
+                <h2 id="products-materials-title" class="products-materials__title"><?= htmlspecialchars($productsMaterialsTitle) ?></h2>
+                <p class="text-body"><?= htmlspecialchars($productsMaterialsText) ?></p>
             </div>
             <div class="products-materials__grid">
-                <article class="products-materials__item">
-                    <img src="<?= img('WOOD.jpg') ?>" alt="Solid wood material sample" width="6061" height="4329" loading="lazy">
-                    <h3>Wood</h3>
-                    <p>Rich, natural finishes ideal for trophies and premium medals.</p>
-                </article>
-                <article class="products-materials__item">
-                    <img src="<?= img('MDF.jpg') ?>" alt="MDF material sample" width="2000" height="2000" loading="lazy">
-                    <h3>MDF &amp; Plywood</h3>
-                    <p>Reliable bases for shaped medals, layered builds, and detailed engraving.</p>
-                </article>
-                <article class="products-materials__item">
-                    <img src="<?= img('ACRYLIC.png') ?>" alt="Acrylic material sample" width="1080" height="1080" loading="lazy">
-                    <h3>Acrylic</h3>
-                    <p>Clean, modern awards with colour, depth, and sharp branded detail.</p>
-                </article>
+                <?php foreach ($productsMaterialsItems as $materialItem): ?>
+                    <?php
+                    if (!is_array($materialItem)) {
+                        continue;
+                    }
+                    $mName = (string) ($materialItem['name'] ?? '');
+                    $mImage = (string) ($materialItem['image'] ?? '');
+                    if ($mName === '' || $mImage === '') {
+                        continue;
+                    }
+                    ?>
+                    <article class="products-materials__item">
+                        <img src="<?= img($mImage) ?>" alt="<?= htmlspecialchars((string) ($materialItem['alt'] ?? $mName)) ?>" width="1200" height="1200" loading="lazy">
+                        <h3><?= htmlspecialchars($mName) ?></h3>
+                        <p><?= htmlspecialchars((string) ($materialItem['text'] ?? $materialItem['description'] ?? '')) ?></p>
+                    </article>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
@@ -225,8 +260,8 @@ $products = [
 <section class="products-cta section" aria-labelledby="products-cta-title">
     <div class="container">
         <div class="products-cta__inner reveal">
-            <h2 id="products-cta-title" class="products-cta__title">Ready to brief your order?</h2>
-            <p class="products-cta__text lead-italic">Share your event, quantities, and design ideas — we will guide you from concept to finished pieces.</p>
+            <h2 id="products-cta-title" class="products-cta__title"><?= htmlspecialchars($productsCtaTitle) ?></h2>
+            <p class="products-cta__text lead-italic"><?= htmlspecialchars($productsCtaText) ?></p>
             <div class="btn-group">
                 <a class="btn btn--solid" href="/request-quote.php">Request a Quotation</a>
                 <a class="btn btn--ghost" href="/work-samples.php">Browse our work</a>

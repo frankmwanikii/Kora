@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @param array<int, array{file: string, alt: string, width: int, height: int}> $images
+ * @param array<int, array{file?: string, alt?: string, width?: int|string, height?: int|string}> $images
  */
 function render_sample_gallery(string $label, array $images): void
 {
@@ -11,16 +11,25 @@ function render_sample_gallery(string $label, array $images): void
     <div class="sample-gallery-wrap">
         <div class="sample-gallery" tabindex="0" role="region" aria-label="<?= htmlspecialchars($label) ?> sample gallery">
             <?php foreach ($images as $image): ?>
+                <?php
+                if (!is_array($image)) {
+                    continue;
+                }
+                $file = (string) ($image['file'] ?? '');
+                if ($file === '') {
+                    continue;
+                }
+                ?>
                 <button
                     type="button"
                     class="sample-gallery__item"
-                    aria-label="View larger: <?= htmlspecialchars($image['alt']) ?>"
+                    aria-label="View larger: <?= htmlspecialchars((string) ($image['alt'] ?? $label)) ?>"
                 >
                     <img
-                        src="<?= img($image['file']) ?>"
-                        alt="<?= htmlspecialchars($image['alt']) ?>"
-                        width="<?= (int) $image['width'] ?>"
-                        height="<?= (int) $image['height'] ?>"
+                        src="<?= img($file) ?>"
+                        alt="<?= htmlspecialchars((string) ($image['alt'] ?? '')) ?>"
+                        width="<?= (int) ($image['width'] ?? 1200) ?>"
+                        height="<?= (int) ($image['height'] ?? 1200) ?>"
                         loading="lazy"
                         draggable="false"
                     >
@@ -43,78 +52,99 @@ function render_sample_gallery(string $label, array $images): void
     <?php
 }
 
-$medal_samples = [
-    ['file' => 'medals/marathon.jpg', 'alt' => 'Custom Steps of Hope marathon medal', 'width' => 3376, 'height' => 4199],
-    ['file' => 'medals/bike.jpg', 'alt' => 'Custom bike challenge medal', 'width' => 2926, 'height' => 3455],
-    ['file' => 'medals/football.jpg', 'alt' => 'Custom football tournament medal', 'width' => 3740, 'height' => 2538],
-    
-];
+$work = cms_section('work_samples');
+$work_hero = is_array($work['hero'] ?? null) ? $work['hero'] : [];
+$work_hero_image = is_array($work_hero['image'] ?? null) ? $work_hero['image'] : [];
+$work_hero_file = (string) ($work_hero_image['file'] ?? 'workshop_hero.jpeg');
+$work_hero_alt = (string) ($work_hero_image['alt'] ?? 'Custom KORA awards, medals, and souvenirs displayed in the workshop');
+$work_hero_title = (string) ($work_hero['title'] ?? 'Our Studio Samples');
 
-$award_samples = [
-    ['file' => 'awards/Award_hero.jpeg', 'alt' => 'Business award trophy on a wooden base', 'width' => 2752, 'height' => 1536],
-    ['file' => 'awards/Aw5.jpg', 'alt' => 'Mountain bike award with acrylic detail', 'width' => 2796, 'height' => 3123],
-    ['file' => 'awards/Golf_award.jpg', 'alt' => 'Custom golf award', 'width' => 3376, 'height' => 4667],
-    ['file' => 'awards/Padel Award.jpg', 'alt' => 'Nairobi Padel Open champion award', 'width' => 3614, 'height' => 3016],
-    ['file' => 'awards/Graduation.jpg', 'alt' => 'Custom graduation award', 'width' => 3682, 'height' => 3376],
-    ['file' => 'awards/Football.jpg', 'alt' => 'Custom football tournament award', 'width' => 3376, 'height' => 5221],
-    ['file' => 'awards/teacher.jpg', 'alt' => 'Custom teacher appreciation award', 'width' => 3203, 'height' => 3680],
-    ['file' => 'awards/retire.jpg', 'alt' => 'Custom retirement plaque', 'width' => 3448, 'height' => 3376],
-    ['file' => 'awards/WOODEN AWARD.png', 'alt' => 'Custom layered wooden cycling award', 'width' => 1207, 'height' => 1303],
-    ['file' => 'awards/Aw4.jpg', 'alt' => 'Multi-layer award sample', 'width' => 3185, 'height' => 3376],
-    ['file' => 'awards/appreciate.png', 'alt' => 'Appreciation award sample', 'width' => 1254, 'height' => 1254],
-    ['file' => 'awards/Golf_Award.jpg', 'alt' => 'Appreciation award sample', 'width' => 1254, 'height' => 1254],
-
-];
-
-$souvenir_samples = [
-    ['file' => 'souvenir/souvenir_hero.jpeg', 'alt' => 'Branded travel souvenir gift set', 'width' => 2752, 'height' => 1536],
-    ['file' => 'souvenir/travel.png', 'alt' => 'Wanderlust travel souvenir box with tumbler and keepsakes', 'width' => 1402, 'height' => 1122],
-];
+$galleries = cms_list('work_samples', 'galleries', []);
+if ($galleries === []) {
+    $galleries = [
+        [
+            'id' => 'medals',
+            'title' => 'Medals',
+            'text' => 'Made in premium MDF, solid wood, plywood, or acrylic, single or multi layered, and cut into any shape. Medals give every participant something to keep, building a sense of belonging and making your event more memorable.',
+            'reverse' => false,
+            'images' => [
+                ['file' => 'medals/marathon.jpg', 'alt' => 'Custom Steps of Hope marathon medal', 'width' => 3376, 'height' => 4199],
+                ['file' => 'medals/bike.jpg', 'alt' => 'Custom bike challenge medal', 'width' => 2926, 'height' => 3455],
+                ['file' => 'medals/football.jpg', 'alt' => 'Custom football tournament medal', 'width' => 3740, 'height' => 2538],
+            ],
+        ],
+        [
+            'id' => 'awards',
+            'title' => 'Awards & Trophies',
+            'text' => 'Made in the same range of materials, single or multi layered, and cut into any shape. Awards give recognition a physical form, motivating winners and encouraging others to perform better next time.',
+            'reverse' => true,
+            'images' => [
+                ['file' => 'awards/Award_hero.jpeg', 'alt' => 'Business award trophy on a wooden base', 'width' => 2752, 'height' => 1536],
+                ['file' => 'awards/Aw5.jpg', 'alt' => 'Mountain bike award with acrylic detail', 'width' => 2796, 'height' => 3123],
+                ['file' => 'awards/Golf_award.jpg', 'alt' => 'Custom golf award', 'width' => 3376, 'height' => 4667],
+                ['file' => 'awards/Padel Award.jpg', 'alt' => 'Nairobi Padel Open champion award', 'width' => 3614, 'height' => 3016],
+                ['file' => 'awards/Graduation.jpg', 'alt' => 'Custom graduation award', 'width' => 3682, 'height' => 3376],
+                ['file' => 'awards/Football.jpg', 'alt' => 'Custom football tournament award', 'width' => 3376, 'height' => 5221],
+                ['file' => 'awards/teacher.jpg', 'alt' => 'Custom teacher appreciation award', 'width' => 3203, 'height' => 3680],
+                ['file' => 'awards/retire.jpg', 'alt' => 'Custom retirement plaque', 'width' => 3448, 'height' => 3376],
+                ['file' => 'awards/WOODEN AWARD.png', 'alt' => 'Custom layered wooden cycling award', 'width' => 1207, 'height' => 1303],
+                ['file' => 'awards/Aw4.jpg', 'alt' => 'Multi-layer award sample', 'width' => 3185, 'height' => 3376],
+                ['file' => 'awards/appreciate.png', 'alt' => 'Appreciation award sample', 'width' => 1254, 'height' => 1254],
+                ['file' => 'awards/Golf_Award.jpg', 'alt' => 'Appreciation award sample', 'width' => 1254, 'height' => 1254],
+            ],
+        ],
+        [
+            'id' => 'souvenirs',
+            'title' => 'Souvenirs & Keepsakes',
+            'text' => 'From fridge magnets and tumblers to badge pins and other branded giveaways. Souvenirs keep your organisation present in people\'s everyday lives, extending your event\'s reach and building lasting goodwill.',
+            'reverse' => false,
+            'images' => [
+                ['file' => 'souvenir/souvenir_hero.jpeg', 'alt' => 'Branded travel souvenir gift set', 'width' => 2752, 'height' => 1536],
+                ['file' => 'souvenir/travel.png', 'alt' => 'Wanderlust travel souvenir box with tumbler and keepsakes', 'width' => 1402, 'height' => 1122],
+            ],
+        ],
+    ];
+}
 ?>
 <section class="work-samples-hero" aria-labelledby="samples-title">
     <img
         class="work-samples-hero__image reveal"
-        src="<?= img('workshop_hero.jpeg') ?>"
-        alt="Custom KORA awards, medals, and souvenirs displayed in the workshop"
-        width="2752"
-        height="1536"
+        src="<?= img($work_hero_file) ?>"
+        alt="<?= htmlspecialchars($work_hero_alt) ?>"
+        width="<?= (int) ($work_hero_image['width'] ?? 2752) ?>"
+        height="<?= (int) ($work_hero_image['height'] ?? 1536) ?>"
         loading="eager"
     >
     <div class="work-samples-hero__overlay">
-        <h1 id="samples-title" class="work-samples-hero__title reveal">Our Studio Samples</h1>
+        <h1 id="samples-title" class="work-samples-hero__title reveal"><?= htmlspecialchars($work_hero_title) ?></h1>
     </div>
 </section>
 
 <section class="work-samples" aria-label="Work sample categories">
-    <article class="sample-block sample-block--medals reveal">
-        <div class="container">
-            <div class="sample-block__header">
-                <h2 class="sample-block__title">Medals</h2>
-                <p class="sample-block__text lead-italic">Made in premium MDF, solid wood, plywood, or acrylic, single or multi layered, and cut into any shape. Medals give every participant something to keep, building a sense of belonging and making your event more memorable.</p>
+    <?php foreach ($galleries as $gallery): ?>
+        <?php
+        if (!is_array($gallery)) {
+            continue;
+        }
+        $galleryId = (string) ($gallery['id'] ?? 'samples');
+        $galleryTitle = (string) ($gallery['title'] ?? 'Samples');
+        $galleryText = (string) ($gallery['text'] ?? '');
+        $reverse = !empty($gallery['reverse']);
+        $images = is_array($gallery['images'] ?? null) ? $gallery['images'] : [];
+        $blockClass = 'sample-block sample-block--' . preg_replace('/[^a-z0-9\-]/', '', strtolower($galleryId));
+        ?>
+        <article class="<?= htmlspecialchars($blockClass) ?> reveal">
+            <div class="container">
+                <div class="sample-block__header<?= $reverse ? ' sample-block__header--reverse' : '' ?>">
+                    <h2 class="sample-block__title"><?= htmlspecialchars($galleryTitle) ?></h2>
+                    <?php if ($galleryText !== ''): ?>
+                        <p class="sample-block__text lead-italic"><?= htmlspecialchars($galleryText) ?></p>
+                    <?php endif; ?>
+                </div>
+                <?php render_sample_gallery($galleryTitle, $images); ?>
             </div>
-            <?php render_sample_gallery('Medals', $medal_samples); ?>
-        </div>
-    </article>
-
-    <article class="sample-block sample-block--awards reveal">
-        <div class="container">
-            <div class="sample-block__header sample-block__header--reverse">
-                <h2 class="sample-block__title">Awards &amp; Trophies</h2>
-                <p class="sample-block__text lead-italic">Made in the same range of materials, single or multi layered, and cut into any shape. Awards give recognition a physical form, motivating winners and encouraging others to perform better next time.</p>
-            </div>
-            <?php render_sample_gallery('Awards and trophies', $award_samples); ?>
-        </div>
-    </article>
-
-    <article class="sample-block sample-block--souvenirs reveal">
-        <div class="container">
-            <div class="sample-block__header">
-                <h2 class="sample-block__title">Souvenirs &amp; Keepsakes</h2>
-                <p class="sample-block__text lead-italic">From fridge magnets and tumblers to badge pins and other branded giveaways. Souvenirs keep your organisation present in people's everyday lives, extending your event's reach and building lasting goodwill.</p>
-            </div>
-            <?php render_sample_gallery('Souvenirs', $souvenir_samples); ?>
-        </div>
-    </article>
+        </article>
+    <?php endforeach; ?>
 </section>
 
 <div class="sample-lightbox" id="sample-lightbox" hidden>

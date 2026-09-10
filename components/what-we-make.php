@@ -1,98 +1,156 @@
+<?php
+
+declare(strict_types=1);
+
+$wwm = cms_section('what_we_make');
+$wwm_title = (string) ($wwm['title'] ?? 'What We Make');
+$wwm_cards = cms_list('what_we_make', 'cards', [
+    [
+        'id' => 'awards',
+        'label' => 'Awards & Trophies',
+        'image' => ['file' => 'awards/WOODEN AWARD.png', 'alt' => 'Custom layered wooden cycling award by KORA', 'width' => 1207, 'height' => 1303],
+    ],
+    [
+        'id' => 'medals',
+        'label' => 'Medals',
+        'image' => ['file' => 'medals/marathon.jpg', 'alt' => 'Custom layered wooden marathon medal', 'width' => 3376, 'height' => 4199],
+    ],
+    [
+        'id' => 'souvenirs',
+        'label' => 'Souvenirs & Keepsakes',
+        'image' => ['file' => 'souvenir/souvenir_hero.jpeg', 'alt' => 'Branded travel souvenir gift set with tumbler and keepsakes', 'width' => 2752, 'height' => 1536],
+    ],
+]);
+$wwm_actions = cms_list('what_we_make', 'actions', [
+    ['label' => 'All Products', 'href' => '/products.php'],
+    ['label' => 'Studio Samples', 'href' => '/work-samples.php'],
+    ['label' => 'Request a Quote', 'href' => '/request-quote.php'],
+]);
+$wwm_process = cms_list('what_we_make', 'process_images', [
+    ['file' => 'laser_1.jpg', 'alt' => 'Close-up of the laser engraving a custom design into wood', 'width' => 6000, 'height' => 3376, 'role' => 'back'],
+    ['file' => 'awards/Aw1.jpg', 'alt' => 'Close-up of laser engraving a custom design onto wood', 'width' => 3376, 'height' => 3593, 'role' => 'front'],
+]);
+$wwm_materials = cms_list('what_we_make', 'materials', [
+    ['name' => 'Wood', 'image' => 'WOOD.jpg'],
+    ['name' => 'MDF', 'image' => 'MDF.jpg'],
+    ['name' => 'Acrylic', 'image' => 'ACRYLIC.png'],
+]);
+
+$processBack = null;
+$processFront = null;
+foreach ($wwm_process as $imgItem) {
+    if (!is_array($imgItem)) {
+        continue;
+    }
+    $role = (string) ($imgItem['role'] ?? '');
+    if ($role === 'back' || $processBack === null) {
+        $processBack = $imgItem;
+    }
+    if ($role === 'front') {
+        $processFront = $imgItem;
+    }
+}
+if ($processFront === null && isset($wwm_process[1]) && is_array($wwm_process[1])) {
+    $processFront = $wwm_process[1];
+}
+?>
 <section class="what-we-make section" id="products" aria-labelledby="products-title">
     <div class="container">
         <div class="what-we-make__showcase">
             <header class="what-we-make__header reveal">
-                <h2 id="products-title" class="what-we-make__title">What We Make</h2>
+                <h2 id="products-title" class="what-we-make__title"><?= htmlspecialchars($wwm_title) ?></h2>
             </header>
 
-            <article class="what-we-make__card what-we-make__card--awards reveal">
-                <div class="what-we-make__pill">
-                    <img
-                        src="<?= img('awards/WOODEN AWARD.png') ?>"
-                        alt="Custom layered wooden cycling award by KORA"
-                        width="1207"
-                        height="1303"
-                        loading="lazy"
-                    >
-                </div>
-                <h3 class="what-we-make__label">Awards &amp; Trophies</h3>
-            </article>
-
-            <article class="what-we-make__card what-we-make__card--medals reveal">
-                <div class="what-we-make__pill">
-                    <img
-                        src="<?= img('medals/marathon.jpg') ?>"
-                        alt="Custom layered wooden marathon medal"
-                        width="3376"
-                        height="4199"
-                        loading="lazy"
-                    >
-                </div>
-                <h3 class="what-we-make__label">Medals</h3>
-            </article>
-
-            <article class="what-we-make__card what-we-make__card--souvenirs reveal">
-                <div class="what-we-make__pill">
-                    <img
-                        src="<?= img('souvenir/souvenir_hero.jpeg') ?>"
-                        alt="Branded travel souvenir gift set with tumbler and keepsakes"
-                        width="2752"
-                        height="1536"
-                        loading="lazy"
-                    >
-                </div>
-                <h3 class="what-we-make__label">Souvenirs &amp; Keepsakes</h3>
-            </article>
+            <?php foreach ($wwm_cards as $card): ?>
+                <?php
+                if (!is_array($card)) {
+                    continue;
+                }
+                $cardId = (string) ($card['id'] ?? 'item');
+                $cardLabel = (string) ($card['label'] ?? '');
+                $cardImage = is_array($card['image'] ?? null) ? $card['image'] : [];
+                $cardFile = (string) ($cardImage['file'] ?? '');
+                if ($cardFile === '') {
+                    continue;
+                }
+                ?>
+                <article class="what-we-make__card what-we-make__card--<?= htmlspecialchars(preg_replace('/[^a-z0-9\-]/', '', strtolower($cardId)) ?: 'item') ?> reveal">
+                    <div class="what-we-make__pill">
+                        <img
+                            src="<?= img($cardFile) ?>"
+                            alt="<?= htmlspecialchars((string) ($cardImage['alt'] ?? $cardLabel)) ?>"
+                            width="<?= (int) ($cardImage['width'] ?? 1200) ?>"
+                            height="<?= (int) ($cardImage['height'] ?? 1200) ?>"
+                            loading="lazy"
+                        >
+                    </div>
+                    <h3 class="what-we-make__label"><?= htmlspecialchars($cardLabel) ?></h3>
+                </article>
+            <?php endforeach; ?>
 
             <div class="what-we-make__actions reveal">
-                <a class="btn btn--light" href="/products.php">All Products</a>
-                <a class="btn btn--light" href="/work-samples.php">Studio Samples</a>
-                <a class="btn btn--light" href="/request-quote.php">Request a Quote</a>
+                <?php foreach ($wwm_actions as $action): ?>
+                    <?php
+                    if (!is_array($action)) {
+                        continue;
+                    }
+                    $label = (string) ($action['label'] ?? '');
+                    $href = (string) ($action['href'] ?? '#');
+                    if ($label === '') {
+                        continue;
+                    }
+                    ?>
+                    <a class="btn btn--light" href="<?= htmlspecialchars($href) ?>"><?= htmlspecialchars($label) ?></a>
+                <?php endforeach; ?>
             </div>
         </div>
 
         <div class="what-we-make__lower">
             <div class="what-we-make__process reveal">
                 <div class="process-stack">
-                    <img
-                        class="process-stack__back"
-                        src="<?= img('laser_1.jpg') ?>"
-                        alt="Close-up of the laser engraving a custom design into wood"
-                        width="6000"
-                        height="3376"
-                        loading="lazy"
-                    >
-                    <img
-                        class="process-stack__front"
-                        src="<?= img('awards/Aw1.jpg') ?>"
-                        alt="Close-up of laser engraving a custom design onto wood"
-                        width="3376"
-                        height="3593"
-                        loading="lazy"
-                    >
+                    <?php if (is_array($processBack)): ?>
+                        <img
+                            class="process-stack__back"
+                            src="<?= img((string) ($processBack['file'] ?? 'laser_1.jpg')) ?>"
+                            alt="<?= htmlspecialchars((string) ($processBack['alt'] ?? '')) ?>"
+                            width="<?= (int) ($processBack['width'] ?? 6000) ?>"
+                            height="<?= (int) ($processBack['height'] ?? 3376) ?>"
+                            loading="lazy"
+                        >
+                    <?php endif; ?>
+                    <?php if (is_array($processFront)): ?>
+                        <img
+                            class="process-stack__front"
+                            src="<?= img((string) ($processFront['file'] ?? 'awards/Aw1.jpg')) ?>"
+                            alt="<?= htmlspecialchars((string) ($processFront['alt'] ?? '')) ?>"
+                            width="<?= (int) ($processFront['width'] ?? 3376) ?>"
+                            height="<?= (int) ($processFront['height'] ?? 3593) ?>"
+                            loading="lazy"
+                        >
+                    <?php endif; ?>
                 </div>
             </div>
 
             <div class="what-we-make__materials-wrap reveal">
                 <div class="materials" aria-label="Materials">
-                    <div class="material">
-                        <div class="material__thumb">
-                            <img src="<?= img('WOOD.jpg') ?>" alt="" width="6061" height="4329" loading="lazy">
+                    <?php foreach ($wwm_materials as $material): ?>
+                        <?php
+                        if (!is_array($material)) {
+                            continue;
+                        }
+                        $name = (string) ($material['name'] ?? '');
+                        $image = (string) ($material['image'] ?? '');
+                        if ($name === '' || $image === '') {
+                            continue;
+                        }
+                        ?>
+                        <div class="material">
+                            <div class="material__thumb">
+                                <img src="<?= img($image) ?>" alt="" width="1200" height="1200" loading="lazy">
+                            </div>
+                            <span class="material__name"><?= htmlspecialchars($name) ?></span>
                         </div>
-                        <span class="material__name">Wood</span>
-                    </div>
-                    <div class="material">
-                        <div class="material__thumb">
-                            <img src="<?= img('MDF.jpg') ?>" alt="" width="2000" height="2000" loading="lazy">
-                        </div>
-                        <span class="material__name">MDF</span>
-                    </div>
-                    <div class="material">
-                        <div class="material__thumb">
-                            <img src="<?= img('ACRYLIC.png') ?>" alt="" width="1080" height="1080" loading="lazy">
-                        </div>
-                        <span class="material__name">Acrylic</span>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>

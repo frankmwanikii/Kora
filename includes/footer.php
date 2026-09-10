@@ -3,23 +3,44 @@
     $newsletter_status = $_GET['newsletter'] ?? '';
     $newsletter_ok = $newsletter_status === '1';
     $newsletter_err = $newsletter_status === 'error';
+
+    $footer = cms_section('footer');
+    $footer_newsletter = is_array($footer['newsletter'] ?? null) ? $footer['newsletter'] : [];
+    $footer_newsletter_image = is_array($footer_newsletter['image'] ?? null) ? $footer_newsletter['image'] : [];
+    $footer_newsletter_file = (string) ($footer_newsletter_image['file'] ?? 'awards/Golf_award.jpg');
+    $footer_newsletter_alt = (string) ($footer_newsletter_image['alt'] ?? 'Custom KORA golf award');
+    $footer_newsletter_title = (string) ($footer_newsletter['title'] ?? 'Subscribe to our newsletter to get updates on our latest collections');
+    $footer_newsletter_text = (string) ($footer_newsletter['text'] ?? 'Be first to see new awards, medals, souvenirs plus seasonal offers from the KORA workshop.');
+    $footer_blurb = (string) ($footer['blurb'] ?? 'Custom awards, medals and souvenirs designed and made for organisations, schools, corporates, and sports teams.');
+    $footer_explore = cms_list('footer', 'explore_nav', [
+        ['label' => 'Home', 'href' => '/'],
+        ['label' => 'Our work', 'href' => '/work-samples.php'],
+        ['label' => 'Products', 'href' => '/products.php'],
+        ['label' => 'How it works', 'href' => '/how-it-works.php'],
+    ]);
+    $footer_products = cms_list('footer', 'products_nav', [
+        ['label' => 'Medals', 'href' => '/products.php#medals'],
+        ['label' => 'Awards & Trophies', 'href' => '/products.php#awards'],
+        ['label' => 'Souvenirs', 'href' => '/products.php#souvenirs'],
+    ]);
+    $footer_credit = is_array($footer['credit'] ?? null) ? $footer['credit'] : ['label' => 'Designed by Fraittech', 'href' => 'https://fraittech.co.ke'];
     ?>
     <footer class="site-footer">
         <div class="container site-footer__inner">
             <aside class="site-footer__newsletter" aria-labelledby="footer-newsletter-title">
                 <div class="site-footer__newsletter-media">
                     <img
-                        src="<?= img('awards/Golf_award.jpg') ?>"
-                        alt="Custom KORA golf award"
-                        width="3376"
-                        height="4667"
+                        src="<?= img($footer_newsletter_file) ?>"
+                        alt="<?= htmlspecialchars($footer_newsletter_alt) ?>"
+                        width="<?= (int) ($footer_newsletter_image['width'] ?? 3376) ?>"
+                        height="<?= (int) ($footer_newsletter_image['height'] ?? 4667) ?>"
                         loading="lazy"
                         decoding="async"
                     >
                 </div>
                 <div class="site-footer__newsletter-content">
-                    <h2 id="footer-newsletter-title" class="site-footer__newsletter-title">Subscribe to our newsletter to get updates on our latest collections</h2>
-                    <p class="site-footer__newsletter-text">Be first to see new awards, medals,souvenirs plus seasonal offers from the KORA workshop.</p>
+                    <h2 id="footer-newsletter-title" class="site-footer__newsletter-title"><?= htmlspecialchars($footer_newsletter_title) ?></h2>
+                    <p class="site-footer__newsletter-text"><?= htmlspecialchars($footer_newsletter_text) ?></p>
 
                     <?php if ($newsletter_ok): ?>
                         <p class="site-footer__newsletter-success" role="status">Thanks for subscribing — we will keep you posted.</p>
@@ -54,7 +75,7 @@
                 <div class="site-footer__grid">
                     <div class="site-footer__col site-footer__brand">
                         <?php render_brand_logo('footer'); ?>
-                        <p class="site-footer__blurb">Custom awards, medals and souvenirs designed and made by  for organisations, schools, corporates, and sports teams.</p>
+                        <p class="site-footer__blurb"><?= htmlspecialchars($footer_blurb) ?></p>
                     </div>
 
                     <div class="site-footer__accordions">
@@ -68,10 +89,12 @@
                             <div class="site-footer__accordion-panel">
                                 <nav aria-label="Explore">
                                     <ul class="site-footer__nav-list">
-                                        <li><a class="site-footer__nav-link" href="/">Home</a></li>
-                                        <li><a class="site-footer__nav-link" href="/work-samples.php">Our work</a></li>
-                                        <li><a class="site-footer__nav-link" href="/products.php">Products</a></li>
-                                        <li><a class="site-footer__nav-link" href="/how-it-works.php">How it works</a></li>
+                                        <?php foreach ($footer_explore as $link): ?>
+                                            <?php if (!is_array($link) || (string) ($link['label'] ?? '') === '') {
+                                                continue;
+                                            } ?>
+                                            <li><a class="site-footer__nav-link" href="<?= htmlspecialchars((string) ($link['href'] ?? '#')) ?>"><?= htmlspecialchars((string) $link['label']) ?></a></li>
+                                        <?php endforeach; ?>
                                     </ul>
                                 </nav>
                             </div>
@@ -87,10 +110,12 @@
                             <div class="site-footer__accordion-panel">
                                 <nav aria-label="Products">
                                     <ul class="site-footer__nav-list">
-                                        <li><a class="site-footer__nav-link" href="/products.php#medals">Medals</a></li>
-                                        <li><a class="site-footer__nav-link" href="/products.php#awards">Awards &amp; Trophies</a></li>
-                                        <li><a class="site-footer__nav-link" href="/products.php#souvenirs">Souvenirs</a></li>
-                                    
+                                        <?php foreach ($footer_products as $link): ?>
+                                            <?php if (!is_array($link) || (string) ($link['label'] ?? '') === '') {
+                                                continue;
+                                            } ?>
+                                            <li><a class="site-footer__nav-link" href="<?= htmlspecialchars((string) ($link['href'] ?? '#')) ?>"><?= htmlspecialchars((string) $link['label']) ?></a></li>
+                                        <?php endforeach; ?>
                                     </ul>
                                 </nav>
                             </div>
@@ -149,9 +174,9 @@
                 <div class="site-footer__bar">
                     <div class="site-footer__bar-start">
                         <span class="site-footer__bar-copy">&copy; <?= SITE_YEAR ?> <?= SITE_NAME ?>. All rights reserved.</span>
-                        <span class="site-footer__bar-credit">Designed by <a class="site-footer__bar-link" href="https://fraittech.co.ke" target="_blank" rel="noopener noreferrer">Fraittech</a>.</span>
+                        <span class="site-footer__bar-credit"><a class="site-footer__bar-link" href="<?= htmlspecialchars((string) ($footer_credit['href'] ?? 'https://fraittech.co.ke')) ?>" target="_blank" rel="noopener noreferrer"><?= htmlspecialchars((string) ($footer_credit['label'] ?? 'Designed by Fraittech')) ?></a>.</span>
                     </div>
-                    <p class="site-footer__bar-tagline">Recognition Made Personal</p>
+                    <p class="site-footer__bar-tagline"><?= htmlspecialchars(SITE_FOOTER_TAGLINE) ?></p>
                 </div>
             </div>
         </div>

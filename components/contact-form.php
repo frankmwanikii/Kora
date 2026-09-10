@@ -1,8 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+$contact = cms_section('contact');
+$contact_title = (string) ($contact['title'] ?? 'Request a Custom Quotation');
+$contact_lead = (string) ($contact['lead'] ?? 'Tell us what you have in mind. We\'ll review your brief and recommend suitable options based on your event, quantity, materials, and budget.');
+$contact_submit = (string) ($contact['submit_label'] ?? 'Request a Quotation');
+$contact_channels = cms_list('contact', 'channels', [
+    ['label' => 'Whatsapp KORA', 'href' => SITE_WHATSAPP, 'external' => true],
+    ['label' => 'Email KORA', 'href' => 'mailto:' . SITE_EMAIL, 'external' => false],
+]);
+?>
 <section class="contact-section section" id="contact" aria-labelledby="contact-title">
     <div class="container contact-section__grid">
         <div class="contact-section__intro reveal">
-            <h2 id="contact-title">Request a Custom Quotation</h2>
-            <p class="lead-italic">Tell us what you have in mind. We’ll review your brief and recommend suitable options based on your event, quantity, materials, and budget.</p>
+            <h2 id="contact-title"><?= htmlspecialchars($contact_title) ?></h2>
+            <p class="lead-italic"><?= htmlspecialchars($contact_lead) ?></p>
         </div>
         <div class="contact-section__form reveal">
             <form class="quote-form" id="quote-form" action="/process-quote" method="post" enctype="multipart/form-data" novalidate>
@@ -72,13 +85,29 @@
                     </div>
                     <p class="form-field__error" id="inspo_files-error" role="alert"></p>
                 </div>
-                <button type="submit" class="btn btn--solid">Request a Quotation</button>
+                <button type="submit" class="btn btn--solid"><?= htmlspecialchars($contact_submit) ?></button>
                 <p class="form-field__error" id="form-status" role="status"></p>
             </form>
         </div>
         <div class="contact-section__channels btn-group btn-group--row reveal">
-            <a class="btn btn--light" href="https://wa.me/254790355707" target="_blank" rel="noopener noreferrer">Whatsapp KORA</a>
-            <a class="btn btn--light" href="mailto:<?= SITE_EMAIL ?>">Email KORA</a>
+            <?php foreach ($contact_channels as $channel): ?>
+                <?php
+                if (!is_array($channel)) {
+                    continue;
+                }
+                $label = (string) ($channel['label'] ?? '');
+                $href = (string) ($channel['href'] ?? '#');
+                if ($label === '') {
+                    continue;
+                }
+                $external = !empty($channel['external']) || str_starts_with($href, 'http');
+                ?>
+                <a
+                    class="btn btn--light"
+                    href="<?= htmlspecialchars($href) ?>"
+                    <?= $external ? 'target="_blank" rel="noopener noreferrer"' : '' ?>
+                ><?= htmlspecialchars($label) ?></a>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>

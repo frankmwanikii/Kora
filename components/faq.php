@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-$faqs = [
+$faq = cms_section('faq');
+
+$faqs = cms_list('faq', 'items', [
     [
         'q' => 'How quickly will I receive a quote?',
         'a' => 'A quote is shared within 24 hours of receiving your brief. Share as much detail as you can — event type, quantity, materials, and timeline — and we will get back to you the same day or next business day.',
@@ -35,26 +37,42 @@ $faqs = [
         'q' => 'Where is KORA based?',
         'a' => 'Our workshop is in Nanyuki, Laikipia. Everything is designed and produced in-house, so you deal directly with the makers — not a middleman.',
     ],
-];
+]);
+
+$faq_eyebrow = (string) ($faq['eyebrow'] ?? 'Common questions');
+$faq_title = (string) ($faq['title'] ?? 'Frequently Asked Questions');
+$faq_lead = (string) ($faq['lead'] ?? 'Clear answers on timing, production, and delivery — so you know what to expect before you request a quote.');
+$faq_cta = (string) ($faq['cta_label'] ?? 'Still have a question?');
+$faq_cta_href = (string) ($faq['cta_href'] ?? '#contact');
 ?>
 <section class="home-faq section" id="faqs" aria-labelledby="faq-title">
     <div class="container home-faq__layout">
         <header class="home-faq__intro reveal">
-            <p class="home-faq__eyebrow">Common questions</p>
-            <h2 id="faq-title" class="section-label">Frequently Asked Questions</h2>
-            <p class="lead-italic home-faq__lead">Clear answers on timing, production, and delivery — so you know what to expect before you request a quote.</p>
-            <a class="home-faq__cta" href="#contact">
-                Still have a question?
+            <p class="home-faq__eyebrow"><?= htmlspecialchars($faq_eyebrow) ?></p>
+            <h2 id="faq-title" class="section-label"><?= htmlspecialchars($faq_title) ?></h2>
+            <p class="lead-italic home-faq__lead"><?= htmlspecialchars($faq_lead) ?></p>
+            <a class="home-faq__cta" href="<?= htmlspecialchars($faq_cta_href) ?>">
+                <?= htmlspecialchars($faq_cta) ?>
                 <span aria-hidden="true">→</span>
             </a>
         </header>
 
         <div class="home-faq__list reveal">
-            <?php foreach ($faqs as $index => $faq): ?>
+            <?php foreach ($faqs as $index => $faqItem): ?>
+                <?php
+                if (!is_array($faqItem)) {
+                    continue;
+                }
+                $q = (string) ($faqItem['q'] ?? $faqItem['question'] ?? '');
+                $a = (string) ($faqItem['a'] ?? $faqItem['answer'] ?? '');
+                if ($q === '' || $a === '') {
+                    continue;
+                }
+                ?>
                 <details class="home-faq__item"<?= $index === 0 ? ' open' : '' ?>>
                     <summary class="home-faq__question">
                         <span class="home-faq__number" aria-hidden="true"><?= str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) ?></span>
-                        <span class="home-faq__question-text"><?= htmlspecialchars($faq['q']) ?></span>
+                        <span class="home-faq__question-text"><?= htmlspecialchars($q) ?></span>
                         <span class="home-faq__toggle" aria-hidden="true">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round">
                                 <path class="home-faq__toggle-h" d="M5 12h14"/>
@@ -63,7 +81,7 @@ $faqs = [
                         </span>
                     </summary>
                     <div class="home-faq__answer">
-                        <p><?= htmlspecialchars($faq['a']) ?></p>
+                        <p><?= htmlspecialchars($a) ?></p>
                     </div>
                 </details>
             <?php endforeach; ?>

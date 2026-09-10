@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
+$hero = cms_section('hero');
+
 $hero_content = [
-    'kicker' => 'Welcome to Kora Laser Craft',
-    'title_accent' => 'Recognition,',
-    'title_rest' => 'Made Personal',
-    'subtitle' => 'Crafting Custom awards, medals and souvenirs.',
+    'kicker' => (string) ($hero['kicker'] ?? 'Welcome to Kora Laser Craft'),
+    'title_accent' => (string) ($hero['title_accent'] ?? 'Recognition,'),
+    'title_rest' => (string) ($hero['title_rest'] ?? 'Made Personal'),
+    'subtitle' => (string) ($hero['subtitle'] ?? 'Crafting Custom awards, medals and souvenirs.'),
 ];
 
-$hero_slides = [
+$hero_slides = cms_list('hero', 'slides', [
     [
         'file' => 'awards/Award_hero.jpeg',
         'alt' => 'Collection of custom KORA awards and trophies',
@@ -40,22 +42,43 @@ $hero_slides = [
         'width' => 6000,
         'height' => 3376,
     ],
-];
+]);
+
+$hero_actions = cms_list('hero', 'actions', [
+    ['label' => 'View Our Work', 'href' => '/work-samples.php', 'style' => 'solid'],
+    ['label' => 'Request a Quotation', 'href' => '/request-quote.php', 'style' => 'light'],
+]);
+
+if ($hero_actions === []) {
+    $hero_actions = [
+        ['label' => 'View Our Work', 'href' => '/work-samples.php', 'style' => 'solid'],
+        ['label' => 'Request a Quotation', 'href' => '/request-quote.php', 'style' => 'light'],
+    ];
+}
 ?>
 <section class="hero hero-slider" aria-roledescription="carousel" aria-labelledby="hero-title" data-hero-slider>
     <div class="hero-slider__viewport">
         <div class="hero-slider__track">
             <?php foreach ($hero_slides as $index => $slide): ?>
+                <?php
+                if (!is_array($slide)) {
+                    continue;
+                }
+                $file = (string) ($slide['file'] ?? '');
+                if ($file === '') {
+                    continue;
+                }
+                ?>
                 <div
                     class="hero-slider__slide<?= $index === 0 ? ' is-active' : '' ?>"
                     aria-hidden="<?= $index === 0 ? 'false' : 'true' ?>"
                     data-slide-index="<?= $index ?>"
                 >
                     <img
-                        src="<?= img($slide['file']) ?>"
-                        alt="<?= htmlspecialchars($slide['alt']) ?>"
-                        width="<?= (int) $slide['width'] ?>"
-                        height="<?= (int) $slide['height'] ?>"
+                        src="<?= img($file) ?>"
+                        alt="<?= htmlspecialchars((string) ($slide['alt'] ?? '')) ?>"
+                        width="<?= (int) ($slide['width'] ?? 1200) ?>"
+                        height="<?= (int) ($slide['height'] ?? 800) ?>"
                         loading="eager"
                         <?= $index === 0 ? 'fetchpriority="high"' : '' ?>
                     >
@@ -73,8 +96,21 @@ $hero_slides = [
             </h1>
             <p class="hero-slider__subtitle"><?= htmlspecialchars($hero_content['subtitle']) ?></p>
             <div class="btn-group hero-slider__actions">
-                <a class="btn btn--solid" href="/work-samples.php">View Our Work</a>
-                <a class="btn btn--light" href="/request-quote.php">Request a Quotation</a>
+                <?php foreach ($hero_actions as $actionIndex => $action): ?>
+                    <?php
+                    if (!is_array($action)) {
+                        continue;
+                    }
+                    $label = (string) ($action['label'] ?? '');
+                    $href = (string) ($action['href'] ?? '#');
+                    $style = (string) ($action['style'] ?? ($actionIndex === 0 ? 'solid' : 'light'));
+                    if ($label === '') {
+                        continue;
+                    }
+                    $btnClass = $style === 'light' ? 'btn btn--light' : 'btn btn--solid';
+                    ?>
+                    <a class="<?= $btnClass ?>" href="<?= htmlspecialchars($href) ?>"><?= htmlspecialchars($label) ?></a>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
@@ -88,6 +124,9 @@ $hero_slides = [
             </button>
             <div class="hero-slider__dots" role="tablist" aria-label="Choose a slide">
                 <?php foreach ($hero_slides as $index => $slide): ?>
+                    <?php if (!is_array($slide) || (string) ($slide['file'] ?? '') === '') {
+                        continue;
+                    } ?>
                     <button
                         type="button"
                         class="hero-slider__dot<?= $index === 0 ? ' is-active' : '' ?>"
