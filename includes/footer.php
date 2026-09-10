@@ -182,6 +182,20 @@
             </div>
         </div>
     </footer>
+
+    <a
+        class="whatsapp-float"
+        href="<?= htmlspecialchars(SITE_WHATSAPP) ?>"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat with KORA on WhatsApp"
+    >
+        <svg class="whatsapp-float__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 2.08.55 4.1 1.6 5.89L2 22l4.43-1.16a10.05 10.05 0 0 0 5.61 1.66h.01c5.46 0 9.89-4.4 9.89-9.83C21.94 6.4 17.5 2 12.04 2zm5.76 13.99c-.24.68-1.4 1.25-1.94 1.33-.5.07-1.13.1-1.83-.11-.42-.13-.96-.31-1.65-.61-2.9-1.25-4.79-4.17-4.93-4.36-.14-.19-1.17-1.55-1.17-2.96 0-1.4.73-2.09 1-2.37.26-.28.57-.35.76-.35h.55c.17 0 .41-.07.64.49.24.58.81 2 .88 2.14.07.14.12.3.02.49-.1.19-.14.3-.28.47-.14.16-.29.36-.42.49-.14.14-.28.29-.12.56.16.28.71 1.17 1.52 1.9 1.05.93 1.93 1.22 2.2 1.36.28.14.44.12.6-.07.17-.19.7-.81.89-1.09.19-.28.38-.23.64-.14.26.1 1.66.78 1.95.93.28.14.47.21.54.33.07.12.07.68-.17 1.36z"/>
+        </svg>
+        <span class="whatsapp-float__label">WhatsApp</span>
+    </a>
+
     <script src="<?= asset('assets/js/main.js') ?>" defer></script>
     <script src="<?= asset('assets/js/form-validation.js') ?>" defer></script>
     <script src="<?= asset('assets/js/animations.js') ?>" defer></script>

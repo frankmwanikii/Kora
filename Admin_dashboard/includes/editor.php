@@ -373,12 +373,30 @@ function kora_merge_content(array $posted, array $template): array
                 continue;
             }
 
-            $itemTemplate = is_array($defaultVal[0] ?? null) ? $defaultVal[0] : [];
             $items = [];
-            foreach ($postedVal as $item) {
+            $defaultById = [];
+            foreach ($defaultVal as $defaultItem) {
+                if (is_array($defaultItem) && isset($defaultItem['id']) && is_string($defaultItem['id']) && $defaultItem['id'] !== '') {
+                    $defaultById[$defaultItem['id']] = $defaultItem;
+                }
+            }
+            $fallbackTemplate = is_array($defaultVal[0] ?? null) ? $defaultVal[0] : [];
+
+            foreach ($postedVal as $index => $item) {
                 if (!is_array($item)) {
                     continue;
                 }
+
+                // Prefer matching by id, then by list index — never force every row to template[0]
+                $itemId = isset($item['id']) && is_string($item['id']) ? $item['id'] : '';
+                if ($itemId !== '' && isset($defaultById[$itemId])) {
+                    $itemTemplate = $defaultById[$itemId];
+                } elseif (is_array($defaultVal[$index] ?? null)) {
+                    $itemTemplate = $defaultVal[$index];
+                } else {
+                    $itemTemplate = $fallbackTemplate;
+                }
+
                 $items[] = kora_merge_content($item, $itemTemplate);
             }
             $result[$key] = $items;

@@ -26,9 +26,9 @@
     --shadow-lift: 0 16px 40px rgba(51, 53, 82, 0.12);
     --header-height: 96px;
 
-    --text-base: 1.125rem;
-    --text-sm: 1rem;
-    --text-lg: 1.1875rem;
+    --text-base: 1rem;       /* 16px */
+    --text-sm: 0.875rem;     /* 14px */
+    --text-lg: 1.125rem;     /* 18px */
 }
 
 *,
@@ -39,14 +39,14 @@
 
 html {
     scroll-behavior: smooth;
-    font-size: 112.5%;
+    font-size: 100%; /* 16px standard root */
 }
 
 body {
     margin: 0;
     padding-top: var(--header-height);
     font-family: var(--font-body);
-    font-size: 1rem;
+    font-size: var(--text-base);
     line-height: 1.65;
     color: var(--color-navy);
     background: var(--color-bg);
@@ -120,13 +120,13 @@ h3 {
     font-family: var(--font-body);
     font-style: italic;
     font-weight: 400;
-    font-size: clamp(1.125rem, 1.8vw, 1.35rem);
+    font-size: clamp(1rem, 1.6vw, 1.125rem);
     line-height: 1.55;
     color: var(--color-navy);
 }
 
 .text-body {
-    font-size: clamp(1.0625rem, 1.5vw, 1.1875rem);
+    font-size: var(--text-base);
     line-height: 1.65;
 }
 
@@ -4522,15 +4522,45 @@ a.contact-channel__value:focus-visible {
 /* Privacy page */
 .page-simple {
     padding: 3rem 0 5rem;
-    max-width: 720px;
+    max-width: 46rem;
 }
 
 .page-simple h1 {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.page-simple__meta {
+    margin: 0 0 1.5rem;
+    font-size: var(--text-sm);
+    color: color-mix(in srgb, var(--color-navy) 72%, transparent);
+}
+
+.page-simple__intro {
+    margin-bottom: 1.75rem;
+}
+
+.page-simple__heading {
+    margin: 2rem 0 0.85rem;
+    font-size: clamp(1.15rem, 2vw, 1.35rem);
+    line-height: 1.25;
 }
 
 .page-simple p {
     margin-bottom: 1rem;
+}
+
+.page-simple__actions {
+    margin-top: 2.25rem;
+}
+
+.page-simple a:not(.btn) {
+    color: var(--color-copper);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+.page-simple a:not(.btn):hover {
+    color: var(--color-navy);
 }
 
 /* Animations */
@@ -4975,5 +5005,81 @@ a.contact-channel__value:focus-visible {
 
     .hero-slider__chrome {
         right: max(var(--page-pad), calc((100vw - 1320px) / 2));
+    }
+}
+
+/* Floating WhatsApp */
+.whatsapp-float {
+    position: fixed;
+    right: max(1rem, env(safe-area-inset-right, 0px));
+    bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+    z-index: 140;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 3.25rem;
+    padding: 0.7rem 1rem 0.7rem 0.85rem;
+    border-radius: var(--radius-pill);
+    background: #1fad4e;
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    box-shadow: 0 10px 28px rgba(31, 173, 78, 0.28);
+    transition: transform var(--transition), background-color var(--transition), box-shadow var(--transition);
+}
+
+.whatsapp-float:hover {
+    background: #189643;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px rgba(31, 173, 78, 0.34);
+}
+
+.whatsapp-float:focus-visible {
+    outline: 2px solid var(--color-navy);
+    outline-offset: 3px;
+}
+
+.whatsapp-float__icon {
+    width: 1.55rem;
+    height: 1.55rem;
+    flex-shrink: 0;
+}
+
+.whatsapp-float__label {
+    line-height: 1;
+}
+
+@media (max-width: 640px) {
+    .whatsapp-float {
+        width: 3.25rem;
+        height: 3.25rem;
+        min-height: 0;
+        padding: 0;
+        justify-content: center;
+        gap: 0;
+        border-radius: 50%;
+    }
+
+    .whatsapp-float__label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .whatsapp-float,
+    .whatsapp-float:hover {
+        transition: none;
+        transform: none;
     }
 }

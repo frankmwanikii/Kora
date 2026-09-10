@@ -160,6 +160,22 @@ if ($products === []) {
     $products = $productsDefault;
 }
 
+// Keep first occurrence per category id (guards against corrupted CMS duplicates)
+$seenProductIds = [];
+$productsDeduped = [];
+foreach ($products as $product) {
+    if (!is_array($product)) {
+        continue;
+    }
+    $productId = (string) ($product['id'] ?? '');
+    if ($productId === '' || isset($seenProductIds[$productId])) {
+        continue;
+    }
+    $seenProductIds[$productId] = true;
+    $productsDeduped[] = $product;
+}
+$products = $productsDeduped !== [] ? $productsDeduped : $productsDefault;
+
 $productsHero = is_array($productsCms['hero'] ?? null) ? $productsCms['hero'] : [];
 $productsHeroImage = is_array($productsHero['image'] ?? null) ? $productsHero['image'] : [];
 $productsHeroFile = (string) ($productsHeroImage['file'] ?? 'awards/Hero Section.jpg');

@@ -691,14 +691,32 @@
       var template = listRoot.querySelector('template[data-repeat-template]');
       var addBtn = listRoot.querySelector('[data-repeat-add]');
 
+      function directItems() {
+        // Only this list's rows — never nested feature/image repeat items
+        return Array.prototype.filter.call(itemsWrap.children, function (el) {
+          return el.matches && el.matches('[data-repeat-item], .repeat-list__item');
+        });
+      }
+
       function reindex() {
-        var items = itemsWrap.querySelectorAll('[data-repeat-item], .repeat-list__item');
+        var items = directItems();
         var listPrefix = listRoot.getAttribute('data-repeat-prefix') || '';
         items.forEach(function (item, index) {
-          var label = item.querySelector('[data-repeat-label]');
+          var label = item.querySelector(':scope > .repeat-list__head [data-repeat-label], :scope > [data-repeat-label]');
+          if (!label) {
+            label = Array.prototype.find.call(
+              item.querySelectorAll('[data-repeat-label]'),
+              function (el) {
+                return el.closest('[data-repeat-item], .repeat-list__item') === item;
+              }
+            );
+          }
           if (label) label.textContent = 'Item ' + (index + 1);
           if (listPrefix) {
             item.querySelectorAll('[name]').forEach(function (el) {
+              // Skip fields that belong to a nested repeat list
+              var nestedList = el.closest('[data-repeat-list]');
+              if (nestedList && nestedList !== listRoot) return;
               var name = el.getAttribute('name') || '';
               var updated = name.replace(
                 new RegExp('^' + listPrefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\[\\d+\\]'),
@@ -707,6 +725,8 @@
               if (updated !== name) el.setAttribute('name', updated);
             });
             item.querySelectorAll('[id]').forEach(function (el) {
+              var nestedList = el.closest('[data-repeat-list]');
+              if (nestedList && nestedList !== listRoot) return;
               var id = el.getAttribute('id') || '';
               var updated = id.replace(
                 new RegExp('^' + listPrefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\[\\d+\\]'),
@@ -719,31 +739,37 @@
       }
 
       function bindRemove(item) {
-        var removeBtn = item.querySelector('[data-repeat-remove]');
+        var removeBtn = Array.prototype.find.call(
+          item.querySelectorAll('[data-repeat-remove]'),
+          function (btn) {
+            return btn.closest('[data-repeat-item], .repeat-list__item') === item;
+          }
+        );
         if (!removeBtn || removeBtn.dataset.repeatBound === '1') return;
         removeBtn.dataset.repeatBound = '1';
         removeBtn.addEventListener('click', function () {
           var min = parseInt(listRoot.getAttribute('data-repeat-min') || '0', 10);
-          var count = itemsWrap.querySelectorAll('[data-repeat-item], .repeat-list__item').length;
+          var count = directItems().length;
           if (count <= min) return;
           item.remove();
           reindex();
         });
       }
 
-      itemsWrap.querySelectorAll('[data-repeat-item], .repeat-list__item').forEach(bindRemove);
+      directItems().forEach(bindRemove);
 
       if (addBtn) {
         addBtn.addEventListener('click', function () {
           var max = parseInt(listRoot.getAttribute('data-repeat-max') || '99', 10);
-          var count = itemsWrap.querySelectorAll('[data-repeat-item], .repeat-list__item').length;
+          var count = directItems().length;
           if (count >= max) return;
 
           var node;
           if (template) {
             node = template.content.firstElementChild.cloneNode(true);
           } else {
-            var last = itemsWrap.querySelector('[data-repeat-item]:last-child, .repeat-list__item:last-child');
+            var items = directItems();
+            var last = items.length ? items[items.length - 1] : null;
             if (!last) return;
             node = last.cloneNode(true);
             node.querySelectorAll('input, textarea, select').forEach(function (el) {
