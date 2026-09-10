@@ -6,16 +6,17 @@ function kora_sections_catalog(): array
 {
     return [
         ['slug' => 'settings', 'title' => 'Site Settings', 'description' => 'Contact details, social links, and global site metadata.', 'group' => 'General'],
+        ['slug' => 'header', 'title' => 'Header & Navigation', 'description' => 'Top navigation links and Request a Quotation button.', 'group' => 'General'],
         ['slug' => 'hero', 'title' => 'Hero', 'description' => 'Homepage hero slider and headline copy.', 'group' => 'Homepage'],
         ['slug' => 'about', 'title' => 'About', 'description' => 'About section copy and background image.', 'group' => 'Homepage'],
         ['slug' => 'what_we_make', 'title' => 'What We Make', 'description' => 'Homepage product showcase cards and materials.', 'group' => 'Homepage'],
         ['slug' => 'how_to_order', 'title' => 'How to Order', 'description' => 'Homepage order steps strip.', 'group' => 'Homepage'],
         ['slug' => 'workshop', 'title' => 'Workshop Banner', 'description' => 'Full-width workshop image on the homepage.', 'group' => 'Homepage'],
         ['slug' => 'faq', 'title' => 'FAQ', 'description' => 'Homepage frequently asked questions.', 'group' => 'Homepage'],
+        ['slug' => 'contact', 'title' => 'Contact / Quote Form', 'description' => 'Homepage contact and quotation form section.', 'group' => 'Homepage'],
         ['slug' => 'products', 'title' => 'Products Page', 'description' => 'Products page hero, categories, and materials.', 'group' => 'Pages'],
         ['slug' => 'work_samples', 'title' => 'Work Samples', 'description' => 'Studio samples page galleries.', 'group' => 'Pages'],
         ['slug' => 'how_it_works', 'title' => 'How It Works', 'description' => 'Detailed ordering process page.', 'group' => 'Pages'],
-        ['slug' => 'contact', 'title' => 'Contact', 'description' => 'Homepage contact / quote form section.', 'group' => 'Pages'],
         ['slug' => 'request_quote', 'title' => 'Request Quote', 'description' => 'Dedicated quotation page content.', 'group' => 'Pages'],
         ['slug' => 'footer', 'title' => 'Footer', 'description' => 'Footer newsletter, navigation, and tagline.', 'group' => 'General'],
         ['slug' => 'privacy', 'title' => 'Privacy Policy', 'description' => 'Privacy policy page copy.', 'group' => 'Pages'],
@@ -58,6 +59,23 @@ function kora_section_defaults(string $slug): array
             'slug' => 'settings',
             'title' => $title,
             'content' => kora_default_settings(),
+        ],
+        'header' => [
+            'slug' => 'header',
+            'title' => $title,
+            'content' => [
+                'nav' => [
+                    ['label' => 'Home', 'href' => '/', 'page' => 'home'],
+                    ['label' => 'Our work', 'href' => '/work-samples', 'page' => 'work-samples'],
+                    ['label' => 'Products', 'href' => '/products', 'page' => 'products'],
+                    ['label' => 'How it works', 'href' => '/how-it-works', 'page' => 'how-it-works'],
+                ],
+                'cta' => [
+                    'label' => 'Request a Quotation',
+                    'href' => '/request-quote',
+                ],
+                'default_description' => 'KORA creates custom awards, medals, plaques, and souvenirs in Nanyuki, Laikipia — laser-cut and hand-finished. Recognition made personal for organisations, NGOs, corporates, and sports teams.',
+            ],
         ],
         'hero' => [
             'slug' => 'hero',
@@ -447,6 +465,7 @@ function kora_section_defaults(string $slug): array
             'content' => [
                 'title' => 'Request a Custom Quotation',
                 'lead' => 'Tell us what you have in mind. We\'ll review your brief and recommend suitable options based on your event, quantity, materials, and budget.',
+                'submit_label' => 'Request a Quotation',
                 'form_action' => '/process-quote.php',
                 'channels' => [
                     ['label' => 'Whatsapp KORA', 'href' => 'https://wa.me/254790355707', 'external' => true],
@@ -575,6 +594,43 @@ function kora_save_settings(PDO $pdo, array $settings): void
     }
 }
 
+function kora_is_assoc_array(array $array): bool
+{
+    if ($array === []) {
+        return false;
+    }
+
+    return array_keys($array) !== range(0, count($array) - 1);
+}
+
+/**
+ * Fill missing keys from defaults without overwriting saved values.
+ *
+ * @param array<string, mixed> $defaults
+ * @param array<string, mixed> $content
+ * @return array<string, mixed>
+ */
+function kora_merge_content_defaults(array $defaults, array $content): array
+{
+    foreach ($defaults as $key => $defaultValue) {
+        if (!array_key_exists($key, $content)) {
+            $content[$key] = $defaultValue;
+            continue;
+        }
+
+        if (
+            is_array($defaultValue)
+            && is_array($content[$key])
+            && kora_is_assoc_array($defaultValue)
+            && kora_is_assoc_array($content[$key])
+        ) {
+            $content[$key] = kora_merge_content_defaults($defaultValue, $content[$key]);
+        }
+    }
+
+    return $content;
+}
+
 function kora_load_section(PDO $pdo, string $slug): array
 {
     if ($slug === 'settings') {
@@ -585,21 +641,25 @@ function kora_load_section(PDO $pdo, string $slug): array
         ];
     }
 
+    $defaults = kora_section_defaults($slug);
+    $defaultContent = is_array($defaults['content'] ?? null) ? $defaults['content'] : [];
+
     $stmt = $pdo->prepare('SELECT slug, title, content_json FROM cms_sections WHERE slug = :slug LIMIT 1');
     $stmt->execute(['slug' => $slug]);
     $row = $stmt->fetch();
 
     if ($row) {
         $content = json_decode((string) $row['content_json'], true);
+        $content = is_array($content) ? $content : [];
 
         return [
             'slug' => (string) $row['slug'],
             'title' => (string) $row['title'],
-            'content' => is_array($content) ? $content : [],
+            'content' => kora_merge_content_defaults($defaultContent, $content),
         ];
     }
 
-    return kora_section_defaults($slug);
+    return $defaults;
 }
 
 function kora_save_section(PDO $pdo, string $slug, string $title, array $content): void
@@ -649,13 +709,19 @@ function kora_export_site(PDO $pdo): void
             continue;
         }
 
+        $default = kora_section_defaults($slug);
+        $defaultContent = is_array($default['content'] ?? null) ? $default['content'] : [];
+
         if (!isset($sections[$slug])) {
-            $default = kora_section_defaults($slug);
             $sections[$slug] = [
                 'title' => (string) $default['title'],
-                'content' => $default['content'],
+                'content' => $defaultContent,
             ];
+            continue;
         }
+
+        $existing = is_array($sections[$slug]['content'] ?? null) ? $sections[$slug]['content'] : [];
+        $sections[$slug]['content'] = kora_merge_content_defaults($defaultContent, $existing);
     }
 
     $payload = [
@@ -672,38 +738,84 @@ function kora_export_site(PDO $pdo): void
     }
 
     $paths = [
-        dirname(__DIR__) . '/data/content/site.json',
         site_root() . '/data/cms/site.json',
+        dirname(__DIR__) . '/data/content/site.json',
     ];
 
+    $livePath = $paths[0];
+    $liveOk = false;
+    $errors = [];
+
     foreach ($paths as $path) {
-        $dir = dirname($path);
-
-        if (!is_dir($dir) && !mkdir($dir, 0775, true) && !is_dir($dir)) {
-            throw new RuntimeException('Unable to create content export directory: ' . $dir);
+        try {
+            kora_write_export_file($path, $json);
+            if ($path === $livePath) {
+                $liveOk = true;
+            }
+        } catch (Throwable $e) {
+            $errors[] = $e->getMessage();
         }
+    }
 
-        @chmod($dir, 0775);
+    if (!$liveOk) {
+        throw new RuntimeException($errors[0] ?? 'Unable to write live site content export.');
+    }
+}
 
-        $tmp = $path . '.tmp.' . bin2hex(random_bytes(4));
+function kora_write_export_file(string $path, string $json): void
+{
+    $dir = dirname($path);
 
-        if (file_put_contents($tmp, $json) === false) {
-            @unlink($tmp);
+    if (!is_dir($dir) && !@mkdir($dir, 0777, true) && !is_dir($dir)) {
+        throw new RuntimeException('Unable to create content export directory: ' . $path);
+    }
+
+    @chmod($dir, 0777);
+
+    if (!is_writable($dir)) {
+        throw new RuntimeException('Export directory is not writable: ' . $dir);
+    }
+
+    // Replace a root-owned unwritable file when the directory allows it.
+    if (is_file($path) && !is_writable($path)) {
+        if (!@unlink($path)) {
+            throw new RuntimeException('Unable to replace locked export file: ' . $path);
+        }
+    }
+
+    $tmp = $dir . '/.site-export-' . bin2hex(random_bytes(4)) . '.tmp';
+
+    if (@file_put_contents($tmp, $json) === false) {
+        @unlink($tmp);
+        throw new RuntimeException('Unable to write site content export: ' . $path);
+    }
+
+    @chmod($tmp, 0666);
+
+    if (is_file($path) && !@unlink($path)) {
+        // Fall back to in-place overwrite.
+        $wrote = @file_put_contents($path, $json);
+        @unlink($tmp);
+
+        if ($wrote === false) {
             throw new RuntimeException('Unable to write site content export: ' . $path);
         }
 
-        if (!@rename($tmp, $path)) {
-            // Fallback when rename across ownership fails: overwrite in place.
-            $wrote = file_put_contents($path, $json);
-            @unlink($tmp);
+        @chmod($path, 0666);
 
-            if ($wrote === false) {
-                throw new RuntimeException('Unable to write site content export: ' . $path);
-            }
-        }
-
-        @chmod($path, 0664);
+        return;
     }
+
+    if (!@rename($tmp, $path)) {
+        $wrote = @file_put_contents($path, $json);
+        @unlink($tmp);
+
+        if ($wrote === false) {
+            throw new RuntimeException('Unable to write site content export: ' . $path);
+        }
+    }
+
+    @chmod($path, 0666);
 }
 
 function kora_seed_all(PDO $pdo): void

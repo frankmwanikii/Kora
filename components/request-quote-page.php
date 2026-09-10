@@ -64,6 +64,11 @@ if ($faq_items === []) {
     $faq_items = $faqDefault;
 }
 
+$quoteForm = is_array($quote['form'] ?? null) ? $quote['form'] : [];
+$quoteFormTitle = (string) ($quoteForm['title'] ?? 'Tell us about your order');
+$quoteFormNote = (string) ($quoteForm['note'] ?? 'Fields marked * are required. The more detail you share, the more accurate your quotation will be.');
+$quoteFormAction = (string) ($quoteForm['action'] ?? '/process-quote.php');
+
 $trustIcons = [
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg>',
@@ -124,10 +129,10 @@ $trustIcons = [
 
         <div class="quote-layout">
             <div class="quote-form-col reveal">
-                <form class="quote-form" id="quote-form" action="/process-quote.php" method="post" enctype="multipart/form-data" novalidate>
+                <form class="quote-form" id="quote-form" action="<?= htmlspecialchars($quoteFormAction) ?>" method="post" enctype="multipart/form-data" novalidate>
                     <header class="quote-form__header">
-                        <h2 id="quote-form-title">Tell us about your order</h2>
-                        <p class="quote-form__note">Fields marked <span class="req" aria-hidden="true">*</span> are required. The more detail you share, the more accurate your quotation will be.</p>
+                        <h2 id="quote-form-title"><?= htmlspecialchars($quoteFormTitle) ?></h2>
+                        <p class="quote-form__note"><?= htmlspecialchars($quoteFormNote) ?></p>
                     </header>
                     <input type="hidden" name="form_origin" value="request-quote">
                     <div class="form-field form-field--hp" aria-hidden="true">

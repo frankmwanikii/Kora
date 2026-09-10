@@ -963,6 +963,20 @@ html.sidebar-collapsed .sidebar-collapse i {
   transition: margin-left var(--transition-base);
 }
 
+.admin-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem 0.65rem;
+  margin-top: auto;
+  padding: 1rem 1.5rem 1.25rem;
+  text-align: center;
+  color: var(--gray-500);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
 /* Topbar */
 
 .topbar {

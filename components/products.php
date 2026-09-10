@@ -175,7 +175,9 @@ $productsIntroNav = is_array($productsIntro['nav'] ?? null) ? $productsIntro['na
     ['label' => 'Souvenirs', 'href' => '#souvenirs'],
 ];
 
-$productsMaterials = is_array($productsCms['materials_block'] ?? null) ? $productsCms['materials_block'] : [];
+$productsMaterials = is_array($productsCms['materials_section'] ?? null)
+    ? $productsCms['materials_section']
+    : (is_array($productsCms['materials_block'] ?? null) ? $productsCms['materials_block'] : []);
 $productsMaterialsTitle = (string) ($productsMaterials['title'] ?? 'Materials we work with');
 $productsMaterialsText = (string) ($productsMaterials['text'] ?? 'We select materials based on the look, weight, and durability your product needs. Whether you want the warmth of natural wood, the precision of layered acrylic, or the versatility of MDF and plywood, we advise on the best combination for your event or brand.');
 $productsMaterialsItems = is_array($productsMaterials['items'] ?? null) ? $productsMaterials['items'] : [
@@ -187,6 +189,10 @@ $productsMaterialsItems = is_array($productsMaterials['items'] ?? null) ? $produ
 $productsCta = is_array($productsCms['cta'] ?? null) ? $productsCms['cta'] : [];
 $productsCtaTitle = (string) ($productsCta['title'] ?? 'Ready to brief your order?');
 $productsCtaText = (string) ($productsCta['text'] ?? 'Share your event, quantities, and design ideas — we will guide you from concept to finished pieces.');
+$productsCtaPrimaryHref = (string) ($productsCta['primary_href'] ?? '/request-quote.php');
+$productsCtaPrimaryLabel = (string) ($productsCta['primary_label'] ?? 'Request a Quotation');
+$productsCtaSecondaryHref = (string) ($productsCta['secondary_href'] ?? '/work-samples.php');
+$productsCtaSecondaryLabel = (string) ($productsCta['secondary_label'] ?? 'Browse our work');
 ?>
 <section class="products-hero" aria-labelledby="products-hero-title">
     <img
@@ -263,8 +269,8 @@ $productsCtaText = (string) ($productsCta['text'] ?? 'Share your event, quantiti
             <h2 id="products-cta-title" class="products-cta__title"><?= htmlspecialchars($productsCtaTitle) ?></h2>
             <p class="products-cta__text lead-italic"><?= htmlspecialchars($productsCtaText) ?></p>
             <div class="btn-group">
-                <a class="btn btn--solid" href="/request-quote.php">Request a Quotation</a>
-                <a class="btn btn--ghost" href="/work-samples.php">Browse our work</a>
+                <a class="btn btn--solid" href="<?= htmlspecialchars($productsCtaPrimaryHref) ?>"><?= htmlspecialchars($productsCtaPrimaryLabel) ?></a>
+                <a class="btn btn--ghost" href="<?= htmlspecialchars($productsCtaSecondaryHref) ?>"><?= htmlspecialchars($productsCtaSecondaryLabel) ?></a>
             </div>
         </div>
     </div>

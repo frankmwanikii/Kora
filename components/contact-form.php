@@ -6,6 +6,7 @@ $contact = cms_section('contact');
 $contact_title = (string) ($contact['title'] ?? 'Request a Custom Quotation');
 $contact_lead = (string) ($contact['lead'] ?? 'Tell us what you have in mind. We\'ll review your brief and recommend suitable options based on your event, quantity, materials, and budget.');
 $contact_submit = (string) ($contact['submit_label'] ?? 'Request a Quotation');
+$contact_action = (string) ($contact['form_action'] ?? '/process-quote.php');
 $contact_channels = cms_list('contact', 'channels', [
     ['label' => 'Whatsapp KORA', 'href' => SITE_WHATSAPP, 'external' => true],
     ['label' => 'Email KORA', 'href' => 'mailto:' . SITE_EMAIL, 'external' => false],
@@ -18,7 +19,7 @@ $contact_channels = cms_list('contact', 'channels', [
             <p class="lead-italic"><?= htmlspecialchars($contact_lead) ?></p>
         </div>
         <div class="contact-section__form reveal">
-            <form class="quote-form" id="quote-form" action="/process-quote" method="post" enctype="multipart/form-data" novalidate>
+            <form class="quote-form" id="quote-form" action="<?= htmlspecialchars($contact_action) ?>" method="post" enctype="multipart/form-data" novalidate>
                 <div class="form-row">
                     <div class="form-field">
                         <label for="name">Your name</label>

@@ -9,6 +9,7 @@ $pageSubtitle = 'Website content sections';
 $activeNav = 'pages';
 
 $previewMap = [
+    'header' => '/',
     'hero' => '/',
     'about' => '/#about-title',
     'what_we_make' => '/#products',
@@ -16,24 +17,33 @@ $previewMap = [
     'workshop' => '/',
     'faq' => '/#faqs',
     'contact' => '/#contact',
-    'products' => '/products.php',
-    'work_samples' => '/work-samples.php',
-    'how_it_works' => '/how-it-works.php',
-    'request_quote' => '/request-quote.php',
+    'products' => '/products',
+    'work_samples' => '/work-samples',
+    'how_it_works' => '/how-it-works',
+    'request_quote' => '/request-quote',
     'footer' => '/#footer-newsletter-title',
     'privacy' => '/privacy.php',
 ];
 
+$groupOrder = ['Homepage', 'Pages', 'General', 'Other'];
 $grouped = [];
 foreach (kora_sections_catalog() as $section) {
     $slug = (string) ($section['slug'] ?? '');
-    // Site settings live under Settings in the sidebar — not on Pages.
     if ($slug === 'settings') {
         continue;
     }
     $group = (string) ($section['group'] ?? 'Other');
     $grouped[$group][] = $section;
 }
+
+uksort($grouped, static function (string $a, string $b) use ($groupOrder): int {
+    $ai = array_search($a, $groupOrder, true);
+    $bi = array_search($b, $groupOrder, true);
+    $ai = $ai === false ? 99 : $ai;
+    $bi = $bi === false ? 99 : $bi;
+
+    return $ai <=> $bi;
+});
 
 require __DIR__ . '/includes/layout.php';
 ?>
@@ -42,9 +52,15 @@ require __DIR__ . '/includes/layout.php';
     <header class="pages-hub__intro pages-hub__intro--compact">
         <div>
             <p class="pages-hub__eyebrow">Website CMS</p>
-            <h2 class="pages-hub__title">Pages &amp; sections</h2>
-            <p class="pages-hub__lead">Edit homepage blocks, product pages, and global content. Changes export to the live site JSON automatically.</p>
+            <h2 class="pages-hub__title">Edit website content</h2>
+            <p class="pages-hub__lead">
+                Click <strong>Edit</strong> on any section below. Saving updates the live site immediately.
+                Homepage blocks are listed first — hero, about, products strip, order steps, workshop image, FAQs, and the contact form.
+            </p>
         </div>
+        <a class="btn btn-secondary" href="/" target="_blank" rel="noopener">
+            <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> Open homepage
+        </a>
     </header>
 
     <?php foreach ($grouped as $groupName => $sections): ?>
@@ -73,19 +89,13 @@ require __DIR__ . '/includes/layout.php';
                                     <td class="cell-strong"><?= e((string) $section['title']) ?></td>
                                     <td class="cell-muted"><?= e((string) $section['description']) ?></td>
                                     <td class="cell-actions">
-                                        <div class="action-menu" data-dropdown>
-                                            <button type="button" class="btn btn-secondary btn-sm" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Actions for <?= e((string) $section['title']) ?>">
-                                                View <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
-                                            </button>
-                                            <div class="dropdown-panel" data-dropdown-panel hidden>
-                                                <a href="<?= e($previewHref) ?>" target="_blank" rel="noopener">
-                                                    <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> Preview live
-                                                </a>
-                                                <a href="<?= e($editHref) ?>">
-                                                    <i class="fa-solid fa-pen" aria-hidden="true"></i> Edit
-                                                </a>
-                                            </div>
-                                        </div>
+                                        <a class="btn btn-primary btn-sm" href="<?= e($editHref) ?>">
+                                            <i class="fa-solid fa-pen" aria-hidden="true"></i> Edit
+                                        </a>
+                                        <a class="btn btn-ghost btn-sm" href="<?= e($previewHref) ?>" target="_blank" rel="noopener" title="Preview live">
+                                            <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                                            <span class="visually-hidden">Preview live</span>
+                                        </a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

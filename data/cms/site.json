@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "updated_at": "2026-09-10 16:46:24",
+    "updated_at": "2026-09-10 17:52:47",
     "settings": {
         "site_name": "KORA",
         "site_tagline": "Custom Awards & Trophies",
@@ -50,7 +50,8 @@
                         "href": "mailto:koradesignprint@gmail.com",
                         "external": false
                     }
-                ]
+                ],
+                "submit_label": "Request a Quotation"
             }
         },
         "faq": {
@@ -75,7 +76,7 @@
                         "a": "We use trusted courier services like G4S and Wells Fargo to ensure all items are delivered safely and efficiently anywhere in the country. Collection from our Nanyuki workshop is also available if you prefer."
                     },
                     {
-                        "q": "Do I need finished artwork or a logo file?",
+                        "q": "Do I need finished artwork or a logo files?",
                         "a": "No. A rough idea, a photo for inspiration, or just your logo is enough to start. Our design team prepares the layout and shares a proof for your approval before anything is cut or engraved."
                     },
                     {
@@ -148,6 +149,38 @@
                     "label": "Designed by Fraittech",
                     "href": "https://fraittech.co.ke"
                 }
+            }
+        },
+        "header": {
+            "title": "Header & Navigation",
+            "content": {
+                "nav": [
+                    {
+                        "label": "Home",
+                        "href": "/",
+                        "page": "home"
+                    },
+                    {
+                        "label": "Our work",
+                        "href": "/work-samples",
+                        "page": "work-samples"
+                    },
+                    {
+                        "label": "Products",
+                        "href": "/products",
+                        "page": "products"
+                    },
+                    {
+                        "label": "How it works",
+                        "href": "/how-it-works",
+                        "page": "how-it-works"
+                    }
+                ],
+                "cta": {
+                    "label": "Request a Quotation",
+                    "href": "/request-quote"
+                },
+                "default_description": "KORA creates custom awards, medals, plaques, and souvenirs in Nanyuki, Laikipia — laser-cut and hand-finished. Recognition made personal for organisations, NGOs, corporates, and sports teams."
             }
         },
         "hero": {

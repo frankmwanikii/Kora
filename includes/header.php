@@ -5,8 +5,24 @@ declare(strict_types=1);
 require_once __DIR__ . '/config.php';
 
 $current_page = $current_page ?? 'home';
+
+$headerCms = function_exists('cms_section') ? cms_section('header') : [];
+$headerNavDefault = [
+    ['label' => 'Home', 'href' => '/', 'page' => 'home'],
+    ['label' => 'Our work', 'href' => '/work-samples', 'page' => 'work-samples'],
+    ['label' => 'Products', 'href' => '/products', 'page' => 'products'],
+    ['label' => 'How it works', 'href' => '/how-it-works', 'page' => 'how-it-works'],
+];
+$headerNav = (isset($headerCms['nav']) && is_array($headerCms['nav']) && $headerCms['nav'] !== [])
+    ? array_values($headerCms['nav'])
+    : $headerNavDefault;
+
+$headerCta = is_array($headerCms['cta'] ?? null) ? $headerCms['cta'] : [];
+$headerCtaLabel = (string) ($headerCta['label'] ?? 'Request a Quotation');
+$headerCtaHref = (string) ($headerCta['href'] ?? '/request-quote');
+
 $page_title = $page_title ?? page_title();
-$page_description = $page_description ?? 'KORA creates custom awards, medals, plaques, and souvenirs in Nanyuki, Laikipia — laser-cut and hand-finished. Recognition made personal for organisations, NGOs, corporates, and sports teams.';
+$page_description = $page_description ?? (string) ($headerCms['default_description'] ?? 'KORA creates custom awards, medals, plaques, and souvenirs in Nanyuki, Laikipia — laser-cut and hand-finished. Recognition made personal for organisations, NGOs, corporates, and sports teams.');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,14 +49,29 @@ $page_description = $page_description ?? 'KORA creates custom awards, medals, pl
             <?php render_brand_logo('header'); ?>
             <nav class="site-nav" aria-label="Primary">
                 <ul class="site-nav__list">
-                    <li><a class="site-nav__link<?= $current_page === 'home' ? ' is-active' : '' ?>" href="/">Home</a></li>
-                    <li><a class="site-nav__link<?= $current_page === 'work-samples' ? ' is-active' : '' ?>" href="/work-samples">Our work</a></li>
-                    <li><a class="site-nav__link<?= $current_page === 'products' ? ' is-active' : '' ?>" href="/products">Products</a></li>
-                    <li><a class="site-nav__link<?= $current_page === 'how-it-works' ? ' is-active' : '' ?>" href="/how-it-works">How it works</a></li>
+                    <?php foreach ($headerNav as $navItem): ?>
+                        <?php
+                        if (!is_array($navItem)) {
+                            continue;
+                        }
+                        $label = (string) ($navItem['label'] ?? '');
+                        $href = (string) ($navItem['href'] ?? '#');
+                        $pageKey = (string) ($navItem['page'] ?? '');
+                        if ($label === '') {
+                            continue;
+                        }
+                        $isActive = $pageKey !== '' && $current_page === $pageKey;
+                        ?>
+                        <li>
+                            <a class="site-nav__link<?= $isActive ? ' is-active' : '' ?>" href="<?= htmlspecialchars($href) ?>">
+                                <?= htmlspecialchars($label) ?>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
                 </ul>
             </nav>
             <div class="site-header__actions">
-                <a class="site-header__cta btn btn--solid" href="/request-quote">Request a Quotation</a>
+                <a class="site-header__cta btn btn--solid" href="<?= htmlspecialchars($headerCtaHref) ?>"><?= htmlspecialchars($headerCtaLabel) ?></a>
                 <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
                     <span class="nav-toggle__bars" aria-hidden="true">
                         <span></span>
@@ -54,11 +85,28 @@ $page_description = $page_description ?? 'KORA creates custom awards, medals, pl
     <button type="button" class="mobile-nav-overlay" id="mobile-nav-overlay" hidden aria-label="Close menu"></button>
     <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile" hidden>
         <ul class="mobile-nav__list">
-            <li><a class="mobile-nav__link<?= $current_page === 'home' ? ' is-active' : '' ?>" href="/">Home</a></li>
-            <li><a class="mobile-nav__link<?= $current_page === 'work-samples' ? ' is-active' : '' ?>" href="/work-samples">Our work</a></li>
-            <li><a class="mobile-nav__link<?= $current_page === 'products' ? ' is-active' : '' ?>" href="/products">Products</a></li>
-            <li><a class="mobile-nav__link<?= $current_page === 'how-it-works' ? ' is-active' : '' ?>" href="/how-it-works">How it works</a></li>
-            <li class="mobile-nav__cta-item"><a class="mobile-nav__cta btn btn--solid" href="/request-quote">Request a Quotation</a></li>
+            <?php foreach ($headerNav as $navItem): ?>
+                <?php
+                if (!is_array($navItem)) {
+                    continue;
+                }
+                $label = (string) ($navItem['label'] ?? '');
+                $href = (string) ($navItem['href'] ?? '#');
+                $pageKey = (string) ($navItem['page'] ?? '');
+                if ($label === '') {
+                    continue;
+                }
+                $isActive = $pageKey !== '' && $current_page === $pageKey;
+                ?>
+                <li>
+                    <a class="mobile-nav__link<?= $isActive ? ' is-active' : '' ?>" href="<?= htmlspecialchars($href) ?>">
+                        <?= htmlspecialchars($label) ?>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+            <li class="mobile-nav__cta-item">
+                <a class="mobile-nav__cta btn btn--solid" href="<?= htmlspecialchars($headerCtaHref) ?>"><?= htmlspecialchars($headerCtaLabel) ?></a>
+            </li>
         </ul>
     </nav>
     <main id="main">

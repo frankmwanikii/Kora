@@ -11,6 +11,7 @@
     $footer_newsletter_alt = (string) ($footer_newsletter_image['alt'] ?? 'Custom KORA golf award');
     $footer_newsletter_title = (string) ($footer_newsletter['title'] ?? 'Subscribe to our newsletter to get updates on our latest collections');
     $footer_newsletter_text = (string) ($footer_newsletter['text'] ?? 'Be first to see new awards, medals, souvenirs plus seasonal offers from the KORA workshop.');
+    $footer_privacy_href = (string) ($footer_newsletter['privacy_href'] ?? '/privacy.php');
     $footer_blurb = (string) ($footer['blurb'] ?? 'Custom awards, medals and souvenirs designed and made for organisations, schools, corporates, and sports teams.');
     $footer_explore = cms_list('footer', 'explore_nav', [
         ['label' => 'Home', 'href' => '/'],
@@ -67,7 +68,7 @@
                         <input type="text" name="website" value="" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true">
                     </form>
 
-                    <p class="site-footer__newsletter-note">You will be able to unsubscribe at any time. Read our <a href="/privacy.php">privacy policy here</a>.</p>
+                    <p class="site-footer__newsletter-note">You will be able to unsubscribe at any time. Read our <a href="<?= htmlspecialchars($footer_privacy_href) ?>">privacy policy here</a>.</p>
                 </div>
             </aside>
 
