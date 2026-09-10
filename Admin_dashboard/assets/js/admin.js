@@ -371,6 +371,17 @@
           window.location.href = el.href;
           return;
         }
+        if (el.tagName === 'BUTTON' && el.type === 'submit') {
+          var form = el.closest('form');
+          if (form) {
+            if (typeof form.requestSubmit === 'function') {
+              form.requestSubmit(el);
+            } else {
+              form.submit();
+            }
+            return;
+          }
+        }
         el.click();
       });
     }, true);

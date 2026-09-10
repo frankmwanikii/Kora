@@ -194,9 +194,11 @@ function kora_store_upload(PDO $pdo, array $file, ?string $folder = null): array
     $subdir = 'uploads/' . $year . ($folder !== '' ? '/' . $folder : '');
     $targetDir = kora_images_root() . '/' . $subdir;
 
-    if (!is_dir($targetDir) && !mkdir($targetDir, 0755, true) && !is_dir($targetDir)) {
+    if (!is_dir($targetDir) && !mkdir($targetDir, 0777, true) && !is_dir($targetDir)) {
         return ['ok' => false, 'error' => 'Unable to create upload directory.'];
     }
+
+    @chmod($targetDir, 0777);
 
     $filename = kora_safe_upload_filename($originalName);
     $targetPath = $targetDir . '/' . $filename;
@@ -207,6 +209,8 @@ function kora_store_upload(PDO $pdo, array $file, ?string $folder = null): array
         return ['ok' => false, 'error' => 'Unable to save uploaded file.'];
     }
 
+    @chmod($targetPath, 0666);
+
     if (in_array($ext, ['jpg', 'jpeg', 'png'], true) && function_exists('imagewebp')) {
         $webpPath = preg_replace('/\.[^.]+$/', '.webp', $targetPath);
 
@@ -216,6 +220,7 @@ function kora_store_upload(PDO $pdo, array $file, ?string $folder = null): array
             $filename = basename($webpPath);
             $relPath = $subdir . '/' . $filename;
             $mime = 'image/webp';
+            @chmod($targetPath, 0666);
         }
     }
 
@@ -291,33 +296,47 @@ function kora_delete_media(PDO $pdo, string $path): array
     }
 
     $root = realpath(kora_images_root());
-    $candidate = kora_images_root() . '/' . $relPath;
-    $fullPath = realpath($candidate);
-
-    // Allow deleting a DB record even if the file is already gone.
-    if ($fullPath === false && is_file($candidate)) {
-        $fullPath = $candidate;
-    }
-
     if ($root === false) {
         return ['ok' => false, 'error' => 'Media root unavailable.'];
     }
 
+    $candidate = kora_images_root() . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relPath);
+    $fullPath = realpath($candidate);
+
+    if ($fullPath === false && is_file($candidate)) {
+        $fullPath = $candidate;
+    }
+
+    $prefix = $root . DIRECTORY_SEPARATOR;
+    $fileDeleted = false;
+
     if ($fullPath !== false) {
-        $prefix = $root . DIRECTORY_SEPARATOR;
-        if (!str_starts_with($fullPath, $prefix) || !is_file($fullPath)) {
-            return ['ok' => false, 'error' => 'File not found.'];
+        if (!str_starts_with($fullPath, $prefix) || is_dir($fullPath)) {
+            return ['ok' => false, 'error' => 'Invalid media path.'];
         }
 
-        if (!unlink($fullPath)) {
-            return ['ok' => false, 'error' => 'Unable to delete file.'];
+        if (is_file($fullPath)) {
+            $dir = dirname($fullPath);
+            @chmod($fullPath, 0666);
+            @chmod($dir, 0777);
+
+            if (!@unlink($fullPath)) {
+                $err = error_get_last();
+                $detail = is_array($err) && isset($err['message']) ? $err['message'] : 'permission denied';
+
+                return ['ok' => false, 'error' => 'Unable to delete file (' . $detail . ').'];
+            }
+
+            $fileDeleted = true;
         }
-    } else {
-        $stmt = $pdo->prepare('SELECT id FROM media_library WHERE path = :path LIMIT 1');
-        $stmt->execute(['path' => $relPath]);
-        if (!$stmt->fetch()) {
-            return ['ok' => false, 'error' => 'File not found.'];
-        }
+    }
+
+    $stmt = $pdo->prepare('SELECT id FROM media_library WHERE path = :path LIMIT 1');
+    $stmt->execute(['path' => $relPath]);
+    $row = $stmt->fetch();
+
+    if (!$fileDeleted && !$row) {
+        return ['ok' => false, 'error' => 'File not found.'];
     }
 
     $delete = $pdo->prepare('DELETE FROM media_library WHERE path = :path');

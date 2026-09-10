@@ -53,21 +53,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $ok = 0;
         $fail = 0;
+        $errors = [];
         foreach ($paths as $path) {
             $result = kora_delete_media($pdo, $path);
             if (!empty($result['ok'])) {
                 $ok++;
             } else {
                 $fail++;
+                if (!empty($result['error'])) {
+                    $errors[] = (string) $result['error'];
+                }
             }
         }
 
         if ($ok > 0 && $fail === 0) {
-            flash('success', count($paths) === 1 ? 'Media deleted.' : $ok . ' items deleted.');
+            flash('success', count($paths) === 1 ? 'Image deleted.' : $ok . ' images deleted.');
         } elseif ($ok > 0) {
             flash('error', "Deleted {$ok} item(s), but {$fail} could not be deleted.");
         } else {
-            flash('error', 'Could not delete the selected item(s). Logos are protected.');
+            $detail = $errors[0] ?? 'Logos are protected, or the server could not remove the file.';
+            flash('error', 'Could not delete: ' . $detail);
         }
 
         $back = trim((string) ($_POST['return'] ?? ''));
@@ -93,7 +98,7 @@ if ($folderKey === 'root') {
     $all = kora_gallery_list($q !== '' ? $q : null, $folderFilter !== '' ? $folderFilter : null);
 }
 
-$perPage = 24;
+$perPage = 12;
 $page = max(1, (int) ($_GET['paged'] ?? 1));
 $total = count($all);
 $totalPages = max(1, (int) ceil($total / $perPage));

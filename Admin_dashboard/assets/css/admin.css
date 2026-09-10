@@ -1660,6 +1660,21 @@ html.sidebar-collapsed .topbar {
   justify-content: center;
 }
 
+.media-item__overlay-actions .btn-ghost,
+.media-item__overlay-actions .btn-ghost:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.media-item__overlay-actions .btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.media-item__overlay-actions .btn-primary {
+  color: #fff;
+}
+
 .media-item__check {
   position: absolute;
   top: 0.55rem;
