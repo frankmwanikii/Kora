@@ -1,7 +1,7 @@
 <section
     class="about section"
     aria-labelledby="about-title"
-    style="--about-bg: url('<?= img('finish_hero.jpeg') ?>')"
+    style="--about-bg: url('<?= img('about image.jpg') ?>')"
 >
     <div class="container about__content reveal">
         <h2 id="about-title" class="about__title">Made by hand, in Laikipia</h2>
