@@ -48,8 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    kora_export_site($pdo);
-    flash('success', 'Settings saved and site content exported.');
+    try {
+        kora_export_site($pdo);
+        flash('success', 'Settings saved. The live website now uses these details.');
+    } catch (Throwable $e) {
+        flash('error', 'Settings saved, but the live site export failed: ' . $e->getMessage());
+    }
     redirect('/settings.php');
 }
 

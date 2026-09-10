@@ -679,13 +679,30 @@ function kora_export_site(PDO $pdo): void
     foreach ($paths as $path) {
         $dir = dirname($path);
 
-        if (!is_dir($dir) && !mkdir($dir, 0755, true) && !is_dir($dir)) {
+        if (!is_dir($dir) && !mkdir($dir, 0775, true) && !is_dir($dir)) {
             throw new RuntimeException('Unable to create content export directory: ' . $dir);
         }
 
-        if (file_put_contents($path, $json) === false) {
+        @chmod($dir, 0775);
+
+        $tmp = $path . '.tmp.' . bin2hex(random_bytes(4));
+
+        if (file_put_contents($tmp, $json) === false) {
+            @unlink($tmp);
             throw new RuntimeException('Unable to write site content export: ' . $path);
         }
+
+        if (!@rename($tmp, $path)) {
+            // Fallback when rename across ownership fails: overwrite in place.
+            $wrote = file_put_contents($path, $json);
+            @unlink($tmp);
+
+            if ($wrote === false) {
+                throw new RuntimeException('Unable to write site content export: ' . $path);
+            }
+        }
+
+        @chmod($path, 0664);
     }
 }
 

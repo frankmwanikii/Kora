@@ -557,7 +557,7 @@ hr {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 1.25rem 1rem 1rem 1.25rem;
+  padding: 1.35rem 1rem 1.15rem 1.15rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
 }
@@ -565,10 +565,12 @@ hr {
 .sidebar-brand {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  align-items: flex-start;
+  gap: 0.45rem;
   color: var(--white);
   text-decoration: none;
   min-width: 0;
+  flex: 1;
 }
 
 .sidebar-brand:hover {
@@ -579,16 +581,18 @@ hr {
 .sidebar-brand-logo {
   display: block;
   height: auto;
-  max-height: 56px;
-  width: auto;
-  max-width: 188px;
+  width: 100%;
+  max-width: 168px;
+  max-height: 118px;
   object-fit: contain;
+  object-position: left center;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
 }
 
 .sidebar-brand-mark {
   display: none;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 10px;
   object-fit: contain;
   background: rgba(255, 255, 255, 0.08);
@@ -596,10 +600,10 @@ hr {
 }
 
 .sidebar-brand-sub {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   color: var(--copper-light);
   padding-left: 2px;
 }
@@ -1680,6 +1684,48 @@ html.sidebar-collapsed .topbar {
   cursor: pointer;
 }
 
+.media-item__delete {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  z-index: 4;
+  margin: 0;
+}
+
+.media-item__delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius-sm);
+  background: rgba(185, 28, 28, 0.92);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.18);
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.media-item__delete-btn:hover {
+  background: #991b1b;
+  transform: translateY(-1px);
+}
+
+.media-item__delete-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.media-delete-form {
+  display: inline;
+  margin: 0;
+}
+
+.cell-actions .media-delete-form {
+  display: inline-flex;
+}
+
 .media-item__meta {
   display: grid;
   gap: 0.15rem;
@@ -2035,20 +2081,67 @@ html.sidebar-collapsed .topbar {
   top: calc(var(--topbar-height) + 1rem);
 }
 
-.image-field {
+.image-object {
+  display: grid;
+  gap: 0.85rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.image-object__head {
+  margin: 0;
+}
+
+.image-object__title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: 0.01em;
+}
+
+.image-object__body {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.image-object__meta {
   display: grid;
   gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.image-object .image-field {
+  margin: 0;
+}
+
+.image-object .image-field > .form-label:first-child {
+  display: none;
+}
+
+.image-field {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem;
+  border: 1px solid rgba(51, 54, 82, 0.08);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.95), rgba(249,250,251,0.98)),
+    var(--white);
+  box-shadow: 0 8px 24px rgba(51, 54, 82, 0.05);
 }
 
 .image-field__preview-wrap {
   position: relative;
-  border-radius: var(--radius-md);
+  border-radius: 14px;
   overflow: hidden;
-  border: 1px solid var(--gray-200);
+  border: 1px solid rgba(51, 54, 82, 0.08);
   background:
-    linear-gradient(145deg, rgba(166, 106, 61, 0.08), transparent 55%),
-    var(--gray-100);
+    radial-gradient(circle at 20% 20%, rgba(166, 106, 61, 0.12), transparent 50%),
+    linear-gradient(145deg, #f3f4f6, #e9eaec);
   aspect-ratio: 16 / 10;
+  min-height: 160px;
 }
 
 .image-field__preview,
@@ -2069,9 +2162,9 @@ html.sidebar-collapsed .topbar {
   inset: 0;
   display: grid;
   place-content: center;
-  gap: 0.45rem;
-  color: var(--muted);
-  font-size: 0.88rem;
+  gap: 0.5rem;
+  color: var(--gray-500);
+  font-size: 0.9rem;
   font-weight: 600;
   pointer-events: none;
   text-align: center;
@@ -2079,8 +2172,9 @@ html.sidebar-collapsed .topbar {
 }
 
 .image-field__empty i {
-  font-size: 1.4rem;
-  opacity: 0.7;
+  font-size: 1.55rem;
+  color: var(--copper);
+  opacity: 0.75;
 }
 
 .image-field.has-image .image-field__empty,
@@ -2089,28 +2183,82 @@ html.sidebar-collapsed .topbar {
 }
 
 .image-field:not(.has-image) .image-field__preview-wrap {
-  min-height: 140px;
+  min-height: 160px;
+  border-style: dashed;
+  border-color: rgba(166, 106, 61, 0.35);
 }
 
 .image-field__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.55rem;
+}
+
+.image-field__actions .btn {
+  border-radius: 999px;
+  min-height: 40px;
+  padding: 0.45rem 0.95rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.image-field__actions .btn-secondary {
+  background: #fff;
+  border-color: rgba(51, 54, 82, 0.12);
+  box-shadow: 0 1px 2px rgba(51, 54, 82, 0.04);
+}
+
+.image-field__actions .btn-secondary:hover {
+  border-color: var(--copper);
+  color: var(--copper-dark);
+  background: var(--copper-50);
+}
+
+.image-field__actions [data-image-clear] {
+  margin-left: auto;
+  color: var(--gray-500);
+}
+
+.image-field__actions [data-image-clear]:hover {
+  color: var(--error);
+  background: var(--error-bg);
 }
 
 .image-field__path-label {
-  margin-bottom: 0.35rem;
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--gray-600);
+}
+
+.image-field [data-image-input] {
+  min-height: 46px;
+  border-radius: 12px;
+  border-color: rgba(51, 54, 82, 0.12);
+  background: #fff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+}
+
+.image-field [data-image-input]:focus {
+  border-color: var(--copper);
+  box-shadow: 0 0 0 3px var(--copper-glow);
 }
 
 .image-field__hint {
-  font-size: 0.8125rem;
+  font-size: 0.78rem;
   margin: 0;
+  color: var(--gray-500);
+  line-height: 1.45;
 }
 
 .image-field__status {
-  font-size: 0.8125rem;
+  font-size: 0.8rem;
   margin: 0;
   color: var(--success);
+  font-weight: 600;
 }
 
 .image-field__status.is-error {
@@ -2300,6 +2448,10 @@ body.kora-gallery-picker-open {
   .image-field__actions .btn {
     width: 100%;
   }
+
+  .image-field__actions [data-image-clear] {
+    margin-left: 0;
+  }
 }
 
 @media (max-width: 480px) {
@@ -2312,6 +2464,7 @@ body.kora-gallery-picker-open {
     gap: 0.65rem;
   }
 }
+
 
 .repeat-list {
   display: grid;

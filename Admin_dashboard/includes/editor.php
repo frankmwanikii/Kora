@@ -135,14 +135,27 @@ function kora_render_image_field(string $prefix, string $key, string $value): vo
 
 function kora_render_image_object(string $prefix, string $key, array $value): void
 {
-    echo '<div class="panel" style="margin:0">';
-    echo '<div class="panel__head"><h3 class="panel__title">' . e(kora_humanize_key($key)) . '</h3></div>';
-    echo '<div class="panel__body" style="display:grid;gap:.85rem">';
+    $groupPrefix = kora_field_name($prefix, $key);
+    $file = isset($value['file']) && is_scalar($value['file']) ? (string) $value['file'] : '';
+
+    echo '<div class="image-object">';
+    echo '<div class="image-object__head"><h3 class="image-object__title">' . e(kora_humanize_key($key)) . '</h3></div>';
+    echo '<div class="image-object__body">';
+
+    kora_render_image_field($groupPrefix, 'file', $file);
+
+    echo '<div class="image-object__meta">';
     foreach ($value as $subKey => $subValue) {
+        if ((string) $subKey === 'file') {
+            continue;
+        }
+
         echo '<div class="form-group" style="margin:0">';
-        kora_render_scalar_field(kora_field_name($prefix, $key), (string) $subKey, $subValue);
+        kora_render_scalar_field($groupPrefix, (string) $subKey, $subValue);
         echo '</div>';
     }
+    echo '</div>';
+
     echo '</div></div>';
 }
 

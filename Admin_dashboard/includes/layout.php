@@ -24,8 +24,10 @@ $adminUsername = (string) ($adminUser['username'] ?? '');
 $adminInitials = initials($adminName !== '' ? $adminName : $adminUsername);
 $cssPath = __DIR__ . '/../assets/css/admin.css';
 $cssVersion = is_file($cssPath) ? (int) filemtime($cssPath) : 1;
-$logoPath = site_root() . '/assets/images/logos/kora_logo1.png';
-$logoUrl = '/assets/images/logos/kora_logo1.png' . (is_file($logoPath) ? '?v=' . (int) filemtime($logoPath) : '');
+$logoWhitePath = site_root() . '/assets/images/logos/kora_logo_white.png';
+$logoFallbackPath = site_root() . '/assets/images/logos/kora_logo1.png';
+$logoPath = is_file($logoWhitePath) ? $logoWhitePath : $logoFallbackPath;
+$logoUrl = '/assets/images/logos/' . basename($logoPath) . '?v=' . (is_file($logoPath) ? (int) filemtime($logoPath) : 1);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,7 +56,8 @@ $logoUrl = '/assets/images/logos/kora_logo1.png' . (is_file($logoPath) ? '?v=' .
     <aside class="sidebar" id="sidebar" aria-label="Admin navigation">
         <div class="sidebar-header">
             <a href="<?= e($adminBase) ?>/dashboard.php" class="sidebar-brand">
-                <img class="sidebar-brand-logo" src="<?= e($logoUrl) ?>" alt="KORA" width="180" height="48" decoding="async">
+                <img class="sidebar-brand-logo" src="<?= e($logoUrl) ?>" alt="KORA Laser Craft" width="220" height="220" decoding="async">
+                <img class="sidebar-brand-mark" src="<?= e($logoUrl) ?>" alt="" width="44" height="44" decoding="async">
                 <span class="sidebar-brand-sub">Admin Console</span>
             </a>
             <button type="button" class="sidebar-close" id="sidebar-close" aria-label="Close menu">

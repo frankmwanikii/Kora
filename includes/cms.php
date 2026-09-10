@@ -8,12 +8,17 @@ declare(strict_types=1);
 function cms_site(): array
 {
     static $data = null;
+    static $loadedMtime = null;
 
-    if ($data !== null) {
+    $path = dirname(__DIR__) . '/data/cms/site.json';
+    $mtime = is_file($path) ? (int) filemtime($path) : 0;
+
+    // Re-read when the export file changes (PHP-FPM workers persist statics across requests).
+    if ($data !== null && $loadedMtime === $mtime) {
         return $data;
     }
 
-    $path = dirname(__DIR__) . '/data/cms/site.json';
+    $loadedMtime = $mtime;
 
     if (!is_file($path)) {
         $data = [];

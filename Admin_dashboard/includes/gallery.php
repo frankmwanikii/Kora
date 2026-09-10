@@ -87,7 +87,7 @@ function kora_gallery_list(?string $q = null, ?string $folder = null): array
                 'size' => (int) $fileInfo->getSize(),
                 'mtime' => (int) $fileInfo->getMTime(),
                 'mime' => kora_guess_mime_type($ext),
-                'can_delete' => str_starts_with($relPath, 'uploads/'),
+                'can_delete' => kora_media_can_delete($relPath),
             ];
         }
     }
@@ -124,7 +124,7 @@ function kora_gallery_list(?string $q = null, ?string $folder = null): array
                 'size' => is_file($fullPath) ? (int) filesize($fullPath) : (int) $row['file_size'],
                 'mtime' => $mtime,
                 'mime' => (string) $row['mime_type'],
-                'can_delete' => str_starts_with($relPath, 'uploads/'),
+                'can_delete' => kora_media_can_delete($relPath),
             ];
         }
     } catch (Throwable) {
@@ -266,6 +266,18 @@ function kora_convert_to_webp(string $source, string $destination, string $ext):
     return $saved;
 }
 
+function kora_media_can_delete(string $relPath): bool
+{
+    $relPath = str_replace('\\', '/', ltrim($relPath, '/'));
+
+    // Keep brand logos protected from accidental removal.
+    if ($relPath === 'logos' || str_starts_with($relPath, 'logos/')) {
+        return false;
+    }
+
+    return $relPath !== '' && !str_contains($relPath, '..');
+}
+
 function kora_delete_media(PDO $pdo, string $path): array
 {
     try {
@@ -274,27 +286,38 @@ function kora_delete_media(PDO $pdo, string $path): array
         return ['ok' => false, 'error' => $e->getMessage()];
     }
 
-    if (!str_starts_with($relPath, 'uploads/')) {
-        return ['ok' => false, 'error' => 'Only uploaded media can be deleted.'];
+    if (!kora_media_can_delete($relPath)) {
+        return ['ok' => false, 'error' => 'This file cannot be deleted.'];
     }
 
     $root = realpath(kora_images_root());
-    $fullPath = realpath(kora_images_root() . '/' . $relPath);
+    $candidate = kora_images_root() . '/' . $relPath;
+    $fullPath = realpath($candidate);
 
-    if ($root === false || $fullPath === false || !str_starts_with($fullPath, $root . DIRECTORY_SEPARATOR)) {
-        return ['ok' => false, 'error' => 'File not found.'];
+    // Allow deleting a DB record even if the file is already gone.
+    if ($fullPath === false && is_file($candidate)) {
+        $fullPath = $candidate;
     }
 
-    $stmt = $pdo->prepare('SELECT id FROM media_library WHERE path = :path LIMIT 1');
-    $stmt->execute(['path' => $relPath]);
-    $row = $stmt->fetch();
-
-    if (!$row && !is_file($fullPath)) {
-        return ['ok' => false, 'error' => 'File not found.'];
+    if ($root === false) {
+        return ['ok' => false, 'error' => 'Media root unavailable.'];
     }
 
-    if (is_file($fullPath) && !unlink($fullPath)) {
-        return ['ok' => false, 'error' => 'Unable to delete file.'];
+    if ($fullPath !== false) {
+        $prefix = $root . DIRECTORY_SEPARATOR;
+        if (!str_starts_with($fullPath, $prefix) || !is_file($fullPath)) {
+            return ['ok' => false, 'error' => 'File not found.'];
+        }
+
+        if (!unlink($fullPath)) {
+            return ['ok' => false, 'error' => 'Unable to delete file.'];
+        }
+    } else {
+        $stmt = $pdo->prepare('SELECT id FROM media_library WHERE path = :path LIMIT 1');
+        $stmt->execute(['path' => $relPath]);
+        if (!$stmt->fetch()) {
+            return ['ok' => false, 'error' => 'File not found.'];
+        }
     }
 
     $delete = $pdo->prepare('DELETE FROM media_library WHERE path = :path');

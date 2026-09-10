@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($ok > 0) {
             flash('error', "Deleted {$ok} item(s), but {$fail} could not be deleted.");
         } else {
-            flash('error', 'Could not delete the selected item(s). Only uploads can be removed.');
+            flash('error', 'Could not delete the selected item(s). Logos are protected.');
         }
 
         $back = trim((string) ($_POST['return'] ?? ''));
@@ -229,142 +229,146 @@ require __DIR__ . '/includes/layout.php';
                     <?= csrf_field() ?>
                     <input type="hidden" name="action" value="bulk_delete">
                     <input type="hidden" name="return" value="<?= e($returnTo) ?>">
+                </form>
 
-                    <div class="bulk-toolbar bulk-toolbar--panel" data-bulk-toolbar data-bulk-form="media-bulk-form" data-bulk-list="#media-bulk-list" data-bulk-row-click="true">
-                        <div class="bulk-toolbar__row" data-bulk-toolbar-default>
-                            <label class="bulk-check bulk-check--master" title="Select all">
-                                <input type="checkbox" data-bulk-select-all aria-label="Select all on this page">
-                            </label>
-                            <span class="bulk-toolbar__hint">Select uploads to delete in bulk</span>
-                        </div>
-                        <div class="bulk-toolbar__row bulk-toolbar__row--bulk" data-bulk-toolbar-bulk hidden>
-                            <label class="bulk-check bulk-check--master" title="Select all">
-                                <input type="checkbox" data-bulk-select-all aria-label="Select all on this page">
-                            </label>
-                            <span class="bulk-toolbar__count" data-bulk-selected-count>0 selected</span>
-                            <button type="button" class="btn btn-danger btn-sm" data-bulk-delete data-bulk-confirm="Delete {n} selected uploads?">
-                                <i class="fa-regular fa-trash-can" aria-hidden="true"></i> Delete selected
-                            </button>
-                        </div>
+                <div class="bulk-toolbar bulk-toolbar--panel" data-bulk-toolbar data-bulk-form="media-bulk-form" data-bulk-list="#media-bulk-list" data-bulk-row-click="true">
+                    <div class="bulk-toolbar__row" data-bulk-toolbar-default>
+                        <label class="bulk-check bulk-check--master" title="Select all">
+                            <input type="checkbox" data-bulk-select-all aria-label="Select all on this page">
+                        </label>
+                        <span class="bulk-toolbar__hint">Select images to delete in bulk, or use the trash on a card</span>
                     </div>
+                    <div class="bulk-toolbar__row bulk-toolbar__row--bulk" data-bulk-toolbar-bulk hidden>
+                        <label class="bulk-check bulk-check--master" title="Select all">
+                            <input type="checkbox" data-bulk-select-all aria-label="Select all on this page">
+                        </label>
+                        <span class="bulk-toolbar__count" data-bulk-selected-count>0 selected</span>
+                        <button type="button" class="btn btn-danger btn-sm" data-bulk-delete data-bulk-confirm="Delete {n} selected images?">
+                            <i class="fa-regular fa-trash-can" aria-hidden="true"></i> Delete selected
+                        </button>
+                    </div>
+                </div>
 
-                    <div id="media-bulk-list">
-                        <?php if ($view === 'list'): ?>
-                            <div class="table-wrap">
-                                <table class="data-table media-list-table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col"><span class="visually-hidden">Select</span></th>
-                                            <th scope="col">File</th>
-                                            <th scope="col">Folder</th>
-                                            <th scope="col">Size</th>
-                                            <th scope="col" class="cell-actions">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($files as $file): ?>
-                                            <?php
-                                            $path = (string) ($file['path'] ?? '');
-                                            $url = (string) ($file['url'] ?? kora_media_url($path));
-                                            $canDelete = !empty($file['can_delete']);
-                                            $confirmMsg = 'Delete this upload permanently?';
-                                            ?>
-                                            <tr class="media-list-row" data-bulk-row>
-                                                <td>
-                                                    <?php if ($canDelete): ?>
-                                                        <label class="bulk-check">
-                                                            <input type="checkbox" name="paths[]" value="<?= e($path) ?>" data-bulk-check aria-label="Select <?= e((string) ($file['filename'] ?? $path)) ?>">
-                                                        </label>
-                                                    <?php endif; ?>
-                                                </td>
-                                                <td>
-                                                    <div class="media-list-file">
-                                                        <div class="media-list-file__thumb">
-                                                            <div class="media-preview">
-                                                                <img src="<?= e($url) ?>" alt="" loading="lazy">
-                                                            </div>
-                                                        </div>
-                                                        <div class="media-list-file__meta">
-                                                            <strong title="<?= e((string) ($file['filename'] ?? '')) ?>"><?= e((string) ($file['filename'] ?? basename($path))) ?></strong>
-                                                            <span class="muted"><?= e($path) ?></span>
+                <div id="media-bulk-list">
+                    <?php if ($view === 'list'): ?>
+                        <div class="table-wrap">
+                            <table class="data-table media-list-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"><span class="visually-hidden">Select</span></th>
+                                        <th scope="col">File</th>
+                                        <th scope="col">Folder</th>
+                                        <th scope="col">Size</th>
+                                        <th scope="col" class="cell-actions">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($files as $file): ?>
+                                        <?php
+                                        $path = (string) ($file['path'] ?? '');
+                                        $url = (string) ($file['url'] ?? kora_media_url($path));
+                                        $canDelete = !empty($file['can_delete']);
+                                        $isUpload = str_starts_with($path, 'uploads/');
+                                        $confirmMsg = $isUpload
+                                            ? 'Delete this upload permanently?'
+                                            : 'Delete this site image permanently? Pages that use it may break.';
+                                        ?>
+                                        <tr class="media-list-row" data-bulk-row>
+                                            <td>
+                                                <?php if ($canDelete): ?>
+                                                    <label class="bulk-check">
+                                                        <input type="checkbox" form="media-bulk-form" name="paths[]" value="<?= e($path) ?>" data-bulk-check aria-label="Select <?= e((string) ($file['filename'] ?? $path)) ?>">
+                                                    </label>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td>
+                                                <div class="media-list-file">
+                                                    <div class="media-list-file__thumb">
+                                                        <div class="media-preview">
+                                                            <img src="<?= e($url) ?>" alt="" loading="lazy">
                                                         </div>
                                                     </div>
-                                                </td>
-                                                <td><?= e((string) ($file['folder'] ?? '—')) ?></td>
-                                                <td><?= e(format_bytes((int) ($file['size'] ?? 0))) ?></td>
-                                                <td class="cell-actions">
-                                                    <button type="button" class="btn btn-ghost btn-sm" data-copy="<?= e($path) ?>" title="Copy path">
-                                                        <i class="fa-regular fa-copy" aria-hidden="true"></i>
-                                                    </button>
-                                                    <a class="btn btn-ghost btn-sm" href="<?= e($url) ?>" target="_blank" rel="noopener" title="Open">
-                                                        <i class="fa-solid fa-up-right-from-square" aria-hidden="true"></i>
-                                                    </a>
-                                                    <?php if ($canDelete): ?>
-                                                        <form method="post" style="display:inline">
-                                                            <?= csrf_field() ?>
-                                                            <input type="hidden" name="action" value="delete">
-                                                            <input type="hidden" name="path" value="<?= e($path) ?>">
-                                                            <input type="hidden" name="return" value="<?= e($returnTo) ?>">
-                                                            <button type="submit" class="btn btn-danger btn-sm" data-confirm="<?= e($confirmMsg) ?>">
-                                                                <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
-                                                            </button>
-                                                        </form>
-                                                    <?php endif; ?>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <?php else: ?>
-                            <div class="media-grid">
-                                <?php foreach ($files as $file): ?>
-                                    <?php
-                                    $path = (string) ($file['path'] ?? '');
-                                    $url = (string) ($file['url'] ?? kora_media_url($path));
-                                    $canDelete = !empty($file['can_delete']);
-                                    $confirmMsg = 'Delete this upload permanently?';
-                                    ?>
-                                    <div class="media-item" data-bulk-row>
-                                        <?php if ($canDelete): ?>
-                                            <label class="media-item__check bulk-check">
-                                                <input type="checkbox" name="paths[]" value="<?= e($path) ?>" data-bulk-check aria-label="Select <?= e((string) ($file['filename'] ?? $path)) ?>">
-                                            </label>
-                                        <?php endif; ?>
-                                        <div class="media-preview">
-                                            <img src="<?= e($url) ?>" alt="<?= e((string) ($file['filename'] ?? '')) ?>" loading="lazy">
-                                        </div>
-                                        <div class="media-item__overlay">
-                                            <div class="media-item__overlay-actions">
-                                                <a class="btn btn-primary btn-sm" href="<?= e($url) ?>" target="_blank" rel="noopener">
-                                                    <i class="fa-solid fa-expand" aria-hidden="true"></i> View
-                                                </a>
-                                                <button type="button" class="btn btn-ghost btn-sm" data-copy="<?= e($path) ?>">
-                                                    <i class="fa-regular fa-copy" aria-hidden="true"></i> Copy path
+                                                    <div class="media-list-file__meta">
+                                                        <strong title="<?= e((string) ($file['filename'] ?? '')) ?>"><?= e((string) ($file['filename'] ?? basename($path))) ?></strong>
+                                                        <span class="muted"><?= e($path) ?></span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td><?= e((string) (($file['folder'] ?? '') !== '' ? $file['folder'] : '—')) ?></td>
+                                            <td><?= e(format_bytes((int) ($file['size'] ?? 0))) ?></td>
+                                            <td class="cell-actions">
+                                                <button type="button" class="btn btn-ghost btn-sm" data-copy="<?= e($path) ?>" title="Copy path">
+                                                    <i class="fa-regular fa-copy" aria-hidden="true"></i>
                                                 </button>
+                                                <a class="btn btn-ghost btn-sm" href="<?= e($url) ?>" target="_blank" rel="noopener" title="Open">
+                                                    <i class="fa-solid fa-up-right-from-square" aria-hidden="true"></i>
+                                                </a>
                                                 <?php if ($canDelete): ?>
                                                     <form method="post" class="media-delete-form">
                                                         <?= csrf_field() ?>
                                                         <input type="hidden" name="action" value="delete">
                                                         <input type="hidden" name="path" value="<?= e($path) ?>">
                                                         <input type="hidden" name="return" value="<?= e($returnTo) ?>">
-                                                        <button type="submit" class="btn btn-danger btn-sm" data-confirm="<?= e($confirmMsg) ?>">
+                                                        <button type="submit" class="btn btn-danger btn-sm" data-confirm="<?= e($confirmMsg) ?>" title="Delete">
                                                             <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
                                                         </button>
                                                     </form>
                                                 <?php endif; ?>
-                                            </div>
-                                        </div>
-                                        <div class="media-item__meta">
-                                            <strong title="<?= e((string) ($file['filename'] ?? $path)) ?>"><?= e((string) ($file['filename'] ?? basename($path))) ?></strong>
-                                            <span><?= e(format_bytes((int) ($file['size'] ?? 0))) ?></span>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php else: ?>
+                        <div class="media-grid">
+                            <?php foreach ($files as $file): ?>
+                                <?php
+                                $path = (string) ($file['path'] ?? '');
+                                $url = (string) ($file['url'] ?? kora_media_url($path));
+                                $canDelete = !empty($file['can_delete']);
+                                $isUpload = str_starts_with($path, 'uploads/');
+                                $confirmMsg = $isUpload
+                                    ? 'Delete this upload permanently?'
+                                    : 'Delete this site image permanently? Pages that use it may break.';
+                                ?>
+                                <div class="media-item" data-bulk-row>
+                                    <?php if ($canDelete): ?>
+                                        <label class="media-item__check bulk-check">
+                                            <input type="checkbox" form="media-bulk-form" name="paths[]" value="<?= e($path) ?>" data-bulk-check aria-label="Select <?= e((string) ($file['filename'] ?? $path)) ?>">
+                                        </label>
+                                        <form method="post" class="media-item__delete media-delete-form">
+                                            <?= csrf_field() ?>
+                                            <input type="hidden" name="action" value="delete">
+                                            <input type="hidden" name="path" value="<?= e($path) ?>">
+                                            <input type="hidden" name="return" value="<?= e($returnTo) ?>">
+                                            <button type="submit" class="media-item__delete-btn" data-confirm="<?= e($confirmMsg) ?>" title="Delete image" aria-label="Delete <?= e((string) ($file['filename'] ?? $path)) ?>">
+                                                <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
+                                            </button>
+                                        </form>
+                                    <?php endif; ?>
+                                    <div class="media-preview">
+                                        <img src="<?= e($url) ?>" alt="<?= e((string) ($file['filename'] ?? '')) ?>" loading="lazy">
+                                    </div>
+                                    <div class="media-item__overlay">
+                                        <div class="media-item__overlay-actions">
+                                            <a class="btn btn-primary btn-sm" href="<?= e($url) ?>" target="_blank" rel="noopener">
+                                                <i class="fa-solid fa-expand" aria-hidden="true"></i> View
+                                            </a>
+                                            <button type="button" class="btn btn-ghost btn-sm" data-copy="<?= e($path) ?>">
+                                                <i class="fa-regular fa-copy" aria-hidden="true"></i> Copy path
+                                            </button>
                                         </div>
                                     </div>
-                                <?php endforeach; ?>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                </form>
+                                    <div class="media-item__meta">
+                                        <strong title="<?= e((string) ($file['filename'] ?? $path)) ?>"><?= e((string) ($file['filename'] ?? basename($path))) ?></strong>
+                                        <span><?= e(format_bytes((int) ($file['size'] ?? 0))) ?></span>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
 
                 <?php if ($totalPages > 1): ?>
                     <nav class="media-pager" aria-label="Library pages" style="margin-top:1.25rem">

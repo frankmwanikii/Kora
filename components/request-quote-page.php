@@ -4,62 +4,107 @@ declare(strict_types=1);
 
 $quote_submitted = ($_GET['submitted'] ?? '') === '1';
 $quote_min_date = date('Y-m-d');
+
+$quote = cms_section('request_quote');
+
+$quoteHero = is_array($quote['hero'] ?? null) ? $quote['hero'] : [];
+$quoteHeroImage = is_array($quoteHero['image'] ?? null) ? $quoteHero['image'] : [];
+$quoteHeroFile = (string) ($quoteHeroImage['file'] ?? 'acrylic_material.jpeg');
+$quoteHeroAlt = (string) ($quoteHeroImage['alt'] ?? 'Acrylic material used for custom KORA awards');
+$quoteHeroTitle = (string) ($quoteHero['title'] ?? 'Request a Quotation');
+
+$trustDefault = [
+    ['label' => '24-hour response', 'text' => 'Quotations prepared within one business day.'],
+    ['label' => 'Made in-house', 'text' => 'Designed and produced in our Nanyuki workshop.'],
+    ['label' => 'Free design guidance', 'text' => 'We refine your layout and artwork before production.'],
+    ['label' => 'Delivery or collection', 'text' => 'Collect in Nanyuki or arrange delivery countrywide.'],
+];
+$trust_items = cms_list('request_quote', 'trust', $trustDefault);
+if ($trust_items === []) {
+    $trust_items = $trustDefault;
+}
+
+$quoteAside = is_array($quote['aside'] ?? null) ? $quote['aside'] : [];
+$quoteAsideTalkTitle = (string) ($quoteAside['talk_title'] ?? 'Prefer to talk first?');
+$quoteAsideTalkText = (string) ($quoteAside['talk_text'] ?? 'We are happy to discuss your idea before you fill anything in.');
+$quoteAsideChecklistTitle = (string) ($quoteAside['checklist_title'] ?? 'Have these ready');
+$quoteAsideChecklistDefault = [
+    'Event date and delivery deadline',
+    'Product type and estimated quantity',
+    'Logo files or artwork, if available',
+    'Wording, names, or engraving text',
+    'Preferred material and rough budget',
+];
+$quoteAsideChecklist = is_array($quoteAside['checklist'] ?? null) ? $quoteAside['checklist'] : $quoteAsideChecklistDefault;
+if ($quoteAsideChecklist === []) {
+    $quoteAsideChecklist = $quoteAsideChecklistDefault;
+}
+$quoteAsideStepsTitle = (string) ($quoteAside['steps_title'] ?? 'What happens next');
+$quoteAsideStepsDefault = [
+    ['title' => 'We review your brief', 'text' => 'Same day, with follow-up questions if needed.'],
+    ['title' => 'You receive your quotation', 'text' => 'Pricing plus a suggested design direction within 24 hours.'],
+    ['title' => 'Approve the design', 'text' => 'We share a proof; production starts on your approval.'],
+    ['title' => 'Collect or receive delivery', 'text' => 'Finished pieces ready ahead of your event date.'],
+];
+$quoteAsideSteps = is_array($quoteAside['steps'] ?? null) ? $quoteAside['steps'] : $quoteAsideStepsDefault;
+if ($quoteAsideSteps === []) {
+    $quoteAsideSteps = $quoteAsideStepsDefault;
+}
+
+$faqDefault = [
+    ['q' => 'How quickly will I receive a quote?', 'a' => 'A quote is shared within 24 hours of receiving your brief. The more detail you share, the more accurate your quotation will be.'],
+    ['q' => 'How long does production take?', 'a' => 'Production typically takes 3–7 business days. This may vary depending on the complexity of the design and the quantities ordered. Share your event date in the form and we will confirm a delivery timeline in your quotation.'],
+    ['q' => 'How do you handle shipping?', 'a' => 'We use trusted courier services like G4S and Wells Fargo to ensure all items are delivered safely and efficiently anywhere in the country. Collection from our Nanyuki workshop is also available.'],
+    ['q' => 'Do I need finished artwork or a logo file?', 'a' => 'No. A rough idea, a photo for inspiration, or just your logo is enough to start. Our design team prepares the layout and shares a proof for your approval before anything is cut or engraved.'],
+    ['q' => 'Is there a minimum order quantity?', 'a' => 'We handle everything from a single commemorative trophy to thousands of marathon medals. Quantity affects unit pricing, so include your best estimate and we will quote accordingly.'],
+    ['q' => 'How is pricing calculated?', 'a' => 'Pricing depends on material (wood, MDF, plywood, or acrylic), size, number of layers, engraving detail, finishing, and quantity. Your quotation breaks all of this down clearly — with no hidden costs.'],
+];
+$faq_items = cms_list('request_quote', 'faq', $faqDefault);
+if ($faq_items === []) {
+    $faq_items = $faqDefault;
+}
+
+$trustIcons = [
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg>',
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>',
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="14" height="11" rx="1"/><path d="M15 10h4l3 3v4h-7z"/><circle cx="6" cy="19" r="1.6"/><circle cx="18" cy="19" r="1.6"/></svg>',
+];
 ?>
 <section class="quote-hero" aria-labelledby="quote-hero-title">
     <img
         class="quote-hero__image"
-        src="<?= img('acrylic_material.jpeg') ?>"
-        alt="Acrylic material used for custom KORA awards"
-        width="2752"
-        height="1536"
+        src="<?= img($quoteHeroFile) ?>"
+        alt="<?= htmlspecialchars($quoteHeroAlt) ?>"
+        width="<?= (int) ($quoteHeroImage['width'] ?? 2752) ?>"
+        height="<?= (int) ($quoteHeroImage['height'] ?? 1536) ?>"
         fetchpriority="high"
         draggable="false"
     >
     <div class="quote-hero__overlay">
         <div class="quote-hero__content">
-            <h1 class="quote-hero__title" id="quote-hero-title">Request a Quotation</h1>
+            <h1 class="quote-hero__title" id="quote-hero-title"><?= htmlspecialchars($quoteHeroTitle) ?></h1>
         </div>
     </div>
 </section>
 
 <section class="quote-trust" aria-label="Why order from KORA">
     <div class="container quote-trust__grid">
+        <?php foreach ($trust_items as $index => $item): ?>
+            <?php
+            if (!is_array($item)) {
+                continue;
+            }
+            $icon = $trustIcons[$index] ?? $trustIcons[0];
+            ?>
         <div class="quote-trust__item reveal">
-            <span class="quote-trust__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-            </span>
+            <span class="quote-trust__icon" aria-hidden="true"><?= $icon ?></span>
             <div>
-                <h3 class="quote-trust__label">24-hour response</h3>
-                <p class="quote-trust__text">Quotations prepared within one business day.</p>
+                <h3 class="quote-trust__label"><?= htmlspecialchars((string) ($item['label'] ?? '')) ?></h3>
+                <p class="quote-trust__text"><?= htmlspecialchars((string) ($item['text'] ?? '')) ?></p>
             </div>
         </div>
-        <div class="quote-trust__item reveal">
-            <span class="quote-trust__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg>
-            </span>
-            <div>
-                <h3 class="quote-trust__label">Made in-house</h3>
-                <p class="quote-trust__text">Designed and produced in our Nanyuki workshop.</p>
-            </div>
-        </div>
-        <div class="quote-trust__item reveal">
-            <span class="quote-trust__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
-            </span>
-            <div>
-                <h3 class="quote-trust__label">Free design guidance</h3>
-                <p class="quote-trust__text">We refine your layout and artwork before production.</p>
-            </div>
-        </div>
-        <div class="quote-trust__item reveal">
-            <span class="quote-trust__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="14" height="11" rx="1"/><path d="M15 10h4l3 3v4h-7z"/><circle cx="6" cy="19" r="1.6"/><circle cx="18" cy="19" r="1.6"/></svg>
-            </span>
-            <div>
-                <h3 class="quote-trust__label">Delivery or collection</h3>
-                <p class="quote-trust__text">Collect in Nanyuki or arrange delivery countrywide.</p>
-            </div>
-        </div>
+        <?php endforeach; ?>
     </div>
 </section>
 
@@ -162,8 +207,8 @@ $quote_min_date = date('Y-m-d');
 
             <aside class="quote-aside" aria-label="Ordering help">
                 <div class="quote-card reveal">
-                    <h3 class="quote-card__title">Prefer to talk first?</h3>
-                    <p class="quote-card__text">We are happy to discuss your idea before you fill anything in.</p>
+                    <h3 class="quote-card__title"><?= htmlspecialchars($quoteAsideTalkTitle) ?></h3>
+                    <p class="quote-card__text"><?= htmlspecialchars($quoteAsideTalkText) ?></p>
                     <ul class="quote-channels">
                         <li>
                             <a class="quote-channel" href="https://wa.me/254790355707" target="_blank" rel="noopener noreferrer">
@@ -203,36 +248,27 @@ $quote_min_date = date('Y-m-d');
                 </div>
 
                 <div class="quote-card reveal">
-                    <h3 class="quote-card__title">Have these ready</h3>
+                    <h3 class="quote-card__title"><?= htmlspecialchars($quoteAsideChecklistTitle) ?></h3>
                     <ul class="quote-checklist">
-                        <li>Event date and delivery deadline</li>
-                        <li>Product type and estimated quantity</li>
-                        <li>Logo files or artwork, if available</li>
-                        <li>Wording, names, or engraving text</li>
-                        <li>Preferred material and rough budget</li>
+                        <?php foreach ($quoteAsideChecklist as $checklistItem): ?>
+                            <li><?= htmlspecialchars(is_scalar($checklistItem) ? (string) $checklistItem : '') ?></li>
+                        <?php endforeach; ?>
                     </ul>
                     <p class="quote-card__meta">No artwork yet? No problem — our team can design it with you.</p>
                 </div>
 
                 <div class="quote-card quote-card--steps reveal">
-                    <h3 class="quote-card__title">What happens next</h3>
+                    <h3 class="quote-card__title"><?= htmlspecialchars($quoteAsideStepsTitle) ?></h3>
                     <ol class="quote-steps">
+                        <?php foreach ($quoteAsideSteps as $step): ?>
+                            <?php if (!is_array($step)) {
+                                continue;
+                            } ?>
                         <li>
-                            <strong>We review your brief</strong>
-                            <span>Same day, with follow-up questions if needed.</span>
+                            <strong><?= htmlspecialchars((string) ($step['title'] ?? '')) ?></strong>
+                            <span><?= htmlspecialchars((string) ($step['text'] ?? '')) ?></span>
                         </li>
-                        <li>
-                            <strong>You receive your quotation</strong>
-                            <span>Pricing plus a suggested design direction within 24 hours.</span>
-                        </li>
-                        <li>
-                            <strong>Approve the design</strong>
-                            <span>We share a proof; production starts on your approval.</span>
-                        </li>
-                        <li>
-                            <strong>Collect or receive delivery</strong>
-                            <span>Finished pieces ready ahead of your event date.</span>
-                        </li>
+                        <?php endforeach; ?>
                     </ol>
                 </div>
             </aside>
@@ -244,48 +280,20 @@ $quote_min_date = date('Y-m-d');
     <div class="container quote-faq__inner">
         <h2 id="quote-faq-title" class="quote-faq__heading">Quotation FAQs</h2>
         <div class="quote-faq__list reveal">
-            <details class="quote-faq__item" open>
+            <?php foreach ($faq_items as $index => $faq): ?>
+                <?php
+                if (!is_array($faq)) {
+                    continue;
+                }
+                ?>
+            <details class="quote-faq__item"<?= $index === 0 ? ' open' : '' ?>>
                 <summary class="quote-faq__question">
-                    <span>How quickly will I receive a quote?</span>
+                    <span><?= htmlspecialchars((string) ($faq['q'] ?? '')) ?></span>
                     <svg class="quote-faq__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                 </summary>
-                <p class="quote-faq__answer">A quote is shared within 24 hours of receiving your brief. The more detail you share, the more accurate your quotation will be.</p>
+                <p class="quote-faq__answer"><?= htmlspecialchars((string) ($faq['a'] ?? '')) ?></p>
             </details>
-            <details class="quote-faq__item">
-                <summary class="quote-faq__question">
-                    <span>How long does production take?</span>
-                    <svg class="quote-faq__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                </summary>
-                <p class="quote-faq__answer">Production typically takes 3–7 business days. This may vary depending on the complexity of the design and the quantities ordered. Share your event date in the form and we will confirm a delivery timeline in your quotation.</p>
-            </details>
-            <details class="quote-faq__item">
-                <summary class="quote-faq__question">
-                    <span>How do you handle shipping?</span>
-                    <svg class="quote-faq__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                </summary>
-                <p class="quote-faq__answer">We use trusted courier services like G4S and Wells Fargo to ensure all items are delivered safely and efficiently anywhere in the country. Collection from our Nanyuki workshop is also available.</p>
-            </details>
-            <details class="quote-faq__item">
-                <summary class="quote-faq__question">
-                    <span>Do I need finished artwork or a logo file?</span>
-                    <svg class="quote-faq__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                </summary>
-                <p class="quote-faq__answer">No. A rough idea, a photo for inspiration, or just your logo is enough to start. Our design team prepares the layout and shares a proof for your approval before anything is cut or engraved.</p>
-            </details>
-            <details class="quote-faq__item">
-                <summary class="quote-faq__question">
-                    <span>Is there a minimum order quantity?</span>
-                    <svg class="quote-faq__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                </summary>
-                <p class="quote-faq__answer">We handle everything from a single commemorative trophy to thousands of marathon medals. Quantity affects unit pricing, so include your best estimate and we will quote accordingly.</p>
-            </details>
-            <details class="quote-faq__item">
-                <summary class="quote-faq__question">
-                    <span>How is pricing calculated?</span>
-                    <svg class="quote-faq__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                </summary>
-                <p class="quote-faq__answer">Pricing depends on material (wood, MDF, plywood, or acrylic), size, number of layers, engraving detail, finishing, and quantity. Your quotation breaks all of this down clearly — with no hidden costs.</p>
-            </details>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>

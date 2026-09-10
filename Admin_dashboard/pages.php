@@ -22,11 +22,15 @@ $previewMap = [
     'request_quote' => '/request-quote.php',
     'footer' => '/#footer-newsletter-title',
     'privacy' => '/privacy.php',
-    'settings' => '/',
 ];
 
 $grouped = [];
 foreach (kora_sections_catalog() as $section) {
+    $slug = (string) ($section['slug'] ?? '');
+    // Site settings live under Settings in the sidebar — not on Pages.
+    if ($slug === 'settings') {
+        continue;
+    }
     $group = (string) ($section['group'] ?? 'Other');
     $grouped[$group][] = $section;
 }
@@ -62,9 +66,7 @@ require __DIR__ . '/includes/layout.php';
                             <?php foreach ($sections as $section): ?>
                                 <?php
                                 $slug = (string) $section['slug'];
-                                $editHref = $slug === 'settings'
-                                    ? admin_base_path() . '/settings.php'
-                                    : admin_base_path() . '/section-edit.php?slug=' . rawurlencode($slug);
+                                $editHref = admin_base_path() . '/section-edit.php?slug=' . rawurlencode($slug);
                                 $previewHref = $previewMap[$slug] ?? '/';
                                 ?>
                                 <tr>

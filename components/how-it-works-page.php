@@ -50,7 +50,31 @@ function render_how_step_detail(array $step): void
     <?php
 }
 
-$step_details = [
+$how = cms_section('how_it_works');
+
+$howHero = is_array($how['hero'] ?? null) ? $how['hero'] : [];
+$howHeroImage = is_array($howHero['image'] ?? null) ? $howHero['image'] : [];
+$howHeroFile = (string) ($howHeroImage['file'] ?? 'laser_1.jpg');
+$howHeroAlt = (string) ($howHeroImage['alt'] ?? 'Laser engraving a custom design in the KORA workshop');
+$howHeroTitle = (string) ($howHero['title'] ?? 'How It Works');
+
+$howIntro = is_array($how['intro'] ?? null) ? $how['intro'] : [];
+$howIntroTitle = (string) ($howIntro['title'] ?? 'Simple process, careful craft');
+$howIntroText = (string) ($howIntro['text'] ?? 'Ordering from KORA is straightforward. You share your event and design needs, we shape the product with you, and our workshop handles production locally in Nanyuki. The result is recognition that feels personal, durable, and ready for the moment it matters.');
+
+$stepsSummaryDefault = [
+    ['number' => '01', 'title' => 'Tell us', 'description' => 'The event & product'],
+    ['number' => '02', 'title' => 'Send Details', 'description' => 'Logo, names, dates'],
+    ['number' => '03', 'title' => 'Get a Quote', 'description' => 'Design + price'],
+    ['number' => '04', 'title' => 'Approve', 'description' => 'Confirm & deposit'],
+    ['number' => '05', 'title' => 'Collection or Delivery', 'description' => 'Pieces ready'],
+];
+$steps_summary = cms_list('how_it_works', 'steps_summary', $stepsSummaryDefault);
+if ($steps_summary === []) {
+    $steps_summary = $stepsSummaryDefault;
+}
+
+$stepDetailsDefault = [
     [
         'id' => 'step-tell-us',
         'number' => '01',
@@ -120,7 +144,12 @@ $step_details = [
     ],
 ];
 
-$prepare_items = [
+$step_details = cms_list('how_it_works', 'step_details', $stepDetailsDefault);
+if ($step_details === []) {
+    $step_details = $stepDetailsDefault;
+}
+
+$prepareDefault = [
     ['title' => 'Event details', 'text' => 'Date, venue, and when you need the order ready'],
     ['title' => 'Product type', 'text' => 'Medals, trophies, souvenirs, or a combination'],
     ['title' => 'Quantities', 'text' => 'How many pieces you need for each category'],
@@ -128,19 +157,47 @@ $prepare_items = [
     ['title' => 'Copy & names', 'text' => 'Wording, recipient names, or category labels'],
     ['title' => 'Budget range', 'text' => 'Helps us recommend the best material and finish'],
 ];
+
+$howPrepare = is_array($how['prepare'] ?? null) ? $how['prepare'] : [];
+$howPrepareTitle = (string) ($howPrepare['title'] ?? 'What to prepare');
+$howPrepareText = (string) ($howPrepare['text'] ?? 'Having these details ready helps us respond faster with an accurate quote and design direction.');
+$prepare_items = is_array($howPrepare['items'] ?? null) ? $howPrepare['items'] : $prepareDefault;
+if ($prepare_items === []) {
+    $prepare_items = $prepareDefault;
+}
+
+$howNotes = is_array($how['notes'] ?? null) ? $how['notes'] : [];
+$howNotesTitle = (string) ($howNotes['title'] ?? 'Good to know');
+$howNotesItemsDefault = [
+    ['title' => 'Made in-house', 'text' => 'Every piece is produced in our Nanyuki workshop — not outsourced — so quality and timelines stay in our hands.'],
+    ['title' => 'Lead times vary', 'text' => 'Timing depends on quantity, material, and detail. Share your event date early so we can schedule production properly.'],
+    ['title' => 'We guide the design', 'text' => 'No finished artwork? Share your logo and brief — we will help shape a layout that works for your product and budget.'],
+];
+$howNotesItems = is_array($howNotes['items'] ?? null) ? $howNotes['items'] : $howNotesItemsDefault;
+if ($howNotesItems === []) {
+    $howNotesItems = $howNotesItemsDefault;
+}
+
+$howCta = is_array($how['cta'] ?? null) ? $how['cta'] : [];
+$howCtaTitle = (string) ($howCta['title'] ?? 'Ready to start your order?');
+$howCtaText = (string) ($howCta['text'] ?? 'Tell us about your event and we will take it from there.');
+$howCtaPrimaryHref = (string) ($howCta['primary_href'] ?? '/request-quote.php');
+$howCtaPrimaryLabel = (string) ($howCta['primary_label'] ?? 'Request a Quotation');
+$howCtaSecondaryHref = (string) ($howCta['secondary_href'] ?? '/products.php');
+$howCtaSecondaryLabel = (string) ($howCta['secondary_label'] ?? 'View our products');
 ?>
 <section class="how-hero" aria-labelledby="how-hero-title">
     <img
         class="how-hero__image reveal"
-        src="<?= img('laser_1.jpg') ?>"
-        alt="Laser engraving a custom design in the KORA workshop"
-        width="6000"
-        height="3376"
+        src="<?= img($howHeroFile) ?>"
+        alt="<?= htmlspecialchars($howHeroAlt) ?>"
+        width="<?= (int) ($howHeroImage['width'] ?? 6000) ?>"
+        height="<?= (int) ($howHeroImage['height'] ?? 3376) ?>"
         loading="eager"
     >
     <div class="how-hero__overlay">
         <div class="how-hero__content reveal">
-            <h1 id="how-hero-title" class="how-hero__title">How It Works</h1>
+            <h1 id="how-hero-title" class="how-hero__title"><?= htmlspecialchars($howHeroTitle) ?></h1>
         </div>
     </div>
 </section>
@@ -148,16 +205,17 @@ $prepare_items = [
 <section class="how-intro section" aria-labelledby="how-intro-title">
     <div class="container">
         <div class="how-intro__inner reveal">
-            <h2 id="how-intro-title" class="how-intro__title">Simple process, careful craft</h2>
-            <p class="how-intro__text text-body">
-                Ordering from KORA is straightforward. You share your event and design needs, we shape the product with you, and our workshop handles production locally in Nanyuki. The result is recognition that feels personal, durable, and ready for the moment it matters.
-            </p>
+            <h2 id="how-intro-title" class="how-intro__title"><?= htmlspecialchars($howIntroTitle) ?></h2>
+            <p class="how-intro__text text-body"><?= htmlspecialchars($howIntroText) ?></p>
             <div class="how-intro__nav">
-                <a class="how-intro__link" href="#step-tell-us">Step 01</a>
-                <a class="how-intro__link" href="#step-send-details">Step 02</a>
-                <a class="how-intro__link" href="#step-get-quote">Step 03</a>
-                <a class="how-intro__link" href="#step-approve">Step 04</a>
-                <a class="how-intro__link" href="#step-deliver">Step 05</a>
+                <?php foreach ($step_details as $step): ?>
+                    <?php
+                    if (!is_array($step) || (string) ($step['id'] ?? '') === '') {
+                        continue;
+                    }
+                    ?>
+                    <a class="how-intro__link" href="#<?= htmlspecialchars((string) $step['id']) ?>">Step <?= htmlspecialchars((string) ($step['number'] ?? '')) ?></a>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
@@ -170,60 +228,33 @@ $prepare_items = [
             <p class="lead-italic">From first message to finished pieces — here is how every KORA order moves forward.</p>
         </div>
         <ol class="order-steps reveal">
+            <?php
+            $stepIcons = [
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.86 9.86 0 0 1-4-.8L3 20l1.8-4A8.96 8.96 0 0 1 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z"/></svg>',
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>',
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>',
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 6 9 17l-5-5"/></svg>',
+                '<svg class="order-step__icon-svg--truck" viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" aria-hidden="true"><path d="M3.25 5.5h9.75c.69 0 1.25.56 1.25 1.25v6.75H3.25V5.5zm10.75 1.35h4.65l2.35 2.05v4.35H14V6.85zM3 13.35h17.75v1.15c0 .58-.47 1.05-1.05 1.05H3.3c-.58 0-1.05-.47-1.05-1.05v-1.15zM7 14.35a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 0 0 0-3.8zm10 0a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 0 0 0-3.8zM15.15 8.15h3.35v3.05h-3.35V8.15zM7 15.55a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5zm10 0a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5z"/></svg>',
+            ];
+            foreach ($steps_summary as $index => $step):
+                if (!is_array($step)) {
+                    continue;
+                }
+                $isLast = $index === count($steps_summary) - 1;
+                $icon = $stepIcons[$index] ?? $stepIcons[0];
+            ?>
             <li class="order-step">
-                <span class="order-step__number" aria-hidden="true">01</span>
-                <div class="order-step__icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.86 9.86 0 0 1-4-.8L3 20l1.8-4A8.96 8.96 0 0 1 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z"/></svg>
-                </div>
-                <h3 class="order-step__title">Tell us</h3>
-                <p class="order-step__desc">The event &amp; product</p>
+                <span class="order-step__number" aria-hidden="true"><?= htmlspecialchars((string) ($step['number'] ?? '')) ?></span>
+                <div class="order-step__icon" aria-hidden="true"><?= $icon ?></div>
+                <h3 class="order-step__title"><?= htmlspecialchars((string) ($step['title'] ?? '')) ?></h3>
+                <p class="order-step__desc"><?= htmlspecialchars((string) ($step['description'] ?? '')) ?></p>
+                <?php if (!$isLast): ?>
                 <span class="order-step__arrow" aria-hidden="true">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                 </span>
+                <?php endif; ?>
             </li>
-            <li class="order-step">
-                <span class="order-step__number" aria-hidden="true">02</span>
-                <div class="order-step__icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
-                </div>
-                <h3 class="order-step__title">Send Details</h3>
-                <p class="order-step__desc">Logo, names, dates</p>
-                <span class="order-step__arrow" aria-hidden="true">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                </span>
-            </li>
-            <li class="order-step">
-                <span class="order-step__number" aria-hidden="true">03</span>
-                <div class="order-step__icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
-                </div>
-                <h3 class="order-step__title">Get a Quote</h3>
-                <p class="order-step__desc">Design + price</p>
-                <span class="order-step__arrow" aria-hidden="true">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                </span>
-            </li>
-            <li class="order-step">
-                <span class="order-step__number" aria-hidden="true">04</span>
-                <div class="order-step__icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 6 9 17l-5-5"/></svg>
-                </div>
-                <h3 class="order-step__title">Approve</h3>
-                <p class="order-step__desc">Confirm &amp; deposit</p>
-                <span class="order-step__arrow" aria-hidden="true">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                </span>
-            </li>
-            <li class="order-step">
-                <span class="order-step__number" aria-hidden="true">05</span>
-                <div class="order-step__icon" aria-hidden="true">
-                    <svg class="order-step__icon-svg--truck" viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" aria-hidden="true">
-                        <path d="M3.25 5.5h9.75c.69 0 1.25.56 1.25 1.25v6.75H3.25V5.5zm10.75 1.35h4.65l2.35 2.05v4.35H14V6.85zM3 13.35h17.75v1.15c0 .58-.47 1.05-1.05 1.05H3.3c-.58 0-1.05-.47-1.05-1.05v-1.15zM7 14.35a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 0 0 0-3.8zm10 0a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 0 0 0-3.8zM15.15 8.15h3.35v3.05h-3.35V8.15zM7 15.55a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5zm10 0a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5z"/>
-                    </svg>
-                </div>
-                <h3 class="order-step__title">Collection or Delivery</h3>
-                <p class="order-step__desc">Pieces ready</p>
-            </li>
+            <?php endforeach; ?>
         </ol>
     </div>
 </section>
@@ -238,14 +269,17 @@ $prepare_items = [
     <div class="container">
         <div class="how-prepare__inner reveal">
             <div class="how-prepare__copy">
-                <h2 id="how-prepare-title" class="how-prepare__title">What to prepare</h2>
-                <p class="text-body">Having these details ready helps us respond faster with an accurate quote and design direction.</p>
+                <h2 id="how-prepare-title" class="how-prepare__title"><?= htmlspecialchars($howPrepareTitle) ?></h2>
+                <p class="text-body"><?= htmlspecialchars($howPrepareText) ?></p>
             </div>
             <div class="how-prepare__grid">
                 <?php foreach ($prepare_items as $item): ?>
+                    <?php if (!is_array($item)) {
+                        continue;
+                    } ?>
                     <article class="how-prepare__item">
-                        <h3><?= htmlspecialchars($item['title']) ?></h3>
-                        <p><?= htmlspecialchars($item['text']) ?></p>
+                        <h3><?= htmlspecialchars((string) ($item['title'] ?? '')) ?></h3>
+                        <p><?= htmlspecialchars((string) ($item['text'] ?? '')) ?></p>
                     </article>
                 <?php endforeach; ?>
             </div>
@@ -256,20 +290,17 @@ $prepare_items = [
 <section class="how-notes section" aria-labelledby="how-notes-title">
     <div class="container">
         <div class="how-notes__inner reveal">
-            <h2 id="how-notes-title" class="how-notes__title">Good to know</h2>
+            <h2 id="how-notes-title" class="how-notes__title"><?= htmlspecialchars($howNotesTitle) ?></h2>
             <div class="how-notes__grid">
-                <article class="how-notes__card">
-                    <h3>Made in-house</h3>
-                    <p>Every piece is produced in our Nanyuki workshop — not outsourced — so quality and timelines stay in our hands.</p>
-                </article>
-                <article class="how-notes__card">
-                    <h3>Lead times vary</h3>
-                    <p>Timing depends on quantity, material, and detail. Share your event date early so we can schedule production properly.</p>
-                </article>
-                <article class="how-notes__card">
-                    <h3>We guide the design</h3>
-                    <p>No finished artwork? Share your logo and brief — we will help shape a layout that works for your product and budget.</p>
-                </article>
+                <?php foreach ($howNotesItems as $note): ?>
+                    <?php if (!is_array($note)) {
+                        continue;
+                    } ?>
+                    <article class="how-notes__card">
+                        <h3><?= htmlspecialchars((string) ($note['title'] ?? '')) ?></h3>
+                        <p><?= htmlspecialchars((string) ($note['text'] ?? '')) ?></p>
+                    </article>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
@@ -278,11 +309,11 @@ $prepare_items = [
 <section class="how-cta section" aria-labelledby="how-cta-title">
     <div class="container">
         <div class="how-cta__inner reveal">
-            <h2 id="how-cta-title" class="how-cta__title">Ready to start your order?</h2>
-            <p class="how-cta__text lead-italic">Tell us about your event and we will take it from there.</p>
+            <h2 id="how-cta-title" class="how-cta__title"><?= htmlspecialchars($howCtaTitle) ?></h2>
+            <p class="how-cta__text lead-italic"><?= htmlspecialchars($howCtaText) ?></p>
             <div class="btn-group">
-                <a class="btn btn--solid" href="/request-quote.php">Request a Quotation</a>
-                <a class="btn btn--ghost" href="/products.php">View our products</a>
+                <a class="btn btn--solid" href="<?= htmlspecialchars($howCtaPrimaryHref) ?>"><?= htmlspecialchars($howCtaPrimaryLabel) ?></a>
+                <a class="btn btn--ghost" href="<?= htmlspecialchars($howCtaSecondaryHref) ?>"><?= htmlspecialchars($howCtaSecondaryLabel) ?></a>
             </div>
         </div>
     </div>

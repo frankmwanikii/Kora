@@ -38,8 +38,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $title = $pageTitle;
     }
 
-    kora_save_section($pdo, $slug, $title, $content);
-    flash('success', 'Section saved and site content exported.');
+    try {
+        kora_save_section($pdo, $slug, $title, $content);
+        flash('success', 'Saved. The live website now uses this content.');
+    } catch (Throwable $e) {
+        flash('error', 'Could not update the live website: ' . $e->getMessage());
+    }
     redirect('/section-edit.php?slug=' . rawurlencode($slug));
 }
 
