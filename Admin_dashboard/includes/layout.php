@@ -96,6 +96,19 @@ $logoUrl = '/assets/images/logos/' . basename($logoPath) . '?v=' . (is_file($log
                 </div>
             </div>
 
+            <div class="nav-group" data-nav-group="mail">
+                <button type="button" class="nav-group-toggle" aria-expanded="true">
+                    <span>Mail</span>
+                    <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                </button>
+                <div class="nav-group-items">
+                    <a href="<?= e($adminBase) ?>/emails.php" class="nav-item<?= nav_active('emails', $activeNav) ?>" title="Emails">
+                        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                        <span>Emails</span>
+                    </a>
+                </div>
+            </div>
+
             <div class="nav-group" data-nav-group="account">
                 <button type="button" class="nav-group-toggle" aria-expanded="true">
                     <span>Account</span>

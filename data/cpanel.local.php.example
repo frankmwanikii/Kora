@@ -1,0 +1,17 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Copy to cpanel.local.php and fill in credentials.
+ * Used by Admin Dashboard → Emails to create mailbox accounts via cPanel UAPI.
+ */
+return [
+    'host' => 'koralasercraft.com',
+    'port' => 2083,
+    'username' => 'YOUR_CPANEL_USERNAME',
+    'token' => 'YOUR_CPANEL_API_TOKEN',
+    'domain' => 'koralasercraft.com',
+    'default_quota_mb' => 1024,
+    'verify_ssl' => true,
+];

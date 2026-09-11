@@ -264,6 +264,36 @@
     });
   }
 
+  function initNumberSteppers() {
+    document.querySelectorAll('[data-number-stepper]').forEach(function (wrap) {
+      var input = wrap.querySelector('input[type="number"]');
+      if (!input) return;
+
+      wrap.querySelectorAll('[data-step]').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          if (input.disabled || btn.disabled) return;
+
+          var step = parseFloat(btn.getAttribute('data-step') || '1');
+          if (!isFinite(step) || step === 0) step = 1;
+
+          var min = input.min !== '' ? parseFloat(input.min) : null;
+          var max = input.max !== '' ? parseFloat(input.max) : null;
+          var current = parseFloat(input.value);
+          if (!isFinite(current)) current = min !== null ? min : 0;
+
+          var next = current + step;
+          if (min !== null && isFinite(min)) next = Math.max(min, next);
+          if (max !== null && isFinite(max)) next = Math.min(max, next);
+
+          input.value = String(Math.round(next));
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+          input.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+      });
+    });
+  }
+
   var confirmState = { open: false, resolve: null, lastFocus: null };
 
   function confirmRoot() {
@@ -372,7 +402,7 @@
           return;
         }
         if (el.tagName === 'BUTTON' && el.type === 'submit') {
-          var form = el.closest('form');
+          var form = el.form || el.closest('form');
           if (form) {
             if (typeof form.requestSubmit === 'function') {
               form.requestSubmit(el);
@@ -808,6 +838,7 @@
     initSidebar();
     initDropdowns();
     initPasswordToggles();
+    initNumberSteppers();
     initConfirmDialogs();
     initAlerts();
     initBulkSelection();

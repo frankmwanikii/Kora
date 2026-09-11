@@ -17,6 +17,7 @@ If an admin already exists, go straight to `/Admin_dashboard/`.
 | Dashboard | `/Admin_dashboard/dashboard.php` |
 | Page sections (hero, about, FAQ, products, work samples, footer, …) | `/Admin_dashboard/pages.php` |
 | Media gallery (browse / upload / delete uploads) | `/Admin_dashboard/gallery.php` |
+| Emails (create / list / delete mailboxes via cPanel API) | `/Admin_dashboard/emails.php` |
 | Contact, social, brand settings | `/Admin_dashboard/settings.php` |
 
 Edits export to `data/cms/site.json`, which the public site reads live.

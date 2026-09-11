@@ -65,6 +65,9 @@ require __DIR__ . '/includes/layout.php';
             <a class="ov-quick-link" href="<?= e(admin_base_path()) ?>/gallery.php">
                 <i class="fa-solid fa-images" aria-hidden="true"></i> Gallery
             </a>
+            <a class="ov-quick-link" href="<?= e(admin_base_path()) ?>/emails.php">
+                <i class="fa-solid fa-envelope" aria-hidden="true"></i> Emails
+            </a>
             <a class="ov-quick-link" href="<?= e(admin_base_path()) ?>/settings.php">
                 <i class="fa-solid fa-gear" aria-hidden="true"></i> Settings
             </a>
