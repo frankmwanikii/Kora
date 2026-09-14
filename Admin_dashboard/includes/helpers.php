@@ -44,6 +44,66 @@ function site_root(): string
     return dirname(dirname(__DIR__));
 }
 
+/**
+ * Find an existing image on disk when the stored extension does not match
+ * (e.g. medals/hero.jpeg vs medals/hero.webp).
+ */
+function kora_admin_existing_image_rel(string $rel): ?string
+{
+    $rel = ltrim(str_replace('\\', '/', $rel), '/');
+    if ($rel === '' || str_contains($rel, '..')) {
+        return null;
+    }
+
+    $root = site_root() . '/assets/images';
+    if (is_file($root . '/' . $rel)) {
+        return $rel;
+    }
+
+    $info = pathinfo($rel);
+    $dir = (string) ($info['dirname'] ?? '');
+    $base = (string) ($info['filename'] ?? '');
+    if ($base === '') {
+        return null;
+    }
+
+    $prefix = ($dir !== '' && $dir !== '.') ? $dir . '/' : '';
+    foreach (['webp', 'jpg', 'jpeg', 'png', 'gif'] as $ext) {
+        $candidate = $prefix . $base . '.' . $ext;
+        if (is_file($root . '/' . $candidate)) {
+            return $candidate;
+        }
+    }
+
+    return null;
+}
+
+function kora_admin_image_preview_url(string $value): string
+{
+    $value = trim($value);
+    if ($value === '') {
+        return '';
+    }
+
+    if (preg_match('#^https?://#i', $value) || str_starts_with($value, '//')) {
+        return $value;
+    }
+
+    if (str_starts_with($value, '/assets/')) {
+        return $value;
+    }
+
+    if (str_starts_with($value, 'assets/images/')) {
+        $value = substr($value, strlen('assets/images/'));
+    }
+
+    $rel = kora_admin_existing_image_rel($value) ?? ltrim($value, '/');
+    $parts = explode('/', $rel);
+    $encoded = implode('/', array_map('rawurlencode', $parts));
+
+    return '/assets/images/' . $encoded;
+}
+
 function redirect(string $path): never
 {
     $path = '/' . ltrim(str_replace('\\', '/', $path), '/');

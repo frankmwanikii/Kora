@@ -1,6 +1,7 @@
 # Secrets & local runtime
 data/mail.local.php
 data/cpanel.local.php
+data/db.local.php
 .env
 Admin_dashboard/data/
 *.sqlite

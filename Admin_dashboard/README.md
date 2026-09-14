@@ -4,11 +4,14 @@ Modern, responsive CMS for the KORA website. Edit copy, images, FAQs, galleries,
 
 ## First-time setup
 
-1. Open `/Admin_dashboard/setup.php` in the browser.
-2. Create an administrator account.
-3. Sign in at `/Admin_dashboard/`.
+1. Open `/setup.php` or `/Admin_dashboard/setup.php` in the browser.
+2. Enter MySQL host, database name, username, and password (the installer can create the database).
+3. Create your administrator account.
+4. Sign in at `/Admin_dashboard/`.
 
-If an admin already exists, go straight to `/Admin_dashboard/`.
+If the site is already installed, those URLs send you to the login page.
+
+The public website still works from `data/cms/site.json` even before setup. The dashboard needs MySQL.
 
 ## What you can manage
 
@@ -26,4 +29,5 @@ Edits export to `data/cms/site.json`, which the public site reads live.
 
 - Stock images under `assets/images/` are visible in the gallery but only **uploads** (`assets/images/uploads/…`) can be deleted.
 - Upload paths are relative to `assets/images/` (e.g. `uploads/2026/photo.webp`).
-- SQLite database and sessions live in `Admin_dashboard/data/` (not web-accessible).
+- MySQL credentials live in `data/db.local.php` (not committed). Copy `data/db.local.php.example` if you need to recreate them.
+- PHP sessions still live in `Admin_dashboard/data/sessions/` (not web-accessible).

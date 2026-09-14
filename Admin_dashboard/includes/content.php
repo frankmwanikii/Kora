@@ -776,7 +776,7 @@ function kora_section_defaults(string $slug): array
 function kora_load_settings(PDO $pdo): array
 {
     $defaults = kora_default_settings();
-    $stmt = $pdo->query('SELECT key, value FROM settings');
+    $stmt = $pdo->query('SELECT `key`, `value` FROM settings');
     $settings = $defaults;
 
     while ($row = $stmt->fetch()) {
@@ -789,8 +789,8 @@ function kora_load_settings(PDO $pdo): array
 function kora_save_settings(PDO $pdo, array $settings): void
 {
     $stmt = $pdo->prepare(
-        'INSERT INTO settings (key, value) VALUES (:key, :value)
-         ON CONFLICT(key) DO UPDATE SET value = excluded.value'
+        'INSERT INTO settings (`key`, `value`) VALUES (:key, :value)
+         ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)'
     );
 
     foreach ($settings as $key => $value) {
@@ -881,10 +881,10 @@ function kora_save_section(PDO $pdo, string $slug, string $title, array $content
     $stmt = $pdo->prepare(
         'INSERT INTO cms_sections (slug, title, content_json, updated_at)
          VALUES (:slug, :title, :content_json, :updated_at)
-         ON CONFLICT(slug) DO UPDATE SET
-            title = excluded.title,
-            content_json = excluded.content_json,
-            updated_at = excluded.updated_at'
+         ON DUPLICATE KEY UPDATE
+            title = VALUES(title),
+            content_json = VALUES(content_json),
+            updated_at = VALUES(updated_at)'
     );
     $stmt->execute([
         'slug' => $slug,

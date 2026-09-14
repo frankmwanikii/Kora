@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "updated_at": "2026-09-11 00:07:59",
+    "updated_at": "2026-09-14 11:12:36",
     "settings": {
         "site_name": "Kora Laser Craft",
         "site_tagline": "Custom Awards & Trophies",
@@ -24,9 +24,9 @@
             "title": "About",
             "content": {
                 "title": "Where laser meets craft",
-                "background_image": "about image.webp",
+                "background_image": "about image.jpg",
                 "paragraphs": [
-                    "KORA is a custom awards studio based in Nanyuki, Laikipia, specialising in the design and creation of premium awards, medals, plaques, and souvenirs.",
+                    "KORA is a custom awards studio based in Nanyuki, Laikipia, specialising in the design and creation of premium awards, medals, plaques, and souvenirs.!!!",
                     "We blend advanced laser-cutting technology with meticulous hand-assembly and finishing to craft every piece.",
                     "Committed to supporting our community, we partner closely with local timber providers to source our high-quality solid wood, plywood, and MDF, pairing them with premium acrylics.",
                     "KORA works alongside organisations, NGOs, corporates, and sports teams to honour employees, participants, sponsors, and partners at moments worth remembering."
@@ -777,19 +777,19 @@
                     "items": [
                         {
                             "name": "Wood",
-                            "image": "WOOD.webp",
+                            "image": "WOOD.jpg",
                             "alt": "Solid wood material sample",
                             "description": "Rich, natural finishes ideal for trophies and premium medals."
                         },
                         {
                             "name": "MDF & Plywood",
-                            "image": "MDF.webp",
+                            "image": "MDF.jpg",
                             "alt": "MDF material sample",
                             "description": "Reliable bases for shaped medals, layered builds, and detailed engraving."
                         },
                         {
                             "name": "Acrylic",
-                            "image": "ACRYLIC.webp",
+                            "image": "ACRYLIC.png",
                             "alt": "Acrylic material sample",
                             "description": "Clean, modern awards with colour, depth, and sharp branded detail."
                         }
@@ -968,15 +968,15 @@
                 "materials": [
                     {
                         "name": "Wood",
-                        "image": "WOOD.webp"
+                        "image": "WOOD.jpg"
                     },
                     {
                         "name": "MDF",
-                        "image": "MDF.webp"
+                        "image": "MDF.jpg"
                     },
                     {
                         "name": "Acrylic",
-                        "image": "ACRYLIC.webp"
+                        "image": "ACRYLIC.png"
                     }
                 ]
             }

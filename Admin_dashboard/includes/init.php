@@ -16,20 +16,23 @@ $script = basename($_SERVER['SCRIPT_FILENAME'] ?? 'index.php');
 $publicScripts = ['index.php', 'setup.php', 'logout.php'];
 $isPublicScript = in_array($script, $publicScripts, true);
 
+$pdo = null;
+$dbConnectError = '';
+
+if (Database::isConfigured()) {
+    try {
+        $pdo = Database::connect();
+        kora_install_schema($pdo);
+    } catch (Throwable $e) {
+        $pdo = null;
+        $dbConnectError = $e->getMessage();
+    }
+}
+
 if ($script !== 'setup.php') {
-    if (!is_file(kora_install_lock_path())) {
+    if (!Database::isConfigured() || $pdo === null || kora_needs_setup($pdo)) {
         redirect('/setup.php');
     }
-
-    $pdo = Database::connect();
-    kora_install_schema($pdo);
-
-    if (kora_needs_setup($pdo)) {
-        redirect('/setup.php');
-    }
-} else {
-    $pdo = Database::connect();
-    kora_install_schema($pdo);
 }
 
 if (!$isPublicScript) {

@@ -88,32 +88,14 @@ if ($hero_actions === []) {
     </div>
 
     <div class="hero-slider__overlay">
-        <div class="hero-slider__content" data-hero-typewriter>
-            <p
-                class="hero-slider__kicker is-complete"
-                data-typewriter
-                data-typewriter-text="<?= htmlspecialchars($hero_content['kicker'], ENT_QUOTES) ?>"
-            >
-                <span class="hero-slider__typed"><?= htmlspecialchars($hero_content['kicker']) ?></span><span class="hero-slider__caret" aria-hidden="true"></span>
-            </p>
+        <div class="hero-slider__content">
+            <p class="hero-slider__kicker"><?= htmlspecialchars($hero_content['kicker']) ?></p>
             <h1 id="hero-title" class="hero-slider__title">
-                <span
-                    class="hero-slider__title-accent"
-                    data-typewriter
-                    data-typewriter-text="<?= htmlspecialchars($hero_content['title_accent'], ENT_QUOTES) ?>"
-                ><span class="hero-slider__typed"><?= htmlspecialchars($hero_content['title_accent']) ?></span></span><span
-                    data-typewriter
-                    data-typewriter-text="<?= htmlspecialchars(' ' . ltrim($hero_content['title_rest']), ENT_QUOTES) ?>"
-                ><span class="hero-slider__typed"><?= htmlspecialchars(' ' . ltrim($hero_content['title_rest'])) ?></span></span><span class="hero-slider__caret hero-slider__caret--title" aria-hidden="true"></span>
+                <span class="hero-slider__title-accent"><?= htmlspecialchars($hero_content['title_accent']) ?></span><?= htmlspecialchars(' ' . ltrim($hero_content['title_rest'])) ?>
             </h1>
-            <p
-                class="hero-slider__subtitle"
-                data-typewriter
-                data-typewriter-text="<?= htmlspecialchars($hero_content['subtitle'], ENT_QUOTES) ?>"
-            >
-                <span class="hero-slider__typed"><?= htmlspecialchars($hero_content['subtitle']) ?></span><span class="hero-slider__caret" aria-hidden="true"></span>
-            </p>
-            <div class="btn-group hero-slider__actions is-visible">                <?php foreach ($hero_actions as $actionIndex => $action): ?>
+            <p class="hero-slider__subtitle"><?= htmlspecialchars($hero_content['subtitle']) ?></p>
+            <div class="btn-group hero-slider__actions">
+                <?php foreach ($hero_actions as $actionIndex => $action): ?>
                     <?php
                     if (!is_array($action)) {
                         continue;
