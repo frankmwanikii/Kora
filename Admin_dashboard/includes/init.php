@@ -25,7 +25,7 @@ if (Database::isConfigured()) {
         kora_install_schema($pdo);
     } catch (Throwable $e) {
         $pdo = null;
-        $dbConnectError = $e->getMessage();
+        $dbConnectError = Database::friendlyError($e->getMessage(), false, Database::isConfigured() ? Database::config() : null);
     }
 }
 

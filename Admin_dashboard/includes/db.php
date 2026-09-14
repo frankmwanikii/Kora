@@ -239,17 +239,45 @@ PHP;
 
             $pdo = self::connect();
         } catch (PDOException $e) {
-            $message = $e->getMessage();
-            if (str_contains($message, 'Unknown database') && !$create) {
-                $message .= ' Tick “Create database if it does not exist” or create it in MySQL first.';
-            }
-
-            return ['ok' => false, 'error' => 'Could not connect to MySQL: ' . $message];
+            return ['ok' => false, 'error' => self::friendlyError($e->getMessage(), $create, $config)];
         } catch (Throwable $e) {
             return ['ok' => false, 'error' => $e->getMessage()];
         }
 
         return ['ok' => true, 'pdo' => $pdo];
+    }
+
+    /**
+     * @param array{host: string, port: int, database: string, username: string, password: string, charset: string} $config
+     */
+    public static function friendlyError(string $message, bool $triedCreate = false, ?array $config = null): string
+    {
+        $db = $config['database'] ?? 'this database';
+        $user = $config['username'] ?? 'this user';
+
+        if (str_contains($message, '1045') || stripos($message, 'Access denied for user') !== false && str_contains($message, '(using password:')) {
+            return 'Wrong MySQL username or password. Check the user in cPanel → MySQL Databases.';
+        }
+
+        if (str_contains($message, '1044') || (stripos($message, 'Access denied') !== false && str_contains($message, 'to database'))) {
+            return 'MySQL user “' . $user . '” is not allowed to use database “' . $db . '”. '
+                . 'In cPanel → MySQL Databases, create both the database and the user, then click Add User To Database and grant ALL PRIVILEGES. '
+                . 'cPanel users usually cannot create a database from this form — uncheck that box after the database exists in the panel.';
+        }
+
+        if (str_contains($message, 'Unknown database')) {
+            if ($triedCreate) {
+                return 'Database “' . $db . '” does not exist, and this user cannot create it. Create it in cPanel → MySQL Databases, add the user to it, then try again.';
+            }
+
+            return 'Database “' . $db . '” does not exist. Create it in cPanel → MySQL Databases (or tick “Create database” only if this user has CREATE rights).';
+        }
+
+        if (str_contains($message, '2002') || stripos($message, 'Connection refused') !== false) {
+            return 'Could not reach MySQL at the host/port you entered. On cPanel this is usually localhost and port 3306.';
+        }
+
+        return 'Could not connect to MySQL: ' . $message;
     }
 
     public static function connect(): PDO

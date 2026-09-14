@@ -27,8 +27,8 @@ try {
     $existingPassword = null;
 }
 
-if ($dbConnectError !== '') {
-    $errors[] = 'Could not use the saved database settings: ' . $dbConnectError;
+if ($dbConnectError !== '' && ($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+    $errors[] = $dbConnectError;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -176,8 +176,10 @@ $flash = function_exists('flash_take') ? flash_take() : null;
                 <div class="panel__head"><h2 class="panel__title">MySQL database</h2></div>
                 <div class="panel__body">
                     <p class="muted" style="margin:0 0 1rem;font-size:.875rem">
-                        Use an existing MySQL user. Tick the box below if the database has not been created yet.
-                        Credentials are saved to <code>data/db.local.php</code> (not published on the website).
+                        On cPanel / Hostinger: create the database and user under <strong>MySQL Databases</strong>, then
+                        <strong>Add User To Database</strong> with ALL PRIVILEGES. Use host <code>localhost</code>.
+                        Tick “Create database” only if this MySQL user is allowed to create databases (most cPanel users are not).
+                        Credentials are saved to <code>data/db.local.php</code>.
                     </p>
                     <form method="post" autocomplete="off" class="setup-form">
                         <?= csrf_field() ?>
