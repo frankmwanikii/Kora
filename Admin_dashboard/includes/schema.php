@@ -13,83 +13,64 @@ function kora_needs_setup(PDO $pdo): bool
         return true;
     }
 
-    try {
-        $count = (int) $pdo->query('SELECT COUNT(*) FROM admin_users')->fetchColumn();
-    } catch (Throwable) {
-        return true;
-    }
+    $count = (int) $pdo->query('SELECT COUNT(*) FROM admin_users')->fetchColumn();
 
     return $count === 0;
-}
-
-function kora_is_installed(?PDO $pdo): bool
-{
-    return $pdo instanceof PDO && !kora_needs_setup($pdo);
 }
 
 function kora_install_schema(PDO $pdo): void
 {
     $pdo->exec(
         'CREATE TABLE IF NOT EXISTS admin_users (
-            id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-            username VARCHAR(80) NOT NULL,
-            password_hash VARCHAR(255) NOT NULL,
-            name VARCHAR(160) NOT NULL,
-            email VARCHAR(190) NOT NULL,
-            created_at DATETIME NOT NULL,
-            PRIMARY KEY (id),
-            UNIQUE KEY uq_admin_users_username (username)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL UNIQUE,
+            password_hash TEXT NOT NULL,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            created_at TEXT NOT NULL
+        )'
     );
 
     $pdo->exec(
         'CREATE TABLE IF NOT EXISTS media_library (
-            id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-            filename VARCHAR(255) NOT NULL,
-            original_name VARCHAR(255) NOT NULL,
-            mime_type VARCHAR(120) NOT NULL,
-            file_size INT UNSIGNED NOT NULL,
-            path VARCHAR(500) NOT NULL,
-            folder VARCHAR(255) NULL,
-            created_at DATETIME NOT NULL,
-            PRIMARY KEY (id),
-            UNIQUE KEY uq_media_library_path (path)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            filename TEXT NOT NULL,
+            original_name TEXT NOT NULL,
+            mime_type TEXT NOT NULL,
+            file_size INTEGER NOT NULL,
+            path TEXT NOT NULL UNIQUE,
+            folder TEXT,
+            created_at TEXT NOT NULL
+        )'
     );
 
     $pdo->exec(
         'CREATE TABLE IF NOT EXISTS cms_sections (
-            slug VARCHAR(80) NOT NULL,
-            title VARCHAR(190) NOT NULL,
-            content_json LONGTEXT NOT NULL,
-            updated_at DATETIME NOT NULL,
-            PRIMARY KEY (slug)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
+            slug TEXT PRIMARY KEY,
+            title TEXT NOT NULL,
+            content_json TEXT NOT NULL,
+            updated_at TEXT NOT NULL
+        )'
     );
 
     $pdo->exec(
         'CREATE TABLE IF NOT EXISTS settings (
-            `key` VARCHAR(120) NOT NULL,
-            `value` LONGTEXT NOT NULL,
-            PRIMARY KEY (`key`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
+            key TEXT PRIMARY KEY,
+            value TEXT NOT NULL
+        )'
     );
 
     $pdo->exec(
         'CREATE TABLE IF NOT EXISTS activity_log (
-            id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-            admin_id INT UNSIGNED NULL,
-            action VARCHAR(120) NOT NULL,
-            entity_type VARCHAR(80) NULL,
-            entity_id VARCHAR(80) NULL,
-            details LONGTEXT NULL,
-            created_at DATETIME NOT NULL,
-            PRIMARY KEY (id),
-            KEY idx_activity_log_admin_id (admin_id),
-            CONSTRAINT fk_activity_log_admin
-                FOREIGN KEY (admin_id) REFERENCES admin_users(id)
-                ON DELETE SET NULL
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            admin_id INTEGER,
+            action TEXT NOT NULL,
+            entity_type TEXT,
+            entity_id TEXT,
+            details TEXT,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (admin_id) REFERENCES admin_users(id) ON DELETE SET NULL
+        )'
     );
 }
 
@@ -103,6 +84,6 @@ function kora_mark_installed(): void
     }
 
     if (!is_file($lockPath)) {
-        file_put_contents($lockPath, date('c') . PHP_EOL);
+        file_put_contents($lockPath, now() . PHP_EOL);
     }
 }

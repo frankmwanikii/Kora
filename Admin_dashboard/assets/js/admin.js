@@ -563,22 +563,6 @@
     return siteBase + '/' + encoded;
   }
 
-  function previewUrlCandidates(path, siteBase) {
-    var primary = resolveImagePreview(path, siteBase);
-    if (!primary) return [];
-
-    var urls = [primary];
-    var match = primary.match(/^(.*)\.([a-z0-9]+)(\?.*)?$/i);
-    if (!match) return urls;
-
-    ['webp', 'jpg', 'jpeg', 'png', 'gif'].forEach(function (ext) {
-      if (ext.toLowerCase() === match[2].toLowerCase()) return;
-      urls.push(match[1] + '.' + ext + (match[3] || ''));
-    });
-
-    return urls;
-  }
-
   function normalizeImagePath(value) {
     value = String(value || '').trim();
     if (!value) return '';
@@ -631,32 +615,19 @@
     var fileInput = field.querySelector('[data-image-file]');
     if (!input || !img) return;
 
-    var candidates = [];
-    var candidateIndex = 0;
-
-    function setEmptyMessage(missing) {
-      if (!empty) return;
-      empty.innerHTML = missing
-        ? '<i class="fa-regular fa-image" aria-hidden="true"></i> Image not found'
-        : '<i class="fa-regular fa-image" aria-hidden="true"></i> No image selected';
-    }
-
     function refresh() {
       var raw = input.value.trim();
-      candidates = previewUrlCandidates(raw, input.getAttribute('data-site-base') || '/assets/images');
-      candidateIndex = 0;
-      field.classList.toggle('has-image', candidates.length > 0);
-      if (!candidates.length) {
+      var url = resolveImagePreview(raw, input.getAttribute('data-site-base') || '/assets/images');
+      field.classList.toggle('has-image', !!url);
+      if (!url) {
         img.hidden = true;
         img.removeAttribute('src');
         if (empty) empty.hidden = false;
-        setEmptyMessage(false);
         return;
       }
       img.hidden = false;
       if (empty) empty.hidden = true;
-      setEmptyMessage(false);
-      img.src = candidates[0];
+      img.src = url;
     }
 
     input.addEventListener('input', refresh);
@@ -678,22 +649,10 @@
     });
 
     img.addEventListener('error', function () {
-      candidateIndex += 1;
-      if (candidateIndex < candidates.length) {
-        img.src = candidates[candidateIndex];
-        return;
-      }
+      if (!input.value.trim()) return;
       img.hidden = true;
       if (empty) empty.hidden = false;
-      setEmptyMessage(!!input.value.trim());
-      field.classList.toggle('has-image', false);
-    });
-
-    img.addEventListener('load', function () {
-      if (!img.getAttribute('src')) return;
-      img.hidden = false;
-      if (empty) empty.hidden = true;
-      field.classList.add('has-image');
+      field.classList.remove('has-image');
     });
 
     if (clearBtn) {

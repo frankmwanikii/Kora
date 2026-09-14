@@ -666,8 +666,52 @@ body.mobile-nav-open {
     pointer-events: auto;
 }
 
+.hero-slider__kicker,
+.hero-slider__title,
+.hero-slider__subtitle {
+    opacity: 1;
+}
+
 .hero-slider__actions {
+    opacity: 0;
+    transform: translate3d(0, 0.75rem, 0);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    pointer-events: none;
+}
+
+.hero-slider__actions.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
     pointer-events: auto;
+}
+
+.hero-slider__typed {
+    white-space: pre-wrap;
+}
+
+.hero-slider__caret {
+    display: inline-block;
+    width: 0.08em;
+    height: 1.05em;
+    margin-left: 0.08em;
+    vertical-align: -0.12em;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 1px;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.hero-slider__caret--title {
+    height: 0.85em;
+    vertical-align: 0.05em;
+    background: #e09a52;
+}
+
+.hero-slider [data-typewriter].is-typing > .hero-slider__caret,
+.hero-slider__title.is-typing > .hero-slider__caret {
+    opacity: 1;
+    visibility: visible;
+    animation: hero-caret-blink 0.85s steps(1, end) infinite;
 }
 
 .hero-slider__kicker::after {
@@ -678,6 +722,27 @@ body.mobile-nav-open {
     margin: 0.85rem auto 0;
     border-radius: var(--radius-pill);
     background: #e09a52;
+    transform: scaleX(0);
+    transform-origin: center;
+    opacity: 0;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+
+.hero-slider__kicker.is-complete::after {
+    transform: scaleX(1);
+    opacity: 1;
+}
+
+@keyframes hero-caret-blink {
+    0%,
+    45% {
+        opacity: 1;
+    }
+
+    50%,
+    100% {
+        opacity: 0;
+    }
 }
 
 .hero-slider__kicker {
@@ -4880,6 +4945,16 @@ a.contact-channel__value:focus-visible {
         animation: none;
         transition: none;
         pointer-events: auto;
+    }
+
+    .hero-slider__caret {
+        display: none;
+    }
+
+    .hero-slider__kicker::after {
+        transform: scaleX(1);
+        opacity: 1;
+        transition: none;
     }
 
     .hero-slider__slide img,

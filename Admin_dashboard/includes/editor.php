@@ -103,15 +103,13 @@ function kora_render_image_field(string $prefix, string $key, string $value): vo
 {
     $name = kora_field_name($prefix, $key);
     $fieldId = 'img-' . substr(sha1($name), 0, 12);
-    $previewUrl = kora_admin_image_preview_url($value);
-    $hasImage = $previewUrl !== '';
 
-    echo '<div class="image-field' . ($hasImage ? ' has-image' : '') . '" data-image-field data-image-field-id="' . e($fieldId) . '">';
+    echo '<div class="image-field" data-image-field data-image-field-id="' . e($fieldId) . '">';
     kora_render_form_label($name, $key);
 
     echo '<div class="image-field__preview-wrap">';
-    echo '<img class="image-field__preview" data-image-preview alt=""' . ($hasImage ? ' src="' . e($previewUrl) . '"' : ' hidden') . '>';
-    echo '<span class="image-field__empty" data-image-empty' . ($hasImage ? ' hidden' : '') . '><i class="fa-regular fa-image" aria-hidden="true"></i> No image selected</span>';
+    echo '<img class="image-field__preview" data-image-preview alt="" hidden>';
+    echo '<span class="image-field__empty" data-image-empty><i class="fa-regular fa-image" aria-hidden="true"></i> No image selected</span>';
     echo '</div>';
 
     echo '<div class="image-field__actions">';

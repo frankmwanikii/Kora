@@ -1,0 +1,38 @@
+DirectoryIndex index.php
+Options -MultiViews -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Admin dashboard keeps .php URLs.
+    RewriteRule ^Admin_dashboard/ - [L]
+
+    # /sitemap.xml is the public sitemap URL.
+    RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
+    # /index.php and /index → /
+    RewriteCond %{THE_REQUEST} \s/+index\.php[\s?] [NC]
+    RewriteRule ^index\.php$ / [R=301,L]
+    RewriteRule ^index/?$ / [R=301,L]
+
+    # /sitemap.php → /sitemap.xml
+    RewriteCond %{THE_REQUEST} \s/+sitemap\.php[\s?] [NC]
+    RewriteRule ^sitemap\.php$ /sitemap.xml [R=301,L]
+
+    # Public /page.php → /page (keep query string).
+    # Leave form handlers, setup, and attachment viewer as .php.
+    RewriteCond %{THE_REQUEST} \s/+(.+?)\.php[\s?] [NC]
+    RewriteCond %{REQUEST_URI} !^/(process-contact|process-newsletter|process-quote|view-quote-attachment|setup)\.php [NC]
+    RewriteRule ^(.+)\.php$ /$1 [R=301,L]
+
+    # Drop trailing slash on extensionless page URLs.
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+    # /page → /page.php when that file exists.
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteRule ^(.+?)/?$ $1.php [L]
+</IfModule>
